@@ -1,0 +1,122 @@
+body {
+  font-size: 12px;
+}
+
+label {
+  padding: 5px;
+  margin: 0;
+}
+    
+
+.btn, .list-group-item:first-child,.list-group-item:last-child, .form-control, .modal-content {
+  border-radius: 0px;
+ }
+ .fade {
+   opacity: 0;
+   -webkit-transition: opacity 0.05s linear;
+      -moz-transition: opacity 0.05s linear;
+       -ms-transition: opacity 0.05s linear;
+        -o-transition: opacity 0.05s linear;
+           transition: opacity 0.05s linear;
+ }
+
+ .form-control {
+ 	height: 26px;
+ 	padding: 0px 12px;
+ 	margin: 2px 0px;
+ }
+
+
+/*GOOGLE MAPS*/
+
+
+#map {
+	height: 350px;
+	width: 100%;
+}
+
+
+#map_edit {
+	height: 350px;
+	width: 100%;
+}
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  /*margin-left: 12px;*/
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+#pac-input_edit {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  /*margin-left: 12px;*/
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+.controls {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+.pac-container {
+  font-family: Roboto;
+  z-index: 2000;
+}
+
+#type-selector {
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+#target {
+	width: 345px;
+}
+
+th.header { 
+    background-image: url(../img/small.gif); 
+    cursor: pointer; 
+    font-weight: bold; 
+    background-repeat: no-repeat; 
+    background-position: center right; 
+    padding-left: 20px; 
+    border-right: 1px solid #dad9c7; 
+    border-left: 1px solid #dad9c7; 
+    margin-left: -1px; 
+} 
+
+th.headerSortUp { 
+    background-image: url(../img/asc.gif); 
+    background-color: #3399FF; 
+} 
+
+th.headerSortDown { 
+    background-image: url(../img/desc.gif); 
+    background-color: #3399FF; 
+} 

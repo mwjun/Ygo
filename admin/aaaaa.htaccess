@@ -1,0 +1,5 @@
+AuthType Basic
+AuthName "Please login first"
+AuthUserFile /var/webroot/yugioh/site/.auth_file
+Require valid-user
+

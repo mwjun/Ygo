@@ -1,0 +1,205 @@
+html, body, #map-canvas, #store-location-map {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  color: #757575;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 13px;
+}
+
+h4 {
+  margin-bottom: 0;
+}
+ 
+#ots-title {
+  margin-top: 0;
+}
+
+#main {
+  width: 960px;
+  margin: 0 auto;
+}
+
+.store-name {
+  font-weight: bold;
+}
+
+#map-canvas, #store-location-map{
+  /* width: 40em; */
+  width: 100%;
+  height: 25em;
+}
+
+#search-wrap {
+  float: left;
+  width: 30em;
+}
+
+#map-wrap {
+ float: right;
+}
+
+.clearer {
+  clear: both;
+}
+
+.blue {
+  background-color: #1f3750;
+}
+
+.gray {
+  background-color: #555555;
+}
+
+.store-item {
+  float: left;
+}
+
+.distance-store-item {
+  float: left;
+  width: 15em;
+  margin-top: 2em;
+}
+
+#search {
+  margin-top: 2em;
+}
+
+#search-field {
+  /*width: 25em;*/
+  width: 100%;
+}
+
+#radius-field {
+  /* width: 6.1em; */
+}
+
+#search-btn-div {
+  display: inline;
+}
+
+#search-loading {
+  width: 1em;
+}
+
+#tourney-select {
+  /*width: 25.4em;*/
+  width: 100%;
+}
+
+#search-results {
+  margin-top: 1em;
+  /* width: 73.5em; */
+}
+
+#search-results-head {
+  border-bottom: 1px solid #cccccc;
+    border-top: 1px solid #cccccc;
+    margin-top: 2em;
+}
+
+@media screen and (max-width: 576px) {
+  #search-results-head { 
+      display: none !important;
+  }
+}
+
+#search-button {
+  background-color: #4BCBBE;
+  margin-top: 1.5em;
+  width: 8.8em;
+  height: 2.5em;
+  border-radius: 5px; 
+  -webkit-border-radius: 5px; 
+}
+ 
+#search-filter-options {
+  margin-top: 1em;
+}
+
+.store-item {
+  width: 30em;
+}
+
+.icon-dt-store-item  img, .icon-dd-store-item  img {
+  width: 3em;
+  height: 3em;
+}
+
+.location-schedule {
+  float: left;
+  margin-top: 2em;
+  width: 20em;
+}
+
+.featured-element {
+  float: right;
+  margin-top: 2em;
+  width: 400px;
+    display: inline-flex;
+    align-items: center;
+}
+
+#locations-list label {
+  display: inline-block;
+  width: 8.5em;
+  text-align: right;
+}
+
+.store-wrap {
+  /* border: 1px solid black; */
+  padding: .7em;
+  /* border-radius: .7em; */
+  border-bottom: 1px solid #ccc;
+}
+
+.gm-style-iw {
+  color: black;
+}
+
+.locations-table-wrap {
+  margin-top: 2em;
+}
+
+#search-current-page div {
+  float: left;
+  margin-right: .4em;
+}
+
+.store-location {
+    float: right;
+    margin-right: 2em;
+}
+
+.store-location-map-wrap {
+    float: left;
+}
+
+.store-schedule {
+  word-wrap: break-word;      /* IE 5.5-7 */
+  white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+  white-space: pre-wrap;      /* current browsers */
+}
+
+#list-wrap {
+    width: 16.5em;
+    float: left;
+}
+
+#list-table-wrap {
+    float: right;
+    width: 75%;
+}
+
+#list-wrap h2 {
+    font-size: 1.3em;
+}
+
+#list-table {
+    font-size: .75em;
+    border-collapse: collapse;
+}
+
+#list-table, #list-table td, #list-table th {
+    border: 1px solid white;
+}
