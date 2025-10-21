@@ -1,0 +1,62 @@
+<div class="container">
+  <table width="980" align="center">
+    <tr>
+      <td>
+        <a href="http://www.konami.com/"><img src="images/konami_logo.jpg" alt="KONAMI" border="0" /></a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="images/YGO_logo.jpg" alt="Yu-Gi-Oh! 5D's TRADING CARD GAME" />
+      </td>
+    </tr>
+    <tr>
+      <td align="center" colspan="2">
+        <img src="images/YGOlegal.jpg" alt="Yu-Gi-Oh! 5D's TRADING CARD GAME" />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="sales_header">
+          <div align="center">
+            <p>&nbsp;</p>
+            <p>Please enter your date of birth to enter this site.<br /></p>
+          </div>
+          <form name="age" id="age" (ngSubmit)="onSubmit()">
+            <div align="center">
+              <select id="month" name="month" [(ngModel)]="selectedMonth">
+                <option value="0" selected="selected">Month</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </select> &nbsp;
+              <label for="day"></label>
+              <select id="day" name="day" [(ngModel)]="selectedDay">
+                <option value="0" selected="selected">Day</option>
+                <option *ngFor="let day of days" [value]="day">{{ day }}</option>
+              </select>
+              &nbsp;
+              <select id="year" name="year" [(ngModel)]="selectedYear">
+                <option value="0" selected="selected">Year</option>
+                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+              </select>
+              &nbsp;
+              <input type="submit" value="Enter" name="checkage" id="checkage" />
+            </div>
+          </form>
+        </div>
+      </td>
+    </tr>
+    <tr></tr>
+  </table>
+  v2.0
+</div>
