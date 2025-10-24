@@ -1091,3 +1091,61 @@ td.FieldLabel
     	max-width: 960px;
 	}
 }
+
+/* Fix alignment to match original judgetest exactly */
+.container {
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Ensure topbar aligns with main content */
+#topbar {
+    width: 100%;
+}
+
+#tbar_mid {
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Fix language selector alignment */
+#fl_navi {
+    text-align: right;
+    width: 100%;
+}
+
+/* Ensure header row aligns with main content */
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Fix navigation alignment */
+.d-flex.justify-content-between {
+    width: 100%;
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Override Bootstrap container padding for perfect alignment */
+.container.p-0 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Ensure all elements align with 960px content width */
+.container {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 960px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
