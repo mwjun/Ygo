@@ -10,5 +10,5 @@ import { FooterComponent } from './components/footer/footer';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('judgetest-angular');
+  protected readonly title = signal('Yu-Gi-Oh! TRADING CARD GAME');
 }
