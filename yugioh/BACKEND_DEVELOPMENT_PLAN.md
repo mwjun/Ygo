@@ -26,6 +26,18 @@
 
 ## 🎯 Executive Summary
 
+### **Technology Choice: PHP/Laravel + MySQL**
+
+**Why PHP for This Project:**
+You already have a MySQL database infrastructure, and PHP 8.2+ with Laravel is an **excellent choice** for secure backend development. Modern PHP is not the PHP of yesteryear - it includes:
+- **JIT Compilation** (Just-In-Time) for performance matching compiled languages
+- **Strong Typing** with strict types, return types, and union types  
+- **Modern Frameworks** like Laravel with enterprise-grade security built-in
+- **Easy Integration** with your existing MySQL database
+- **Mature Ecosystem** with comprehensive documentation and community support
+
+**Security Equivalence:** PHP/Laravel can be just as secure as Python/FastAPI or Node.js/Express when following best practices. The security vulnerabilities in your old code were due to poor implementation, not PHP itself.
+
 ### **Problem Statement**
 The legacy PHP backend contains **8 critical security vulnerabilities** identified in the security audit:
 1. SQL Injection vulnerabilities
@@ -38,14 +50,27 @@ The legacy PHP backend contains **8 critical security vulnerabilities** identifi
 8. Missing security headers
 
 ### **Solution Overview**
-This plan outlines the development of a **modern, secure REST API backend** that:
+This plan outlines the development of a **modern, secure REST API backend** using **PHP 8.2+ with Laravel 10+** that:
 - ✅ Eliminates all identified security vulnerabilities
 - ✅ Follows enterprise security best practices
+- ✅ Uses your existing MySQL database infrastructure
 - ✅ Integrates seamlessly with the existing Angular frontend
 - ✅ Supports multi-language test delivery
 - ✅ Implements proper age verification and session management
 - ✅ Provides comprehensive audit logging
 - ✅ Scales efficiently for enterprise deployment
+
+**Why PHP/Laravel is Secure:**
+Modern PHP (8.2+) with Laravel framework provides enterprise-grade security:
+- **Eloquent ORM**: Prevents SQL injection through prepared statements
+- **CSRF Protection**: Built-in Cross-Site Request Forgery protection
+- **XSS Protection**: Automatic output escaping
+- **Strong Typing**: PHP 8.2+ supports strict types, return types, union types
+- **Validation**: Robust validation system with 80+ built-in rules
+- **Encryption**: Built-in encryption for sensitive data
+- **Hashing**: Secure password hashing with bcrypt/argon2
+- **Session Security**: Secure session management with Redis
+- **Rate Limiting**: Built-in protection against abuse
 
 ### **Risk Mitigation Strategy**
 - **Defense in Depth**: Multiple layers of security controls
@@ -58,40 +83,46 @@ This plan outlines the development of a **modern, secure REST API backend** that
 ## 🔧 Technology Stack
 
 ### **Core Framework**
-**Node.js with Express.js** or **Python with FastAPI** (recommended: FastAPI for better security features)
+**PHP 8.2+ with Laravel 10+** (Enterprise-grade, secure, modern framework)
 
-**Why FastAPI?**
-```python
-# Automatic input validation with Pydantic
-# Built-in security features
-# Excellent documentation
-# High performance
-# Type safety with Python 3.11+
+**Why Laravel?**
+```php
+// Automatic input validation
+// Built-in security features
+// Eloquent ORM (prevents SQL injection)
+// Excellent documentation
+// High performance with OPcache
+// Strong type hints (PHP 8.2+)
+// Comprehensive validation rules
 ```
 
-### **Alternative: Node.js + Express + TypeScript**
-```typescript
-// Pros: Faster development time
-// Cons: More security configuration needed
-```
+### **Why PHP Can Be Secure**
+Modern PHP (8.1+) with proper frameworks like Laravel is **just as secure** as Python or Node.js when following best practices:
+- ✅ **Type Safety**: PHP 8.2 has strict types, return types, and union types
+- ✅ **ORM Protection**: Eloquent ORM prevents SQL injection
+- ✅ **keyword** Built-in Security**: CSRF protection, XSS protection, SQL injection prevention
+- ✅ **Validation**: Powerful validation system with 80+ built-in rules
+- ✅ **Performance**: JIT compilation in PHP 8.2 rivals compiled languages
 
-### **Recommended Stack: FastAPI (Python)**
-- **Web Framework**: FastAPI 0.105+
-- **Database ORM**: SQLAlchemy 2.0+
-- **Validation**: Pydantic v2
-- **Security**: python-jose, passlib, bcrypt
-- **Database**: PostgreSQL 15+ (or MySQL 8.0+)
+### **Recommended Stack: Laravel (PHP)**
+- **Web Framework**: Laravel 10.x (LTS version)
+- **PHP Version**: PHP 8.2+ (with strict types)
+- **Database ORM**: Eloquent ORM
+- **Validation**: Laravel Validator
+- **Security**: Laravel Sanctum (API authentication), Laravel Passport (JWT)
+- **Database**: MySQL 8.0+ (existing database)
 - **Caching**: Redis 7.0+
-- **Task Queue**: Celery with Redis
-- **Monitoring**: Sentry, Prometheus
-- **Documentation**: FastAPI automatic OpenAPI/Swagger
+- **Task Queue**: Laravel Queues with Redis
+- **Monitoring**: Sentry, Laravel Telescope
+- **Documentation**: Laravel automatic API documentation
 
 ### **Why This Stack?**
-1. **FastAPI**: Built-in security features, automatic validation, excellent performance
-2. **SQLAlchemy**: ORM prevents SQL injection, query builder
-3. **PostgreSQL**: Advanced security features, row-level security, audit logging
-4. **Redis**: Session management, rate limiting, caching
-5. **Pydantic**: Automatic data validation and serialization
+1. **Laravel**: Battle-tested framework with millions of users, enterprise-ready
+2. **Eloquent ORM**: Prevents SQL injection through prepared statements
+3. **MySQL**: Your existing database infrastructure
+4. **Redis**: Session management, rate limiting, caching, queue management
+5. **Laravel Validator**: Comprehensive, extensible validation system
+6. **Zero Downtime**: Easy migrations from legacy PHP code
 
 ---
 
@@ -440,84 +471,87 @@ GET /api/v1/admin/test-results
 
 ## 🗄️ Database Design
 
-### **Enhanced Database Schema**
+### **Enhanced Database Schema (MySQL 8.0+)**
 
 #### **Table: Questions**
 ```sql
 CREATE TABLE questions (
-    id SERIAL PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     question_text TEXT NOT NULL,
     test_name VARCHAR(50) NOT NULL,
     language VARCHAR(5) NOT NULL,
     version_num DECIMAL(3,1) NOT NULL,
-    correct_answer_id INTEGER NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE,
+    correct_answer_id INT NOT NULL,
+    is_active TINYINT(1) DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     created_by VARCHAR(100),
     updated_by VARCHAR(100),
     
     INDEX idx_test_name (test_name),
     INDEX idx_language (language),
-    INDEX idx_active (is_active)
+    INDEX idx_active (is_active),
+    
+    ENGINE=InnoDB
+    DEFAULT CHARSET=utf8mb4
+    COLLATE=utf8mb4_unicode_ci
 );
-
--- Row-Level Security (PostgreSQL)
-ALTER TABLE questions ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY questions_select_policy ON questions
-    FOR SELECT
-    USING (is_active = TRUE);
 ```
+
+**MySQL Security Features:**
+- Row-level security via application-layer access control
+- Connections encrypted with TLS/SSL
+- Access control through database users with minimal privileges
+- Audit logging via MySQL Audit Plugin (available in MySQL 8.0+)
 
 #### **Table: Answers**
 ```sql
 CREATE TABLE answers (
-    id SERIAL PRIMARY KEY,
-    question_id INTEGER NOT NULL REFERENCES questions(id),
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    question_id INT NOT NULL,
     answer_text TEXT NOT NULL,
-    display_order INTEGER NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE,
+    display_order INT NOT NULL,
+    is_active TINYINT(1) DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     INDEX idx_question_id (question_id),
-    FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
+    FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
+    
+    ENGINE=InnoDB
+    DEFAULT CHARSET=utf8mb4
+    COLLATE=utf8mb4_unicode_ci
 );
-
--- Row-Level Security
-ALTER TABLE answers ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY answers_select_policy ON answers
-    FOR SELECT
-    USING (is_active = TRUE);
 ```
 
 #### **Table: Test Results**
 ```sql
 CREATE TABLE test_results (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     email VARCHAR(255) NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     card_game_id VARCHAR(50) NOT NULL,
     test_name VARCHAR(50) NOT NULL,
     score DECIMAL(5,2) NOT NULL,
-    total_questions INTEGER NOT NULL,
-    correct_answers INTEGER NOT NULL,
+    total_questions INT NOT NULL,
+    correct_answers INT NOT NULL,
     language VARCHAR(5) NOT NULL,
     version_num DECIMAL(3,1) NOT NULL,
-    ip_address INET,
-Licensing    user_agent TEXT,
+    ip_address VARCHAR(45),
+    user_agent TEXT,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     INDEX idx_email (email),
     INDEX idx_test_name (test_name),
     INDEX idx_submitted_at (submitted_at),
-    INDEX idx_card_game_id (card_game_id)
+    INDEX idx_card_game_id (card_game_id),
+    
+    ENGINE=InnoDB
+    DEFAULT CHARSET=utf8mb4
+    COLLATE=utf8mb4_unicode_ci
 );
 
--- Encrypt sensitive data at rest
--- Use application-level encryption for PII
+-- Note: Sensitive data encryption handled at application layer (Laravel Seven Paste Encryption)
 ```
 
 #### **Table: Test Session Logs**
@@ -560,13 +594,14 @@ CREATE TABLE audit_log (
 
 ### **Why This Design Is Secure**
 
-1. **No RRD Injection Vulnerability**:
-   ```python
-   # OLD - SQL Injection risk
-   query = f"SELECT * FROM questions WHERE id = '{user_input}'"
+1. **No SQL Injection Vulnerability**:
+   ```php
+   // OLD - SQL Injection risk
+   $query = "SELECT * FROM questions WHERE id = '" . $_POST['id'] . "'";
+   $result = $conn->query($query);
    
-   # NEW - Parameterized queries via ORM
-   question = db.query(Question).filter(Question.id == question_id).first()
+   // NEW - Parameterized queries via Eloquent ORM
+   $question = Question::where('id', $question_id)->first();
    ```
 
 2. **Row-Level Security**: Prevents unauthorized access to data
@@ -587,109 +622,111 @@ CREATE TABLE audit_log (
 
 **Solution**: Server-side validation with cryptographic tokens
 
-```python
-import jwt
-import secrets
-from datetime import datetime, timedelta
-from passlib.context import CryptContext
+```php
+<?php
 
-class AgeVerificationService:
-    def __init__(self, secret_key: str):
-        self.secret_key = secret_key
-        self.algorithm = "HS256"
-    
-    def verify_age(self, birth_date: date) -> dict:
-        """
-        Verify user age and create secure session token
+namespace App\Services;
+
+use App\Models\TestSessionLog;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
+class AgeVerificationService
+{
+    private const MINIMUM_AGE = 16;
+    private const SESSION_EXPIRY_HOURS = 2;
+
+    /**
+     * Verify user age and create secure session token
+     * 
+     * @param Carbon $birthDate
+     * @param string $ipAddress
+     * @param string $userAgent
+     * @param string $language
+     * @return array
+     * @throws \Exception
+     */
+    public function verifyAge(Carbon $birthDate, string $ipAddress, string $userAgent, string $language = 'en'): array
+    {
+        // Server-side age calculation (can't be manipulated)
+        $age = $this->calculateAge($birthDate);
         
-        Returns:
-            dict: Contains session token and metadata
-        """
-        # Server-side age calculation (can't be manipulated)
-        age = self._calculate_age(birth_date)
-        
-        if age < 16:
-            raise AgeVerificationError("Must be 16 or older to access")
-        
-        # Create secure session payload
-        payload = {
-            "age_verified": True,
-            "verified_at": datetime.now().isoformat(),
-            "age_at_verification": age,
-            "exp": datetime.now() + timedelta(hours=2),
-            "iss": "judge-test-api",
-            "aud": "judge-test-frontend",
-            "jti": secrets.token_hex(16)  # Unique token ID
+        if ($age < self::MINIMUM_AGE) {
+            throw new \Exception("Must be 16 or older to access");
         }
         
-        # Sign token with HMAC-SHA256 (can't be tampered with)
-        token = jwt.encode(payload, self.secret_key, algorithm=self.algorithm)
+        // Generate secure session token (64 random bytes)
+        $token = Str::random(64);
+        $expiresAt = Carbon::now()->addHours(self::SESSION_EXPIRY_HOURS);
         
-        # Store session in database for validation
-        session = TestSessionLog(
-            session_token_hash=self._hash_token(token),
-            ip_address=request.client.host,
-            user_agent=request.headers.get('User-Agent'),
-            age_verified_at=datetime.now(),
-            expires_at=datetime.now() + timedelta(hours=2)
-        )
-        db.add(session)
-        db.commit()
+        // Store session in database for validation
+        $session = TestSessionLog::create([
+            'session_token_hash' => Hash::make($token),
+            'ip_address' => $ipAddress,
+            'user_agent' => $userAgent,
+            'age_verified_at' => Carbon::now(),
+            'expires_at' => $expiresAt,
+            'language' => $language,
+            'is_active' => true,
+        ]);
         
-        return {
-            "verified": True,
-            "sessionToken": token,
-            "expiresIn": 7200,
-            "age": age
+        // Store in Redis for fast lookups
+        cache()->put(
+            "session:{$token}",
+            [
+                'session_id' => $session->id,
+                'age' => $age,
+                'verified_at' => Carbon::now()->toIso8601String(),
+                'language' => $language,
+            ],
+            now()->addHours(self::SESSION_EXPIRY_HOURS)
+        );
+        
+        return [
+            'verified' => true,
+            'sessionToken' => $token,
+            'expiresIn' => self::SESSION_EXPIRY_HOURS * 3600,
+            'age' => $age,
+        ];
+    }
+    
+    /**
+     * Verify session token is valid
+     * 
+     * @param string $token
+     * @return array
+     * @throws \Exception
+     */
+    public function verifySession(string $token): array
+    {
+        // Check Redis cache first (fast)
+        $cached = cache()->get("session:{$token}");
+        if (!$cached) {
+            throw new \Exception("Session not found or expired");
         }
-    
-    def verify_session(self, token: str) -> dict:
-        """
-        Verify session token is valid
         
-        Raises:
-            InvalidTokenError: If token is invalid, expired, or tampered with
-        """
-        try:
-            # Verify signature - this will raise exception if tampered
-            payload = jwt.decode(
-                token, 
-                self.secret_key, 
-                algorithms=[self.algorithm],
-                options={"verify_exp": True}
-            )
-            
-            # Verify session exists in database
-            token_hash = self._hash_token(token)
-            session = db.query(TestSessionLog).filter(
-                TestSessionLog.session_token_hash == token_hash,
-                TestSessionLog.is_active == True,
-                TestSessionLog.expires_at > datetime.now()
-            ).first()
-            
-            if not session:
-                raise InvalidTokenError("Session not found or expired")
-            
-            return payload
-            
-        except jwt.ExpiredSignatureError:
-            raise InvalidTokenError("Token has expired")
-        except jwt.InvalidTokenError:
-            raise InvalidTokenError("Invalid token")
+        // Verify session exists in database
+        $session = TestSessionLog::find($cached['session_id']);
+        
+        if (!$session || !$session->is_active || $session->expires_at->isPast()) {
+            throw new \Exception("Session not found or expired");
+        }
+        
+        return $cached;
+    }
     
-    @staticmethod
-    def _calculate_age(birth_date: date) -> int:
-        today = date.today()
-        age = today.year - birth_date.year
-        if (today.month, today.day) < (birth_date.month, birth_date.day):
-            age -= 1
-        return age
-    
-    @staticmethod
-    def _hash_token(token: str) -> str:
-        """Store hashed token in database (don't store plaintext)"""
-        import hashlib
-        return hashlib.sha256(token.encode()).hexdigest()
+    /**
+     * Calculate age from birth date
+     * 
+     * @param Carbon $birthDate
+     * @return int
+     */
+    private function calculateAge(Carbon $birthDate): int
+    {
+        return $birthDate->age;
+    }
+}
 ```
 
 **Why This Is Secure**:
