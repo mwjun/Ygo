@@ -48,14 +48,21 @@ export class AgeGateComponent {
     }
 
     const birthDate = new Date(this.selectedYear, this.selectedMonth - 1, this.selectedDay);
-    const isOfAge = this.ageGateService.verifyAge(birthDate);
-
-    if (isOfAge) {
-      // Navigate to return URL or home
-      this.router.navigateByUrl(this.returnUrl);
-    } else {
-      // Redirect to not eligible page or show message
-      alert(`You must be at least ${this.ageGateService.getMinimumAge()} years old to access this content.`);
-    }
+    // Call backend API to verify age
+    this.ageGateService.verifyAge(birthDate).subscribe({
+      next: (isOfAge) => {
+        if (isOfAge) {
+          // Navigate to return URL or home
+          this.router.navigateByUrl(this.returnUrl);
+        } else {
+          // Redirect to not eligible page or show message
+          alert(`You must be at least ${this.ageGateService.getMinimumAge()} years old to access this content.`);
+        }
+      },
+      error: (error) => {
+        console.error('Age verification failed:', error);
+        alert('Error verifying age. Please try again.');
+      }
+    });
   }
 }
