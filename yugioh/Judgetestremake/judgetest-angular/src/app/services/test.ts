@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { 
   Question, 
   Answer, 
@@ -18,6 +20,9 @@ import {
   providedIn: 'root'
 })
 export class TestService {
+  private readonly API_BASE_URL = 'http://localhost:8000/api'; // Change to your backend URL
+  
+  constructor(private http: HttpClient) {}
   
   private readonly testMetadata: Record<TestType, TestMetadata> = {
     [TestType.DEMO_JUDGE]: {
@@ -52,36 +57,87 @@ export class TestService {
 
   /**
    * Fetch questions for a specific test
-   * TODO: Connect to backend API
+   * Connects to backend API: GET /api/tests/questions.php
    */
   getQuestions(testType: TestType, language: string = 'en'): Observable<Question[]> {
-    // Placeholder - will be replaced with HTTP call to backend
-    return of([]);
+    const params = new HttpParams()
+      .set('testName', testType)
+      .set('language', language)
+      .set('limit', '20');
+    
+    return this.http.get<any>(`${this.API_BASE_URL}/tests/questions.php`, { params })
+      .pipe(
+        map(response => {
+          if (response.success) {
+            // Transform API response to match our Question model
+            return response.questions.map((q: any) => ({
+              id: q.id,
+              question: q.questionText,
+              versionNum: q.versionNum,
+              testName: q.testName,
+              correctAnswerId: q.correctAnswerId || 0, // Not included in API response for security
+              answers: q.answers || []
+            }));
+          }
+          return [];
+        })
+      );
   }
 
   /**
    * Fetch answers for a specific question
-   * TODO: Connect to backend API
+   * Note: Answers are already included in getQuestions() response
    */
   getAnswers(questionId: number): Observable<Answer[]> {
-    // Placeholder - will be replaced with HTTP call to backend
+    // This method is not needed as answers come with questions
     return of([]);
   }
 
   /**
    * Submit test for grading
-   * TODO: Connect to backend API
+   * Connects to backend API: POST /api/tests/submit.php
    */
   submitTest(submission: TestSubmission): Observable<TestResult> {
-    // Placeholder - will be replaced with HTTP call to backend
-    const mockResult: TestResult = {
-      score: 0,
-      passed: false,
-      totalQuestions: 20,
-      correctAnswers: 0,
-      message: 'Backend not connected yet'
+    // Convert Map to object for JSON serialization
+    const answersObj: any = {};
+    submission.answers.forEach((value, key) => {
+      answersObj[key] = value;
+    });
+    
+    const payload = {
+      user: {
+        email: submission.user.email,
+        firstName: submission.user.firstName,
+        lastName: submission.user.lastName,
+        cardGameId: submission.user.cardGameId
+      },
+      testName: submission.testName,
+      answers: answersObj,
+      language: submission.language
     };
-    return of(mockResult);
+    
+    return this.http.post<any>(`${this.API_BASE_URL}/tests/submit.php`, payload)
+      .pipe(
+        map(response => {
+          if (response.success) {
+            return {
+              score: response.score,
+              passed: response.passed,
+              totalQuestions: response.totalQuestions || 20,
+              correctAnswers: response.correctAnswers,
+              message: response.message
+            };
+          }
+          
+          return {
+            score: 0,
+            passed: false,
+            totalQuestions: 0,
+            correctAnswers: 0,
+            message: response.message || 'Submission failed'
+          };
+        })
+      );
   }
 
   /**

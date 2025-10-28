@@ -1,0 +1,26 @@
+# Enable Apache URL Rewriting
+RewriteEngine On
+
+# CORS headers for API
+<IfModule mod_headers.c>
+    Header always set Access-Control-Allow-Origin "http://localhost:4200"
+    Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization"
+    Header always set Access-Control-Allow-Credentials "true"
+</IfModule>
+
+# Disable directory browsing
+Options -Indexes
+
+# Prevent access to .env files
+<FilesMatch "^\.env">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Prevent access to includes
+<IfModule mod_rewrite.c>
+    RewriteRule ^includes/ - [F,L]
+    RewriteRule ^config/\.env - [F,L]
+</IfModule>
+

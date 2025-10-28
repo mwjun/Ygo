@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 /**
  * AgeGateService - Single Responsibility: Manage age verification
@@ -10,8 +13,11 @@ import { Injectable } from '@angular/core';
 })
 export class AgeGateService {
   
-  private readonly AGE_VERIFICATION_KEY = 'legal';
+  private readonly AGE_VERIFICATION_KEY = 'session_token';
   private readonly MINIMUM_AGE = 16;
+  private readonly API_BASE_URL = 'http://localhost:8000/api'; // Change to your backend URL
+  
+  constructor(private http: HttpClient) {}
 
   /**
    * Check if user has been age-verified
@@ -24,24 +30,49 @@ export class AgeGateService {
       cookie.trim().startsWith(`${this.AGE_VERIFICATION_KEY}=`)
     );
     
-    return legalCookie?.includes('yes') ?? false;
+    // If we have a session token, user is verified
+    return !!legalCookie && legalCookie.includes('=');
   }
 
   /**
-   * Verify user's age and set cookie
+   * Verify user's age via backend API and set secure session
+   * Connects to backend API: POST /api/auth/age-verification.php USING
    */
-  verifyAge(birthDate: Date): boolean {
-    const age = this.calculateAge(birthDate);
-    const isOfAge = age >= this.MINIMUM_AGE;
+  verifyAge(birthDate: Date, language: string = 'en'): Observable<boolean> {
+    const formattedDate = this.formatDate(birthDate);
     
-    // Set cookie for 2 hours
-    const expiryDate = new Date();
-    expiryDate.setTime(expiryDate.getTime() + (2 * 60 * 60 * 1000));
+    const payload = {
+      birthDate: formattedDate,
+      language: language
+    };
     
-    document.cookie = `${this.AGE_VERIFICATION_KEY}=${isOfAge ? 'yes' : 'no'}; ` +
-                     `expires=${expiryDate.toUTCString()}; path=/`;
-    
-    return isOfAge;
+    return this.http.post<any>(`${this.API_BASE_URL}/auth/age-verification.php`, payload)
+      .pipe(
+        map(response => {
+          if (response.verified && response.sessionToken) {
+            // Set secure session token cookie
+            const expiryDate = new Date();
+            expiryDate.setTime(expiryDate.getTime() + (response.expiresIn * 1000));
+            
+            document.cookie = `${this.AGE_VERIFICATION_KEY}=${response.sessionToken}; ` +
+                             `expires=${expiryDate.toUTCString()}; path=/; SameSite=Strict`;
+            
+            return true;
+          }
+          
+          return false;
+        })
+      );
+  }
+  
+  /**
+   * Format date to YYYY-MM-DD format
+   */
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   /**
