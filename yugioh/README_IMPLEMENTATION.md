@@ -2,7 +2,7 @@
 
 ## 📚 Documentation Overview
 
-You have **3 main documents** to guide your secure code implementation:
+You have **6 main documents** to guide your secure code implementation:
 
 ---
 
@@ -18,7 +18,20 @@ You have **3 main documents** to guide your secure code implementation:
 
 ---
 
-## 2. 🛠️ **SECURE_CODE_RETROFIT_PLAN.md**
+## 2. 🎓 **BACKEND_TUTORIAL_GUIDE.md** 
+**Purpose**: Step-by-step backend development tutorial  
+**Contains**:
+- 13 lessons teaching backend concepts
+- Exercises to practice what you learn
+- Examples from your actual code
+- Starting from basics: what is backend?
+- All the way to advanced: optimization
+
+**When to use**: If you're new to backend development, start here!
+
+---
+
+## 3. 🛠️ **SECURE_CODE_RETROFIT_PLAN.md**
 **Purpose**: Main implementation guide with code examples  
 **Contains**:
 - Side-by-side comparison of old vs new code
@@ -38,7 +51,7 @@ You have **3 main documents** to guide your secure code implementation:
 
 ---
 
-## 3. ✅ **IMPLEMENTATION_CHECKLIST.md**
+## 4. ✅ **IMPLEMENTATION_CHECKLIST.md**
 **Purpose**: Step-by-step implementation checklist  
 **Contains**:
 - 8-step implementation process
@@ -51,15 +64,35 @@ You have **3 main documents** to guide your secure code implementation:
 
 ---
 
+## 5. 🤔 **DECISION_ANALYSIS_GUIDE.md**
+**Purpose**: Explains the reasoning behind our choices  
+**Contains**:
+- Why we chose retrofit over full rewrite
+- Why prepared statements over escaping
+- Why environment variables over config files
+- Why database sessions over cookies
+- Why manual validation over frameworks
+- All decisions with pros/cons explained
+
+**When to use**: Understand the "why" behind each implementation choice
+
+---
+
 ## 🎯 How to Use These Documents
 
-### **Step 1**: Understand the Problems
+### **Step 1**: Learn Backend Concepts (NEW TO BACKEND?)
+👉 Read `BACKEND_TUTORIAL_GUIDE.md` to learn backend development concepts
+
+### **Step 2**: Understand the Problems
 👉 Read `SECURITY_ANALYSIS_REPORT.md` to understand what vulnerabilities exist
 
-### **Step 2**: See the Solutions
+### **Step 3**: See the Solutions
 👉 Read `SECURE_CODE_RETROFIT_PLAN.md` to see how to fix each vulnerability
 
-### **Step 3**: Implement the Fixes
+### **Step 4**: Understand the Decisions
+👉 Read `DECISION_ANALYSIS_GUIDE.md` to understand why we chose each approach
+
+### **Step 5**: Implement the Fixes
 👉 Follow `IMPLEMENTATION_CHECKLIST.md` step-by-step
 
 ---
