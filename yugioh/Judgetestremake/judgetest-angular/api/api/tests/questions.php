@@ -50,14 +50,14 @@ if (!InputValidator::validateLanguage($language)) {
 }
 
 // Fetch questions using prepared statement
+// Note: language column doesn't exist in old database structure, so we query without it
 $stmt = $conn->prepare("
     SELECT id, question as questionText, version_num as versionNum, 
-           test_name as testName, language 
+           test_name as testName
     FROM questions 
     WHERE version_num = 1.0 
     AND test_name = ? 
-    AND language = ? 
-    AND is_active = 1
+    AND (is_active = 1 OR is_active IS NULL)
     ORDER BY RAND() 
     LIMIT ?
 ");
@@ -69,7 +69,7 @@ if (!$stmt) {
     exit();
 }
 
-$stmt->bind_param('ssi', $testName, $language, $limit);
+$stmt->bind_param('si', $testName, $limit);
 $stmt->execute();
 $result = $stmt->get_result();
 
