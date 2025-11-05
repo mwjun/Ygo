@@ -8,9 +8,6 @@ declare(strict_types=1);
  */
 
 require_once __DIR__ . '/../../includes/headers.php';
-require_once __DIR__ . '/../../includes/db_yugioh.php';
-require_once __DIR__ . '/../../includes/validation.php';
-require_once __DIR__ . '/../../includes/security.php';
 
 // Set headers
 SecurityHeaders::setJson();
@@ -20,6 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
 
+// Load validation first; include DB after normalizing language parameter
+require_once __DIR__ . '/../../includes/validation.php';
+
 // Only allow GET
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
@@ -27,13 +27,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit();
 }
 
-// Validate session
-$security = new SecurityManager($conn);
-$security->requireSession();
+// Normalize language parameter to legacy 'l' so DB selector picks schema
+$language = $_GET['language'] ?? 'en';
+$_REQUEST['l'] = $language;
+
+// Now include DB (uses $_REQUEST['l'] internally)
+require_once __DIR__ . '/../../includes/db_yugioh.php';
 
 // Get parameters
 $testName = $_GET['testName'] ?? 'demojudge';
-$language = $_GET['language'] ?? 'en';
 $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
 
 // Validate inputs
@@ -43,6 +45,7 @@ if (!InputValidator::validateTestType($testName)) {
     exit();
 }
 
+<<<<<<< HEAD
 if (!InputValidator::validateLanguage($language)) {
     http_response_code(400);
     echo json_encode(['success' => false, 'message' => 'Invalid language']);
@@ -61,6 +64,12 @@ $stmt = $conn->prepare("
     ORDER BY RAND() 
     LIMIT ?
 ");
+=======
+// Fetch questions using legacy-compatible schema (do not filter by test_name because many rows are NULL)
+$stmt = $conn->prepare(
+    "SELECT id, question AS questionText, version_num AS versionNum,\n           COALESCE(test_name, '') AS testName\n     FROM questions\n     ORDER BY RAND()\n     LIMIT ?"
+);
+>>>>>>> 1eda1fb (added security analysis)
 
 if (!$stmt) {
     error_log("Prepare failed: " . $conn->error);
@@ -69,36 +78,33 @@ if (!$stmt) {
     exit();
 }
 
+<<<<<<< HEAD
 $stmt->bind_param('si', $testName, $limit);
+=======
+$stmt->bind_param('i', $limit);
+>>>>>>> 1eda1fb (added security analysis)
 $stmt->execute();
 $result = $stmt->get_result();
 
 $questions = [];
 while ($row = $result->fetch_assoc()) {
-    // Don't return correct answer ID
-    unset($row['correct_answer_id']);
-    
-    // Fetch answers for this question
-    $answerStmt = $conn->prepare("
-        SELECT id, answer as answerText, display_order 
-        FROM answers 
-        WHERE question_id = ? 
-        AND is_active = 1 
-        ORDER BY display_order, id
-    ");
-    
+    // Fetch answers for this question (legacy schema)
+    $answerStmt = $conn->prepare(
+        "SELECT id, answer AS answerText\n         FROM answers\n         WHERE question_id = ?\n         ORDER BY id"
+    );
+
     $answerStmt->bind_param('i', $row['id']);
     $answerStmt->execute();
     $answerResult = $answerStmt->get_result();
-    
+
     $answers = [];
     while ($answerRow = $answerResult->fetch_assoc()) {
         $answers[] = $answerRow;
     }
-    
+
     $row['answers'] = $answers;
     $questions[] = $row;
-    
+
     $answerStmt->close();
 }
 

@@ -8,9 +8,8 @@ declare(strict_types=1);
  */
 
 require_once __DIR__ . '/../../includes/headers.php';
-require_once __DIR__ . '/../../includes/db_yugioh.php';
+// No DB dependency needed for age verification (match legacy behavior)
 require_once __DIR__ . '/../../includes/validation.php';
-require_once __DIR__ . '/../../includes/security.php';
 
 // Set headers
 SecurityHeaders::setJson();
@@ -59,22 +58,10 @@ if ($age < $minimumAge) {
     exit();
 }
 
-// Create session
-$security = new SecurityManager($conn);
-$session = $security->createSession(
-    $_SERVER['REMOTE_ADDR'] ?? '',
-    $_SERVER['HTTP_USER_AGENT'] ?? '',
-    $input['language'] ?? 'en'
-);
-
-if (!$session['success']) {
-    http_response_code(500);
-    echo json_encode($session);
-    exit();
-}
-
-// Set secure cookie
-setcookie('session_token', $session['token'], [
+// Set a short-lived session cookie without touching the database
+// Token is a simple non-persistent marker, sufficient for client-side gate
+$token = bin2hex(random_bytes(16));
+setcookie('session_token', $token, [
     'expires' => time() + (2 * 60 * 60),
     'path' => '/',
     'httponly' => true,
@@ -86,7 +73,7 @@ setcookie('session_token', $session['token'], [
 echo json_encode([
     'success' => true,
     'verified' => true,
-    'sessionToken' => $session['token'],
+    'sessionToken' => $token,
     'expiresIn' => 7200,
     'age' => $age
 ]);

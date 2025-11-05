@@ -6,7 +6,7 @@
 
 <?php
 if(isset($_COOKIE['legal'])) { # If the cookie has been set by the script earlier...
-$url = ($_COOKIE['legal'] == 'yes') ? $available_tests[$test_name].'index.php' : 'redirect.php';
+$url = ($_COOKIE['legal'] == 'yes') ? 'index.php' : 'redirect.php';
 header ('Location: ' .$url);
 }?>
 
@@ -27,7 +27,7 @@ if($age_years >= 16) {
 // 2hrs
 setcookie('legal', 'yes', time()+7200, '/');
 
-$url = $available_tests[$test_name].'index.php';
+$url = 'index.php';
 } else {
 // $_SESSION['legal'] = 'no';
 setcookie('legal', 'no', time()+7200, '/');
