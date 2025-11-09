@@ -1,96 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yu-Gi-Oh! Newsletter Signup</title>
     <link rel="stylesheet" href="includes/style.css">
     <style>
         body {
-            font-family: 'trebuchet ms', arial, sans-serif;
-            background-color: #f0f0f0;
+            font: normal .80em/1.8em 'trebuchet ms', arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
             margin: 0;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
+
         .container {
             max-width: 960px;
-            margin: 0 auto;
+            width: 100%;
             background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             padding: 40px;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
             text-align: center;
+        }
+
+        h1 {
             color: #b00000;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
             margin-bottom: 40px;
         }
+
         .newsletter-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
             margin-top: 40px;
         }
+
         .newsletter-card {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
             border: 2px solid #ddd;
             border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            background-color: #fff;
+            padding: 30px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            display: block;
         }
+
         .newsletter-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
             border-color: #b00000;
         }
+
         .newsletter-card h2 {
             color: #b00000;
             margin-top: 0;
+            font-size: 1.8em;
         }
-        .newsletter-card a {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #b00000;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s;
+
+        .newsletter-card p {
+            color: #666;
+            line-height: 1.6;
         }
-        .newsletter-card a:hover {
-            background-color: #8a0000;
+
+        .logo-section {
+            margin: 30px 0;
         }
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
+
+        .logo-section img {
+            max-width: 200px;
+            height: auto;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo">
-            <h1>Yu-Gi-Oh! Newsletter Signup</h1>
-            <p>Choose a newsletter to sign up for:</p>
+        <div class="logo-section">
+            <h1>Yu-Gi-Oh! Newsletter</h1>
+            <p class="subtitle">Choose your newsletter to sign up</p>
         </div>
-        
+
         <div class="newsletter-grid">
-            <div class="newsletter-card">
+            <a href="dl_signup/" class="newsletter-card">
                 <h2>Duel Links</h2>
-                <p>Sign up for the Yu-Gi-Oh! Duel Links newsletter</p>
-                <a href="dl_signup/">Sign Up</a>
-            </div>
-            
-            <div class="newsletter-card">
+                <p>Stay updated with the latest Duel Links news, events, and updates.</p>
+            </a>
+
+            <a href="md_signup/" class="newsletter-card">
                 <h2>Master Duel</h2>
-                <p>Sign up for the Yu-Gi-Oh! Master Duel newsletter</p>
-                <a href="md_signup/">Sign Up</a>
-            </div>
-            
-            <div class="newsletter-card">
+                <p>Get the latest Master Duel information, strategies, and announcements.</p>
+            </a>
+
+            <a href="tcg_signup/" class="newsletter-card">
                 <h2>TCG</h2>
-                <p>Sign up for the Yu-Gi-Oh! Trading Card Game newsletter</p>
-                <a href="tcg_signup/">Sign Up</a>
-            </div>
+                <p>Keep up with Trading Card Game news, releases, and tournament updates.</p>
+            </a>
         </div>
     </div>
 </body>

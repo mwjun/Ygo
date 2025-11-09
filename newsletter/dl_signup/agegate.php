@@ -6,7 +6,7 @@
 
 <?php
 if(isset($_COOKIE['legal'])) { # If the cookie has been set by the script earlier...
-$url = ($_COOKIE['legal'] == 'yes') ? 'index.php' : 'redirect.php';
+$url = ($_COOKIE['legal'] == 'yes') ? $available_tests[$test_name].'index.php' : 'redirect.php';
 header ('Location: ' .$url);
 }?>
 
@@ -27,7 +27,7 @@ if($age_years >= 16) {
 // 2hrs
 setcookie('legal', 'yes', time()+7200, '/');
 
-$url = 'index.php';
+$url = $available_tests[$test_name].'index.php';
 } else {
 // $_SESSION['legal'] = 'no';
 setcookie('legal', 'no', time()+7200, '/');
@@ -40,164 +40,37 @@ header ('Location: ' .$url);
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Age Verification - Yu-Gi-Oh! Duel Links</title>
-<link rel="stylesheet" href="../includes/style.css">
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'trebuchet ms', Arial, sans-serif;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    min-height: 100vh;
-    padding: 20px;
-    color: #333;
-}
-
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-    overflow: hidden;
-}
-
-.header {
-    background: linear-gradient(135deg, #b00000 0%, #8a0000 100%);
-    padding: 30px;
-    text-align: center;
-}
-
-.header img {
-    max-width: 200px;
-    height: auto;
-}
-
-.logo-section {
-    padding: 30px;
-    text-align: center;
-    background: #f8f8f8;
-}
-
-.logo-section img {
-    max-width: 300px;
-    height: auto;
-}
-
-.content {
-    padding: 40px;
-}
-
-.age-form {
-    background: #f9f9f9;
-    padding: 30px;
-    border-radius: 8px;
-    margin: 20px 0;
-}
-
-.age-form p {
-    text-align: center;
-    font-size: 16px;
-    margin-bottom: 25px;
-    color: #333;
-}
-
-.form-group {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.form-group select {
-    padding: 10px 15px;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    background: white;
-    cursor: pointer;
-    transition: border-color 0.3s;
-    min-width: 120px;
-}
-
-.form-group select:hover {
-    border-color: #b00000;
-}
-
-.form-group select:focus {
-    outline: none;
-    border-color: #b00000;
-    box-shadow: 0 0 0 3px rgba(176, 0, 0, 0.1);
-}
-
-.submit-btn {
-    background: linear-gradient(135deg, #b00000 0%, #8a0000 100%);
-    color: white;
-    padding: 12px 40px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    margin-top: 10px;
-}
-
-.submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(176, 0, 0, 0.3);
-}
-
-.submit-btn:active {
-    transform: translateY(0);
-}
-
-.footer {
-    background: #f8f8f8;
-    padding: 20px;
-    text-align: center;
-    border-top: 1px solid #ddd;
-}
-
-.footer img {
-    max-width: 350px;
-    height: auto;
-    margin-bottom: 10px;
-}
-
-.version {
-    color: #999;
-    font-size: 12px;
-    margin-top: 10px;
-}
-</style>
+<title>Yu-Gi-Oh! TRADING CARD GAME</title>
 </head>
-<body>
-<div class="container">
-    <div class="header">
-        <a href="http://www.konami.com/"><img src="img/konami_logo.png" alt="KONAMI" /></a>
-    </div>
-    
-    <div class="logo-section">
-        <img src="img/Duel-Links-225x120.png" alt="Yu-Gi-Oh! Duel Links" />
-    </div>
-    
-    <div class="content">
-        <div class="age-form">
-            <p><strong>Please enter your date of birth to enter this site.</strong></p>
-            <form name="age" id="age" method="post" action="">
-                <div class="form-group">
-                    <select id="month" name="month">
+<body style="font: normal .80em/2em 'trebuchet ms', arial, sans-serif;">
+<table width="980" align="center">
+    <tr>
+      <td>
+        <a href="http://www.konami.com/"><img src="img/konami_logo.png" alt="KONAMI" border="0" /></a>      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="img/Duel-Links-225x120.png" alt="Yu-Gi-Oh! TRADING CARD GAME" />      </td>
+    </tr>
+          <td align="center" colspan="2">
+        <img src="img/cr-digital.png" alt="Yu-Gi-Oh! TRADING CARD GAME" />      </td>
+<tr>
+      <td>
+                        <div class="sales_header">
+                          <div align="center">
+                            <p>&nbsp;</p>
+                            <p>Please enter your date of birth to enter this site.		
+                      </p>
+                            <p>&nbsp;</p>
+                          </div>
+                          <form name="age" id="age" method="post" action="">
+
+      <div align="center">
+        <select id="month" name="month">
           <option value="0" selected="selected">Month</option>
           <option value="1">January</option>
           <option value="2">February</option>
@@ -211,8 +84,9 @@ body {
           <option value="10">October</option>
           <option value="11">November</option>
           <option value="12">December</option>
-                    </select>
-                    <select id="day" name="day">
+        </select> &nbsp;
+        <label for="day"></label>
+        <select id="day" name="day">
           <option value="0" selected="selected">Day</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -245,8 +119,9 @@ body {
           <option value="29">29</option>
           <option value="30">30</option>
           <option value="31">31</option>
-                    </select>
-                    <select id="year" name="year">
+        </select>
+        &nbsp;
+        <select id="year" name="year">
           <option value="0" selected="selected">Year</option>
           <option value="2024" >2024</option>
           <option value="2023" >2023</option>
@@ -348,19 +223,16 @@ body {
           <option value="1927" >1927</option>
           <option value="1926" >1926</option>
           <option value="1925" >1925</option>
-                    </select>
-                    <input type="hidden" name="sesh" value="<?php echo session_id() ?>" />
-                    <button type="submit" name="checkage" id="checkage" class="submit-btn">Enter</button>
-                </div>
-            </form>
+        </select>
+        &nbsp;
+	<input type="hidden" name="sesh" value="<?php echo session_id() ?>" />
+        <input type="submit" value="Enter" name="checkage" id="checkage" />
         </div>
-    </div>
-    
-    <div class="footer">
-        <img src="img/cr-digital.png" alt="Content Rating" />
-        <div class="version">v 3.0.1</div>
-    </div>
-</div>
+            </form></div>    </td>
+  </tr>
+    <tr>    </tr>
+  </table>
+v 3.0.1
 </body>
 </html>
 
