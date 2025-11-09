@@ -1,0 +1,53 @@
+<table width="980" align="center">
+  <!-- Reusable TestHeader Component -->
+  <app-test-header [timeLimit]="testMetadata.timeLimit"></app-test-header>
+  
+  <tr>
+    <td>
+      <!-- Reusable TestForm Component -->
+      <app-test-form 
+        [idLabel]="'Card Game ID'"
+        (formValidityChange)="onFormValidityChange($event)"
+        (userDataChange)="onUserDataChange($event)"
+        #testForm>
+      </app-test-form>
+
+      <hr>
+      
+      <div *ngIf="questions && questions.length > 0; else noQuestions">
+        <div *ngFor="let q of questions; index as i" class="mb-3">
+          <p><strong>Q{{ i + 1 }}.</strong> {{ q.question }}</p>
+          <div *ngFor="let a of q.answers" class="form-check">
+            <input class="form-check-input" 
+                   type="radio" 
+                   [name]="'q_' + q.id" 
+                   [value]="a.id"
+                   (change)="onSelectAnswer(q.id, a.id)">
+            <label class="form-check-label">{{ a.answerText }}</label>
+          </div>
+        </div>
+      </div>
+      <ng-template #noQuestions>
+        <div class="alert alert-warning" role="alert">
+          <strong>Note:</strong> Test questions will be loaded here when backend is connected.
+        </div>
+      </ng-template>
+
+      <hr>
+      <p class="text-danger">
+        <strong>You must score {{ testMetadata.passingScore }}% or higher to pass.</strong>
+      </p>
+      <p>Please press Submit to submit your answers</p>
+      <button 
+        type="button" 
+        class="btn btn-primary" 
+        (click)="onSubmit()"
+        [disabled]="!isFormValid">
+        Submit
+      </button>
+    </td>
+  </tr>
+  
+  <!-- Reusable TestFooter Component -->
+  <app-test-footer></app-test-footer>
+</table>
