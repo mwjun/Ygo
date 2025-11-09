@@ -1,0 +1,11 @@
+.logo-section {
+    padding: 30px;
+    text-align: center;
+    background: #f8f8f8;
+}
+
+.logo-section img {
+    max-width: 300px;
+    height: auto;
+}
+

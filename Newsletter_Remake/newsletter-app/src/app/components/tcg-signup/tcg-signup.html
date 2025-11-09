@@ -1,0 +1,25 @@
+<app-page-container>
+    <app-header></app-header>
+    
+    <app-newsletter-logo 
+        [logoPath]="config.logoPath" 
+        [altText]="config.title">
+    </app-newsletter-logo>
+    
+    <div class="content">
+        <app-form-container 
+            [formUrl]="config.formUrl"
+            [newsletterType]="'tcg'"
+            (formSubmitted)="onFormSubmitted($event)">
+        </app-form-container>
+        <app-legal-text></app-legal-text>
+        <div *ngIf="showEmailPrompt" class="email-prompt">
+            <p>Did you just submit the form? Enter your email below to receive a confirmation email:</p>
+            <input type="email" [(ngModel)]="userEmail" placeholder="your.email@example.com" />
+            <button (click)="sendConfirmationEmail()">Send Confirmation Email</button>
+            <p *ngIf="emailStatus" [class]="emailStatus === 'success' ? 'success' : 'error'">{{ emailMessage }}</p>
+        </div>
+    </div>
+    
+    <app-footer [contentRatingPath]="'assets/tcg-signup/img/cr-tcg.png'"></app-footer>
+</app-page-container>

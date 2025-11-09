@@ -1,0 +1,12 @@
+<div class="confirmation-container">
+    <div class="confirmation-card">
+        <div class="success-icon">✓</div>
+        <h1>Subscription Confirmed!</h1>
+        <p *ngIf="newsletterName" class="newsletter-name">You're now subscribed to <strong>{{ newsletterName }}</strong></p>
+        <p>Thank you for confirming your email address. You'll start receiving our newsletter updates soon!</p>
+        <div class="actions">
+            <a routerLink="/" class="btn-primary">Return to Home</a>
+        </div>
+    </div>
+</div>
+

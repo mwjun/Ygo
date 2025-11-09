@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="logo">
+        <h1>Yu-Gi-Oh! Newsletter Signup</h1>
+        <p>Choose a newsletter to sign up for:</p>
+    </div>
+    
+    <div class="newsletter-grid">
+        <div class="newsletter-card" *ngFor="let newsletter of newsletters">
+            <h2>{{ newsletter.title.replace('Yu-Gi-Oh! ', '') }}</h2>
+            <p>Sign up for the {{ newsletter.title }} newsletter</p>
+            <a [routerLink]="newsletter.routePath + '/age-gate'">Sign Up</a>
+        </div>
+    </div>
+</div>
