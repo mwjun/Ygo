@@ -1,0 +1,60 @@
+<!-- TestForm Component - Single Responsibility: Collect user information -->
+<div>
+  <hr>
+  <p>Please enter all of the following information. <br />
+    Incomplete or inaccurate entries will not be accepted.</p>
+  
+  <form [formGroup]="userForm">
+    <div class="form-group">
+      <label for="email">E-mail Address:</label>
+      <input 
+        type="email" 
+        class="form-control" 
+        id="email" 
+        formControlName="email" 
+        required>
+      <small *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
+        Valid email is required
+      </small>
+    </div>
+    
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        id="firstName" 
+        formControlName="firstName" 
+        required>
+      <small *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="text-danger">
+        First name is required
+      </small>
+    </div>
+    
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        id="lastName" 
+        formControlName="lastName" 
+        required>
+      <small *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched" class="text-danger">
+        Last name is required
+      </small>
+    </div>
+    
+    <div class="form-group">
+      <label for="cardGameId">{{ idLabel }}:</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        id="cardGameId" 
+        formControlName="cardGameId" 
+        required>
+      <small *ngIf="userForm.get('cardGameId')?.invalid && userForm.get('cardGameId')?.touched" class="text-danger">
+        {{ idLabel }} is required
+      </small>
+    </div>
+  </form>
+</div>
