@@ -1,0 +1,23 @@
+<div class="age-form">
+    <p><strong>Please enter your date of birth to enter this site.</strong></p>
+    <form (ngSubmit)="onSubmit()" #ageForm="ngForm">
+        <div class="form-group">
+            <select id="month" name="month" [(ngModel)]="month" (change)="onMonthChange()" required>
+                <option [value]="0" disabled>Month</option>
+                <option *ngFor="let m of months" [value]="m.value">{{ m.name }}</option>
+            </select>
+            <select id="day" name="day" [(ngModel)]="day" (change)="onDayChange()" required>
+                <option [value]="0" disabled>Day</option>
+                <option *ngFor="let d of days" [value]="d">{{ d }}</option>
+            </select>
+            <select id="year" name="year" [(ngModel)]="year" (change)="onYearChange()" required>
+                <option [value]="0" disabled>Year</option>
+                <option *ngFor="let y of years" [value]="y">{{ y }}</option>
+            </select>
+        </div>
+        <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+        </div>
+        <button type="submit" class="submit-btn">Enter</button>
+    </form>
+</div>

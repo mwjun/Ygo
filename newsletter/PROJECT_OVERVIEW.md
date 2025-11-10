@@ -361,3 +361,138 @@ header('Location: index.php');
 *Last Updated: November 2025*
 *Version: 3.0.1 (Duel Links/Master Duel), 3.0.1a (TCG)*
 
+---
+
+## 🎨 Visual Design & User Interface
+
+### Overall Visual Theme
+
+The application features a **modern, professional design** with a dark gradient background and white card-based layouts. The color scheme is primarily **red (#b00000)** for branding, with clean white containers and subtle shadows for depth.
+
+### Home Page (`index.html`)
+
+**Visual Appearance:**
+- **Background**: Light gray (#f0f0f0) - simple, clean backdrop
+- **Container**: White card (960px max-width) with subtle shadow, centered on page
+- **Header**: Large red heading (#b00000) "Yu-Gi-Oh! Newsletter Signup" centered at top
+- **Layout**: Three-column grid (responsive, stacks on mobile) with newsletter cards
+- **Newsletter Cards**:
+  - White background with 2px gray border
+  - Hover effect: Card lifts up (translateY) with enhanced shadow
+  - Border changes to red on hover
+  - Each card contains:
+    - Newsletter title (red heading)
+    - Descriptive text
+    - Red "Sign Up" button that darkens on hover
+- **Typography**: 'trebuchet ms' font family, clean and readable
+
+### Age Gate Page (`agegate.php`)
+
+**Visual Appearance:**
+- **Background**: Dark gradient (linear-gradient from #1a1a2e → #16213e → #0f3460) - creates depth
+- **Container**: White card (600px max-width) with rounded corners (12px) and strong shadow
+- **Header Section**:
+  - Red gradient background (#b00000 → #8a0000)
+  - Centered Konami logo (max 200px width)
+  - Clickable link to konami.com
+- **Logo Section**:
+  - Light gray background (#f8f8f8)
+  - Newsletter-specific game logo (max 300px width)
+  - Centered display
+- **Content Area**:
+  - White background with padding (40px)
+  - Age form in light gray box (#f9f9f9) with rounded corners
+  - Form contains:
+    - Bold instruction text: "Please enter your date of birth to enter this site."
+    - Three dropdown selects (Month, Day, Year) in a horizontal row
+    - Dropdowns have gray borders that turn red on hover/focus
+    - Red gradient submit button ("Enter") with hover lift effect
+- **Footer**:
+  - Light gray background (#f8f8f8)
+  - Content rating image (max 350px width)
+  - Small gray version text (v 3.0.1)
+
+### Signup Pages (`index.php`)
+
+**Visual Appearance:**
+- **Background**: Same dark gradient as age gate (creates visual consistency)
+- **Container**: White card (900px max-width, wider than age gate) with rounded corners and shadow
+- **Header Section**:
+  - Red gradient background matching age gate
+  - Konami logo (max 200px, no link on signup pages)
+- **Logo Section**:
+  - Light gray background
+  - Game-specific logo displayed prominently
+- **Content Area**:
+  - White background with padding (40px)
+  - **Form Container**:
+    - Light gray background (#f9f9f9)
+    - Rounded corners (8px)
+    - Embedded iframe with border and shadow
+    - Form iframe is 600px height, full width
+  - **Legal Text Section**:
+    - White background
+    - Left border accent (4px solid red)
+    - Red links for Privacy Policy and Terms of Use
+    - Italicized disclaimer about US territories
+    - Line height 1.8 for readability
+- **Footer**:
+  - Light gray background
+  - Content rating image (max 400px width)
+  - Version number in small gray text
+
+### Error/Denied Page (`redirect.php`)
+
+**Visual Appearance:**
+- **Background**: Default browser white
+- **Typography**: 'trebuchet ms' font, normal size (.80em), line height 2em
+- **Layout**: Simple centered text
+- **Content**:
+  - Blank spacing (non-breaking spaces)
+  - Centered message: "Your request has been denied due to a policy configured by the website administrator"
+  - Second centered message: "We are unable to process your request at this time."
+  - Minimal styling - intentionally simple
+
+### Design Elements
+
+**Colors:**
+- **Primary Red**: #b00000 (Konami brand color)
+- **Dark Red**: #8a0000 (hover states, gradients)
+- **Background Gray**: #f0f0f0 (home page)
+- **Dark Gradient**: #1a1a2e → #16213e → #0f3460 (age gate/signup pages)
+- **Light Gray**: #f8f8f8 (logo sections, footers)
+- **Form Gray**: #f9f9f9 (form containers)
+- **Border Gray**: #ddd (form borders)
+
+**Typography:**
+- **Font Family**: 'trebuchet ms', Arial, sans-serif
+- **Font Sizes**: 
+  - Headers: 16px-24px
+  - Body: 14px-16px
+  - Small text: 12px (version numbers)
+- **Line Height**: 1.8em for readability
+
+**Effects & Interactions:**
+- **Shadows**: Box shadows on containers (0 10px 40px rgba(0,0,0,0.3))
+- **Hover Effects**: 
+  - Buttons lift up (translateY)
+  - Borders change color
+  - Shadows intensify
+- **Transitions**: Smooth 0.2s-0.3s transitions on interactive elements
+- **Focus States**: Red border glow on form inputs
+
+**Responsive Design:**
+- Containers have max-widths (600px age gate, 900px signup)
+- Forms wrap on smaller screens
+- Grid layouts adapt to screen size
+- Images scale proportionally
+
+### Visual Hierarchy
+
+1. **Header** (Red gradient) - Brand identity
+2. **Logo Section** (Light gray) - Product identification
+3. **Main Content** (White) - Primary user interaction
+4. **Footer** (Light gray) - Legal/compliance information
+
+The design creates a clear visual flow from top to bottom, guiding users through the age verification and signup process with consistent branding and professional presentation.
+

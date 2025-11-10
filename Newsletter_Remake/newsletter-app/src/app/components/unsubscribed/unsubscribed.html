@@ -1,0 +1,12 @@
+<div class="unsubscribe-container">
+    <div class="unsubscribe-card">
+        <h1>Unsubscribed</h1>
+        <p *ngIf="newsletterName" class="newsletter-name">You've been unsubscribed from <strong>{{ newsletterName }}</strong></p>
+        <p>You will no longer receive emails from this newsletter.</p>
+        <p class="note">If you change your mind, you can resubscribe at any time.</p>
+        <div class="actions">
+            <a routerLink="/" class="btn-primary">Return to Home</a>
+        </div>
+    </div>
+</div>
+

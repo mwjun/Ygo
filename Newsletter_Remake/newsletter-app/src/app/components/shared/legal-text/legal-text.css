@@ -1,0 +1,20 @@
+.legal-text {
+    margin: 30px 0;
+    padding: 20px;
+    background: #fff;
+    border-left: 4px solid #b00000;
+    border-radius: 4px;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.legal-text a {
+    color: #b00000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.legal-text a:hover {
+    text-decoration: underline;
+}
+

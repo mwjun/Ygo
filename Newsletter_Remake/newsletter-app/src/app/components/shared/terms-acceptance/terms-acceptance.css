@@ -1,0 +1,123 @@
+.terms-acceptance {
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.terms-acceptance h3 {
+    color: #b00000;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.terms-acceptance p {
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 15px 0;
+}
+
+.terms-acceptance ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.terms-acceptance li {
+    margin: 10px 0;
+    padding: 0;
+}
+
+.terms-acceptance li:before {
+    content: "• ";
+    color: #b00000;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.terms-acceptance a {
+    color: #b00000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.terms-acceptance a:hover {
+    text-decoration: underline;
+}
+
+.note {
+    font-style: italic;
+    color: #666;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.checkbox-container {
+    margin: 30px 0;
+    text-align: left;
+    display: flex;
+    justify-content: center;
+}
+
+.checkbox-container label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.button-container {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.accept-btn, .decline-btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.accept-btn {
+    background: linear-gradient(135deg, #b00000 0%, #8a0000 100%);
+    color: white;
+}
+
+.accept-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #8a0000 0%, #6a0000 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(176, 0, 0, 0.3);
+}
+
+.accept-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.decline-btn {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.decline-btn:hover {
+    background: #d0d0d0;
+    transform: translateY(-2px);
+}
+

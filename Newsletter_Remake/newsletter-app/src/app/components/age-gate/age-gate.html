@@ -1,0 +1,24 @@
+<app-page-container maxWidth="narrow">
+    <app-header></app-header>
+    
+    <app-newsletter-logo 
+        [logoPath]="config?.logoPath || ''" 
+        [altText]="config?.title || ''">
+    </app-newsletter-logo>
+    
+    <div class="content">
+        <app-age-form 
+            *ngIf="!showTermsAcceptance"
+            (ageVerified)="onAgeVerified()"
+            (ageRejected)="onAgeRejected()">
+        </app-age-form>
+        
+        <app-terms-acceptance 
+            *ngIf="showTermsAcceptance"
+            (termsAccepted)="onTermsAccepted()"
+            (termsDeclined)="onTermsDeclined()">
+        </app-terms-acceptance>
+    </div>
+    
+    <app-footer [contentRatingPath]="config?.contentRatingPath || 'assets/img/cr-digital.png'"></app-footer>
+</app-page-container>
