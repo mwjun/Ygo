@@ -229,7 +229,9 @@ app.post('/api/newsletter/signup', async (req, res) => {
     const subscription = SubscriptionModel.create(sanitizedEmail, newsletterType, false);
     
     const newsletterName = newsletterNames[newsletterType];
-    const verificationUrl = `${FRONTEND_URL}/verify?email=${encodeURIComponent(sanitizedEmail)}&type=${newsletterType}&token=${subscription.verificationToken}`;
+    // Use backend API endpoint for verification (works even without frontend running)
+    const backendUrl = process.env.BACKEND_URL || `http://localhost:${PORT}`;
+    const verificationUrl = `${backendUrl}/api/newsletter/verify?email=${encodeURIComponent(sanitizedEmail)}&type=${newsletterType}&token=${subscription.verificationToken}`;
 
     // Send verification email (double opt-in)
     const template = getEmailTemplate('verification', {
