@@ -37,7 +37,9 @@ export class AgeFormComponent implements OnInit {
   days: number[] = [];
   years: number[] = [];
 
-  constructor(private cookieService: CookieService) {
+  constructor(
+    private cookieService: CookieService
+  ) {
     // Match PHP: Years from 2024 down to 1925 (as in original agegate.php)
     const currentYear = new Date().getFullYear();
     const startYear = Math.max(1925, currentYear - 100); // Match original range

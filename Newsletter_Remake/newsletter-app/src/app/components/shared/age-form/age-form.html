@@ -1,5 +1,6 @@
 <div class="age-form">
     <p><strong>Please enter your date of birth to enter this site.</strong></p>
+    
     <form (ngSubmit)="onSubmit()" #ageForm="ngForm">
         <div class="form-group">
             <select id="month" name="month" [(ngModel)]="month" (change)="onMonthChange()" required>

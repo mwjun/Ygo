@@ -1,0 +1,39 @@
+<app-page-container maxWidth="narrow">
+    <app-header></app-header>
+    
+    <div class="content">
+        <h1>Select Newsletter Categories</h1>
+        <p class="subtitle">Please select at least one newsletter category you're interested in:</p>
+        
+        <div class="category-grid">
+            <div 
+                *ngFor="let newsletter of newsletters" 
+                class="category-card"
+                [class.selected]="selectedCategories[newsletter.type]"
+                (click)="toggleCategory(newsletter.type)">
+                <div class="category-logo">
+                    <img [src]="newsletter.logoPath" [alt]="newsletter.title" />
+                </div>
+                <div class="category-text">
+                    <span>{{ newsletter.title.replace('Yu-Gi-Oh! ', '') }}</span>
+                </div>
+                <div class="category-checkbox">
+                    <input 
+                        type="checkbox" 
+                        [checked]="selectedCategories[newsletter.type]"
+                        (click)="$event.stopPropagation(); toggleCategory(newsletter.type)"
+                        readonly />
+                </div>
+            </div>
+        </div>
+        
+        <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+        </div>
+        
+        <button (click)="onContinue()" class="continue-btn">Continue</button>
+    </div>
+    
+    <app-footer [contentRatingPath]="'assets/img/cr-digital.png'"></app-footer>
+</app-page-container>
+

@@ -5,17 +5,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.header img {
-    max-width: 200px;
-    height: auto;
-    display: block;
+    width: 100%;
 }
 
 .header a {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-decoration: none;
+    margin: 0 auto;
+}
+
+.header img {
+    width: 100px;
+    height: auto;
+    display: block;
     margin: 0 auto;
 }
 

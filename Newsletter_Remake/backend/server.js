@@ -184,7 +184,7 @@ function getEmailTemplate(type, data) {
 // Newsletter signup endpoint (Double Opt-In)
 app.post('/api/newsletter/signup', async (req, res) => {
   try {
-    const { email, newsletterType, firstName, lastName } = req.body;
+    const { email, newsletterType, firstName, lastName, categories } = req.body;
 
     // Validate required fields
     if (!email || !newsletterType) {
@@ -225,6 +225,16 @@ app.post('/api/newsletter/signup', async (req, res) => {
     const sanitizedLastName = lastName ? sanitizeInput(lastName) : '';
     const greeting = sanitizedFirstName || 'there';
 
+    // Process categories - format as DL=Yes, MD=Yes, TCG=Yes
+    let categoryString = '';
+    if (categories) {
+      const categoryParts = [];
+      if (categories.dl === true) categoryParts.push('DL=Yes');
+      if (categories.md === true) categoryParts.push('MD=Yes');
+      if (categories.tcg === true) categoryParts.push('TCG=Yes');
+      categoryString = categoryParts.join(', ');
+    }
+
     // Create subscription (unverified initially - double opt-in)
     const subscription = SubscriptionModel.create(sanitizedEmail, newsletterType, false);
     
@@ -241,20 +251,30 @@ app.post('/api/newsletter/signup', async (req, res) => {
       greeting,
       verificationUrl,
       unsubscribeToken: subscription.verificationToken,
-      preferenceToken: subscription.verificationToken
+      preferenceToken: subscription.verificationToken,
+      categories: categoryString
     });
 
+    // Prepare SendGrid message with custom fields for categories
     const msg = {
       to: sanitizedEmail,
       from: process.env.SENDGRID_FROM_EMAIL || 'noreply@example.com',
       subject: template.subject,
       text: `Please confirm your subscription to ${newsletterName} by visiting: ${verificationUrl}`,
-      html: template.html
+      html: template.html,
+      // Add categories as custom fields in SendGrid
+      customArgs: {
+        categories: categoryString || 'None',
+        dl: categories?.dl === true ? 'Yes' : 'No',
+        md: categories?.md === true ? 'Yes' : 'No',
+        tcg: categories?.tcg === true ? 'Yes' : 'No'
+      }
     };
 
     await sgMail.send(msg);
 
-    console.log(`Verification email sent: ${newsletterType} - ${sanitizedEmail.substring(0, 3)}***`);
+    const categoryInfo = categoryString ? ` - Categories: ${categoryString}` : '';
+    console.log(`Verification email sent: ${newsletterType} - ${sanitizedEmail.substring(0, 3)}***${categoryInfo}`);
 
     res.json({ 
       success: true, 

@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
 
+export interface SelectedCategories {
+  dl: boolean;
+  md: boolean;
+  tcg: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class CookieService {
   private readonly COOKIE_NAME = 'legal';
+  private readonly CATEGORIES_COOKIE_NAME = 'newsletter_categories';
   private readonly COOKIE_EXPIRY_HOURS = 2;
+  private categoriesCache: SelectedCategories | null = null;
 
   /**
    * Set the legal cookie (age verification)
@@ -86,5 +94,62 @@ export class CookieService {
     return date.getFullYear() === year &&
            date.getMonth() === month - 1 &&
            date.getDate() === day;
+  }
+
+  /**
+   * Set selected newsletter categories in cookie
+   * @param categories Selected categories
+   */
+  setSelectedCategories(categories: SelectedCategories): void {
+    this.categoriesCache = { ...categories };
+    const expiryDate = new Date();
+    expiryDate.setTime(expiryDate.getTime() + (this.COOKIE_EXPIRY_HOURS * 60 * 60 * 1000));
+    const expires = `expires=${expiryDate.toUTCString()}`;
+    const categoriesJson = JSON.stringify(categories);
+    document.cookie = `${this.CATEGORIES_COOKIE_NAME}=${encodeURIComponent(categoriesJson)}; ${expires}; path=/`;
+  }
+
+  /**
+   * Get selected newsletter categories from cookie
+   * @returns Selected categories or null if not set
+   */
+  getSelectedCategories(): SelectedCategories | null {
+    if (this.categoriesCache) {
+      return { ...this.categoriesCache };
+    }
+
+    const name = this.CATEGORIES_COOKIE_NAME + '=';
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookieArray = decodedCookie.split(';');
+
+    for (let i = 0; i < cookieArray.length; i++) {
+      let cookie = cookieArray[i];
+      while (cookie.charAt(0) === ' ') {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(name) === 0) {
+        const value = cookie.substring(name.length, cookie.length);
+        try {
+          const categories = JSON.parse(decodeURIComponent(value));
+          this.categoriesCache = categories;
+          return { ...categories };
+        } catch (e) {
+          console.error('Error parsing categories cookie:', e);
+          return null;
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Clear selected categories cookie
+   */
+  clearSelectedCategories(): void {
+    this.categoriesCache = null;
+    const expiryDate = new Date();
+    expiryDate.setTime(expiryDate.getTime() - 1000);
+    const expires = `expires=${expiryDate.toUTCString()}`;
+    document.cookie = `${this.CATEGORIES_COOKIE_NAME}=; ${expires}; path=/`;
   }
 }
