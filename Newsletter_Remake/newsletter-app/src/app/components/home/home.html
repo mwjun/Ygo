@@ -1,14 +1,33 @@
 <div class="container">
     <div class="logo">
         <h1>Yu-Gi-Oh! Newsletter Signup</h1>
-        <p>Choose a newsletter to sign up for:</p>
+        <p>Select the newsletters you want to sign up for:</p>
     </div>
     
     <div class="newsletter-grid">
-        <div class="newsletter-card" *ngFor="let newsletter of newsletters">
-            <h2>{{ newsletter.title.replace('Yu-Gi-Oh! ', '') }}</h2>
-            <p>Sign up for the {{ newsletter.title }} newsletter</p>
-            <a [routerLink]="newsletter.routePath + '/age-gate'">Sign Up</a>
+        <div 
+            class="newsletter-card"
+            [class.selected]="selectedNewsletters[newsletter.type]"
+            *ngFor="let newsletter of newsletters"
+            (click)="toggleNewsletter(newsletter.type)">
+            <div class="newsletter-logo">
+                <img [src]="newsletter.logoPath" [alt]="newsletter.title" />
+            </div>
+            <div class="newsletter-content">
+                <h2>{{ newsletter.title.replace('Yu-Gi-Oh! ', '') }}</h2>
+                <p>Sign up for the {{ newsletter.title }} newsletter</p>
+            </div>
+            <div class="newsletter-checkbox">
+                <input 
+                    type="checkbox" 
+                    [checked]="selectedNewsletters[newsletter.type]"
+                    (click)="$event.stopPropagation(); toggleNewsletter(newsletter.type)"
+                    readonly />
+            </div>
         </div>
+    </div>
+    
+    <div class="continue-section">
+        <button (click)="onContinue()" class="continue-btn">Continue</button>
     </div>
 </div>

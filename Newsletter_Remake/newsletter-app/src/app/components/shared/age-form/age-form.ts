@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CookieService } from '../../../services/cookie';
+import { CookieService, SelectedCategories } from '../../../services/cookie';
+import { NewsletterConfigService } from '../../../services/newsletter-config';
+import { NewsletterType } from '../../../models/newsletter-type';
 
 @Component({
   selector: 'app-age-form',
@@ -11,13 +13,22 @@ import { CookieService } from '../../../services/cookie';
   styleUrl: './age-form.css'
 })
 export class AgeFormComponent implements OnInit {
-  @Output() ageVerified = new EventEmitter<boolean>();
+  @Output() ageVerified = new EventEmitter<SelectedCategories>();
   @Output() ageRejected = new EventEmitter<void>();
 
   month: number = 0; // Match PHP: value="0" selected="selected" for placeholder
   day: number = 0;   // Match PHP: value="0" selected="selected" for placeholder
   year: number = 0;  // Match PHP: value="0" selected="selected" for placeholder
   errorMessage: string = '';
+  
+  // Category selection
+  selectedCategories: SelectedCategories = {
+    dl: false,
+    md: false,
+    tcg: false
+  };
+  
+  newsletters: Array<{ type: NewsletterType; title: string; logoPath: string }> = [];
   
   months = [
     { value: 1, name: 'January' },
@@ -37,13 +48,24 @@ export class AgeFormComponent implements OnInit {
   days: number[] = [];
   years: number[] = [];
 
-  constructor(private cookieService: CookieService) {
+  constructor(
+    private cookieService: CookieService,
+    private newsletterConfig: NewsletterConfigService
+  ) {
     // Match PHP: Years from 2024 down to 1925 (as in original agegate.php)
     const currentYear = new Date().getFullYear();
     const startYear = Math.max(1925, currentYear - 100); // Match original range
     for (let i = currentYear; i >= startYear; i--) {
       this.years.push(i);
     }
+    
+    // Load newsletter configs for category selection
+    const configs = this.newsletterConfig.getAllConfigs();
+    this.newsletters = configs.map(config => ({
+      type: config.type,
+      title: config.title,
+      logoPath: config.logoPath
+    }));
   }
 
   ngOnInit(): void {
@@ -123,15 +145,34 @@ export class AgeFormComponent implements OnInit {
     // Match PHP: Calculate age using exact same logic
     const age = this.cookieService.calculateAge(year, month, day);
 
+    // Check if at least one category is selected
+    const hasSelectedCategory = this.selectedCategories.dl || 
+                                this.selectedCategories.md || 
+                                this.selectedCategories.tcg;
+    
+    if (!hasSelectedCategory) {
+      this.errorMessage = 'Please select at least one category.';
+      return;
+    }
+
     // Match PHP: if($age_years >= 16)
     if (age >= 16) {
       // Don't set cookie yet - wait for terms acceptance
       // Cookie will be set in age-gate component after terms are accepted
-      this.ageVerified.emit(true);
+      // Pass selected categories to parent component
+      this.ageVerified.emit({ ...this.selectedCategories });
     } else {
       // Match PHP: setcookie('legal', 'no', time()+7200, '/');
       this.cookieService.setLegalCookie('no');
       this.ageRejected.emit();
+    }
+  }
+  
+  toggleCategory(type: NewsletterType): void {
+    this.selectedCategories[type] = !this.selectedCategories[type];
+    // Clear error message when user selects a category
+    if (this.selectedCategories[type]) {
+      this.errorMessage = '';
     }
   }
 }

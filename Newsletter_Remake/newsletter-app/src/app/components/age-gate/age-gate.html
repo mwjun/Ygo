@@ -1,15 +1,10 @@
 <app-page-container maxWidth="narrow">
     <app-header></app-header>
     
-    <app-newsletter-logo 
-        [logoPath]="config?.logoPath || ''" 
-        [altText]="config?.title || ''">
-    </app-newsletter-logo>
-    
     <div class="content">
         <app-age-form 
             *ngIf="!showTermsAcceptance"
-            (ageVerified)="onAgeVerified()"
+            (ageVerified)="onAgeVerified($event)"
             (ageRejected)="onAgeRejected()">
         </app-age-form>
         

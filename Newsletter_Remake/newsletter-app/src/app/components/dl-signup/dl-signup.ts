@@ -45,8 +45,10 @@ export class DlSignupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Check if age is verified - if not, redirect to main age gate
     if (!this.cookieService.isAgeVerified()) {
-      this.router.navigate(['/dl-signup/age-gate']);
+      this.router.navigate(['/']);
+      return;
     }
 
     // Show email prompt after a delay (user might have submitted the form)
@@ -85,9 +87,13 @@ export class DlSignupComponent implements OnInit {
     this.emailStatus = null;
     this.emailMessage = 'Sending confirmation email...';
 
+    // Get selected categories from cookie
+    const categories = this.cookieService.getSelectedCategories();
+
     this.sendGridService.signup({
       email: email,
-      newsletterType: 'dl'
+      newsletterType: 'dl',
+      categories: categories || undefined
     }).subscribe({
       next: (response) => {
         if (response.success) {

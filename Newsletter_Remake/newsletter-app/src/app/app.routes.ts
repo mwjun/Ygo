@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home';
 import { AgeGateComponent } from './components/age-gate/age-gate';
+import { CategorySelectionComponent } from './components/category-selection/category-selection';
 import { DlSignupComponent } from './components/dl-signup/dl-signup';
 import { MdSignupComponent } from './components/md-signup/md-signup';
 import { TcgSignupComponent } from './components/tcg-signup/tcg-signup';
@@ -12,7 +13,18 @@ import { ageVerificationGuard } from './guards/age-verification-guard';
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: AgeGateComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'category-selection',
+    component: CategorySelectionComponent,
+    canActivate: [ageVerificationGuard]
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [ageVerificationGuard]
   },
   {
     path: 'dl-signup/age-gate',

@@ -7,8 +7,8 @@ import { CommonModule } from '@angular/common';
 import { PageContainerComponent } from '../shared/page-container/page-container';
 import { HeaderComponent } from '../shared/header/header';
 import { FooterComponent } from '../shared/footer/footer';
-import { NewsletterLogoComponent } from '../shared/newsletter-logo/newsletter-logo';
 import { AgeFormComponent } from '../shared/age-form/age-form';
+import { SelectedCategories } from '../../services/cookie';
 import { TermsAcceptanceComponent } from '../shared/terms-acceptance/terms-acceptance';
 
 @Component({
@@ -19,7 +19,6 @@ import { TermsAcceptanceComponent } from '../shared/terms-acceptance/terms-accep
     PageContainerComponent,
     HeaderComponent,
     FooterComponent,
-    NewsletterLogoComponent,
     AgeFormComponent,
     TermsAcceptanceComponent
   ],
@@ -30,6 +29,7 @@ export class AgeGateComponent implements OnInit {
   newsletterType: NewsletterType | null = null;
   config: { logoPath: string; title: string; contentRatingPath: string } | null = null;
   showTermsAcceptance: boolean = false;
+  selectedCategories: SelectedCategories | null = null;
 
   constructor(
     private cookieService: CookieService,
@@ -38,8 +38,33 @@ export class AgeGateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // First, determine the newsletter type from the current route
+    // Get current URL
     const url = this.router.url;
+    
+    // CRITICAL: On root path, ALWAYS show age gate - NEVER redirect
+    // This is the main entry point and must always display the age gate
+    if (url === '/' || url === '' || !url || url.trim() === '') {
+      // Set default newsletter type for root path
+      this.newsletterType = 'dl';
+      
+      // Always set config for root path - this ensures the template renders
+      const config = this.newsletterConfig.getConfig(this.newsletterType);
+      const contentRatingPath = `assets/${this.newsletterType}-signup/img/cr-digital.png`;
+      this.config = {
+        logoPath: config.logoPath,
+        title: config.title,
+        contentRatingPath: contentRatingPath
+      };
+      
+      // Reset state to show age form (not terms acceptance)
+      this.showTermsAcceptance = false;
+      
+      // DO NOT check cookie on root path - always show age gate
+      // DO NOT redirect - this is the entry point
+      return;
+    }
+    
+    // For non-root paths (like /dl-signup/age-gate), determine newsletter type and check cookie
     this.newsletterType = this.newsletterConfig.getTypeFromRoute(url);
     
     // If we can't determine the newsletter type, default to 'dl' as fallback
@@ -50,6 +75,7 @@ export class AgeGateComponent implements OnInit {
     // Match PHP: if(isset($_COOKIE['legal']))
     const legalCookie = this.cookieService.getLegalCookie();
     
+    // Only redirect if NOT on root path
     if (legalCookie !== null) {
       // Match PHP: $url = ($_COOKIE['legal'] == 'yes') ? 'index.php' : 'redirect.php';
       if (legalCookie === 'yes') {
@@ -61,7 +87,7 @@ export class AgeGateComponent implements OnInit {
         return;
       }
     }
-
+    
     // No cookie set, show age gate form
     // Always set config since we have a fallback newsletterType
     const config = this.newsletterConfig.getConfig(this.newsletterType);
@@ -76,7 +102,11 @@ export class AgeGateComponent implements OnInit {
     };
   }
 
-  onAgeVerified(): void {
+  onAgeVerified(categories: SelectedCategories): void {
+    // Store selected categories
+    this.selectedCategories = categories;
+    // Store categories in cookie service for later use (to pass to SendGrid)
+    this.cookieService.setSelectedCategories(categories);
     // Show terms acceptance instead of immediately redirecting
     this.showTermsAcceptance = true;
   }
@@ -86,9 +116,28 @@ export class AgeGateComponent implements OnInit {
   }
 
   onTermsAccepted(): void {
-    // Set cookie and proceed to signup only after terms are accepted
+    // Set cookie
     this.cookieService.setLegalCookie('yes');
-    this.redirectToSignup();
+    
+    // Get selected categories and redirect to first selected newsletter signup page
+    const categories = this.selectedCategories || this.cookieService.getSelectedCategories();
+    
+    if (categories) {
+      // Redirect to first selected newsletter signup page
+      if (categories.dl) {
+        this.router.navigate(['/dl-signup']);
+      } else if (categories.md) {
+        this.router.navigate(['/md-signup']);
+      } else if (categories.tcg) {
+        this.router.navigate(['/tcg-signup']);
+      } else {
+        // Fallback: if no categories selected (shouldn't happen), go to home
+        this.router.navigate(['/home']);
+      }
+    } else {
+      // Fallback: if no categories (shouldn't happen), go to home
+      this.router.navigate(['/home']);
+    }
   }
 
   onTermsDeclined(): void {

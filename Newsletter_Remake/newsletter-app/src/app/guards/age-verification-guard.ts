@@ -7,17 +7,8 @@ export const ageVerificationGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   if (!cookieService.isAgeVerified()) {
-    // Redirect to age gate for the current newsletter
-    const currentPath = state.url;
-    if (currentPath.includes('/dl-signup')) {
-      router.navigate(['/dl-signup/age-gate']);
-    } else if (currentPath.includes('/md-signup')) {
-      router.navigate(['/md-signup/age-gate']);
-    } else if (currentPath.includes('/tcg-signup')) {
-      router.navigate(['/tcg-signup/age-gate']);
-    } else {
-      router.navigate(['/']);
-    }
+    // Redirect to age gate (root path)
+    router.navigate(['/']);
     return false;
   }
   

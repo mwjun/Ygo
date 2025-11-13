@@ -8,6 +8,11 @@ export interface NewsletterSignupRequest {
   newsletterType: NewsletterType;
   firstName?: string;
   lastName?: string;
+  categories?: {
+    dl?: boolean;
+    md?: boolean;
+    tcg?: boolean;
+  };
 }
 
 export interface NewsletterSignupResponse {

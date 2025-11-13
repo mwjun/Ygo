@@ -1,5 +1,32 @@
 <div class="age-form">
     <p><strong>Please enter your date of birth to enter this site.</strong></p>
+    
+    <!-- Category Selection -->
+    <div class="category-selection">
+        <p class="category-label"><strong>Select Newsletter Categories:</strong></p>
+        <div class="category-grid">
+            <div 
+                *ngFor="let newsletter of newsletters" 
+                class="category-card"
+                [class.selected]="selectedCategories[newsletter.type]"
+                (click)="toggleCategory(newsletter.type)">
+                <div class="category-logo">
+                    <img [src]="newsletter.logoPath" [alt]="newsletter.title" />
+                </div>
+                <div class="category-text">
+                    <span>{{ newsletter.title.replace('Yu-Gi-Oh! ', '') }}</span>
+                </div>
+                <div class="category-checkbox">
+                    <input 
+                        type="checkbox" 
+                        [checked]="selectedCategories[newsletter.type]"
+                        (click)="$event.stopPropagation(); toggleCategory(newsletter.type)"
+                        readonly />
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <form (ngSubmit)="onSubmit()" #ageForm="ngForm">
         <div class="form-group">
             <select id="month" name="month" [(ngModel)]="month" (change)="onMonthChange()" required>

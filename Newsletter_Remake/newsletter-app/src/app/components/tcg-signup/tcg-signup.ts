@@ -45,8 +45,10 @@ export class TcgSignupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Check if age is verified - if not, redirect to main age gate
     if (!this.cookieService.isAgeVerified()) {
-      this.router.navigate(['/tcg-signup/age-gate']);
+      this.router.navigate(['/']);
+      return;
     }
 
     setTimeout(() => {
@@ -83,9 +85,13 @@ export class TcgSignupComponent implements OnInit {
     this.emailStatus = null;
     this.emailMessage = 'Sending confirmation email...';
 
+    // Get selected categories from cookie
+    const categories = this.cookieService.getSelectedCategories();
+
     this.sendGridService.signup({
       email: email,
-      newsletterType: 'tcg'
+      newsletterType: 'tcg',
+      categories: categories || undefined
     }).subscribe({
       next: (response) => {
         if (response.success) {
