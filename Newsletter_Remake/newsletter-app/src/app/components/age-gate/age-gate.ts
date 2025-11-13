@@ -8,7 +8,6 @@ import { PageContainerComponent } from '../shared/page-container/page-container'
 import { HeaderComponent } from '../shared/header/header';
 import { FooterComponent } from '../shared/footer/footer';
 import { AgeFormComponent } from '../shared/age-form/age-form';
-import { SelectedCategories } from '../../services/cookie';
 import { TermsAcceptanceComponent } from '../shared/terms-acceptance/terms-acceptance';
 
 @Component({
@@ -29,7 +28,6 @@ export class AgeGateComponent implements OnInit {
   newsletterType: NewsletterType | null = null;
   config: { logoPath: string; title: string; contentRatingPath: string } | null = null;
   showTermsAcceptance: boolean = false;
-  selectedCategories: SelectedCategories | null = null;
 
   constructor(
     private cookieService: CookieService,
@@ -102,11 +100,7 @@ export class AgeGateComponent implements OnInit {
     };
   }
 
-  onAgeVerified(categories: SelectedCategories): void {
-    // Store selected categories
-    this.selectedCategories = categories;
-    // Store categories in cookie service for later use (to pass to SendGrid)
-    this.cookieService.setSelectedCategories(categories);
+  onAgeVerified(): void {
     // Show terms acceptance instead of immediately redirecting
     this.showTermsAcceptance = true;
   }
@@ -119,25 +113,8 @@ export class AgeGateComponent implements OnInit {
     // Set cookie
     this.cookieService.setLegalCookie('yes');
     
-    // Get selected categories and redirect to first selected newsletter signup page
-    const categories = this.selectedCategories || this.cookieService.getSelectedCategories();
-    
-    if (categories) {
-      // Redirect to first selected newsletter signup page
-      if (categories.dl) {
-        this.router.navigate(['/dl-signup']);
-      } else if (categories.md) {
-        this.router.navigate(['/md-signup']);
-      } else if (categories.tcg) {
-        this.router.navigate(['/tcg-signup']);
-      } else {
-        // Fallback: if no categories selected (shouldn't happen), go to home
-        this.router.navigate(['/home']);
-      }
-    } else {
-      // Fallback: if no categories (shouldn't happen), go to home
-      this.router.navigate(['/home']);
-    }
+    // Redirect to newsletter selection page where user can select categories
+    this.router.navigate(['/home']);
   }
 
   onTermsDeclined(): void {

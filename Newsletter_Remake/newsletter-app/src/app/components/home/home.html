@@ -1,33 +1,95 @@
-<div class="container">
-    <div class="logo">
-        <h1>Yu-Gi-Oh! Newsletter Signup</h1>
-        <p>Select the newsletters you want to sign up for:</p>
-    </div>
+<app-page-container maxWidth="narrow">
+    <app-header></app-header>
     
-    <div class="newsletter-grid">
-        <div 
-            class="newsletter-card"
-            [class.selected]="selectedNewsletters[newsletter.type]"
-            *ngFor="let newsletter of newsletters"
-            (click)="toggleNewsletter(newsletter.type)">
-            <div class="newsletter-logo">
-                <img [src]="newsletter.logoPath" [alt]="newsletter.title" />
+    <div class="content">
+        <div class="container">
+            <div class="logo-section">
+                <h1>Yu-Gi-Oh! Newsletter Signup</h1>
             </div>
-            <div class="newsletter-content">
-                <h2>{{ newsletter.title.replace('Yu-Gi-Oh! ', '') }}</h2>
-                <p>Sign up for the {{ newsletter.title }} newsletter</p>
-            </div>
-            <div class="newsletter-checkbox">
-                <input 
-                    type="checkbox" 
-                    [checked]="selectedNewsletters[newsletter.type]"
-                    (click)="$event.stopPropagation(); toggleNewsletter(newsletter.type)"
-                    readonly />
+            
+            <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="signup-form">
+                <div class="form-group">
+                    <label for="firstName">First Name (required):</label>
+                    <input 
+                        type="text" 
+                        id="firstName" 
+                        name="firstName" 
+                        [(ngModel)]="firstName"
+                        required />
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address (required):</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        [(ngModel)]="email"
+                        required />
+                </div>
+                
+                <div class="newsletter-selection">
+                    <p class="selection-label">I would like to receive emails for (please select at least one):</p>
+                    <div class="newsletter-grid">
+                        <div 
+                            class="newsletter-card"
+                            [class.selected]="selectedNewsletters[newsletter.type]"
+                            *ngFor="let newsletter of newsletters"
+                            (click)="toggleNewsletter(newsletter.type)">
+                            <div class="newsletter-logo">
+                                <img [src]="newsletter.logoPath" [alt]="newsletter.title" />
+                            </div>
+                            <div class="newsletter-content">
+                                <span>{{ newsletter.title.replace('Yu-Gi-Oh! ', '') }}</span>
+                            </div>
+                            <div class="newsletter-checkbox">
+                                <input 
+                                    type="checkbox" 
+                                    [checked]="selectedNewsletters[newsletter.type]"
+                                    (click)="$event.stopPropagation(); toggleNewsletter(newsletter.type)"
+                                    readonly />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            name="consent" 
+                            [(ngModel)]="privacyConsent"
+                            required />
+                        By signing up, you agree with our 
+                        <a href="https://legal.konami.com/kdeus/privacy/en-us/" target="_blank">Privacy Policy</a> 
+                        and 
+                        <a href="https://legal.konami.com/kdeus/btob/terms/tou/en/" target="_blank">TERMS OF USE</a>.
+                    </label>
+                </div>
+                
+                <div *ngIf="errorMessage" class="error-message">
+                    {{ errorMessage }}
+                </div>
+                
+                <div class="submit-section">
+                    <button type="submit" class="signup-btn" [disabled]="signupForm.invalid || isSubmitting">
+                        <span *ngIf="!isSubmitting">Sign Up</span>
+                        <span *ngIf="isSubmitting">Signing Up...</span>
+                    </button>
+                </div>
+            </form>
+            
+            <div class="note-section">
+                <p class="note">NOTE: Newsletter Signups are only for North and Latin American players at this time. Sorry for any inconvenience!</p>
+                
+                <p class="note">Al registrarte, aceptas nuestra <a href="https://legal.konami.com/kdeus/privacy/en-us/" target="_blank">Política de Privacidad</a> y <a href="https://legal.konami.com/kdeus/btob/terms/tou/en/" target="_blank">TÉRMINOS DE USO</a>. NOTA: Las suscripciones al boletín son solo para jugadores de Norteamérica y Latinoamérica en este momento. ¡Perdón por cualquier inconveniente!</p>
+                
+                <p class="note">Ao registrar-se, você concorda com nossa <a href="https://legal.konami.com/kdeus/privacy/en-us/" target="_blank">Política de Privacidade</a> e <a href="https://legal.konami.com/kdeus/btob/terms/tou/en/" target="_blank">TERMOS DE USO</a>. NOTA: As inscrições para newsletter são válidas apenas para os jogadores da América do Norte e América Latina no momento. Desculpe por qualquer inconveniente!</p>
+                
+                <p class="note">En vous inscrivant, vous acceptez notre <a href="https://legal.konami.com/kdeus/privacy/en-us/" target="_blank">politique de confidentialité</a> et nos <a href="https://legal.konami.com/kdeus/btob/terms/tou/en/" target="_blank">conditions d'utilisation</a>. REMARQUE : Seuls les joueurs d'Amérique du Nord et d'Amérique latine peuvent s'inscrire au bulletin d'information pour le moment. Nous sommes désolés de cet inconvénient !</p>
             </div>
         </div>
     </div>
     
-    <div class="continue-section">
-        <button (click)="onContinue()" class="continue-btn">Continue</button>
-    </div>
-</div>
+    <app-footer [contentRatingPath]="'assets/img/cr-digital.png'"></app-footer>
+</app-page-container>

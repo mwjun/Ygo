@@ -58,8 +58,9 @@ export class DlSignupComponent implements OnInit {
   }
 
   onFormSubmitted(event: { email: string; newsletterType: string }): void {
-    // Automatically send confirmation email when form submission is detected
-    this.sendConfirmationEmailForEmail(event.email);
+    // After form submission, redirect to newsletter selection page
+    // The newsletter selection page will handle the actual signup with SendGrid
+    this.router.navigate(['/home']);
   }
 
   sendConfirmationEmail(): void {

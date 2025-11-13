@@ -4,7 +4,7 @@
     <div class="content">
         <app-age-form 
             *ngIf="!showTermsAcceptance"
-            (ageVerified)="onAgeVerified($event)"
+            (ageVerified)="onAgeVerified()"
             (ageRejected)="onAgeRejected()">
         </app-age-form>
         
