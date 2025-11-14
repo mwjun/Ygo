@@ -1,8 +1,8 @@
 .terms-acceptance {
     background: #f9f9f9;
-    padding: 30px;
+    padding: 25px;
     border-radius: 8px;
-    margin: 20px 0;
+    margin: 10px 0;
     text-align: center;
 }
 
@@ -48,11 +48,36 @@
     text-decoration: underline;
 }
 
+.note-section {
+    margin: 20px 0;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+}
+
 .note {
     font-style: italic;
     color: #666;
     font-size: 14px;
-    margin-top: 20px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.note:first-child {
+    margin-top: 0;
+}
+
+.note:last-child {
+    margin-bottom: 0;
+}
+
+.note a {
+    color: #b00000;
+    text-decoration: underline;
+    margin: 0 4px;
+}
+
+.note a:hover {
+    text-decoration: none;
 }
 
 .checkbox-container {
