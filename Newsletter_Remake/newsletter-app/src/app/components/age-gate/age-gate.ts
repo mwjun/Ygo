@@ -101,26 +101,31 @@ export class AgeGateComponent implements OnInit {
   }
 
   onAgeVerified(): void {
-    // Show terms acceptance instead of immediately redirecting
-    this.showTermsAcceptance = true;
+    // Skip terms acceptance - go directly to newsletter signup
+    this.cookieService.setLegalCookie('yes');
+    this.router.navigate(['/home']); // Redirect to home for newsletter selection
+    
+    // COMMENTED OUT: Terms acceptance step (kept for future use)
+    // this.showTermsAcceptance = true;
   }
 
   onAgeRejected(): void {
     this.router.navigate(['/error']);
   }
 
-  onTermsAccepted(): void {
-    // Set cookie
-    this.cookieService.setLegalCookie('yes');
-    
-    // Redirect to newsletter selection page where user can select categories
-    this.router.navigate(['/home']);
-  }
+  // COMMENTED OUT: Terms acceptance methods (kept for future use)
+  // onTermsAccepted(): void {
+  //   // Set cookie
+  //   this.cookieService.setLegalCookie('yes');
+  //   
+  //   // Redirect to newsletter selection page where user can select categories
+  //   this.router.navigate(['/home']);
+  // }
 
-  onTermsDeclined(): void {
-    // If user declines terms, redirect to error page
-    this.router.navigate(['/error']);
-  }
+  // onTermsDeclined(): void {
+  //   // If user declines terms, redirect to error page
+  //   this.router.navigate(['/error']);
+  // }
 
   private redirectToSignup(): void {
     if (this.newsletterType) {
