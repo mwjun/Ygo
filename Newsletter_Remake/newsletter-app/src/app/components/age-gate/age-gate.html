@@ -3,16 +3,16 @@
     
     <div class="content">
         <app-age-form 
-            *ngIf="!showTermsAcceptance"
             (ageVerified)="onAgeVerified()"
             (ageRejected)="onAgeRejected()">
         </app-age-form>
         
-        <app-terms-acceptance 
+        <!-- COMMENTED OUT: Terms acceptance component (kept for future use) -->
+        <!-- <app-terms-acceptance 
             *ngIf="showTermsAcceptance"
             (termsAccepted)="onTermsAccepted()"
             (termsDeclined)="onTermsDeclined()">
-        </app-terms-acceptance>
+        </app-terms-acceptance> -->
     </div>
     
     <app-footer [contentRatingPath]="config?.contentRatingPath || 'assets/img/cr-digital.png'"></app-footer>
