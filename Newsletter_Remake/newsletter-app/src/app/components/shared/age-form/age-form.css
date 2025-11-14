@@ -1,14 +1,14 @@
 .age-form {
     background: #f9f9f9;
-    padding: 30px;
+    padding: 25px;
     border-radius: 8px;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 .age-form p {
     text-align: center;
     font-size: 16px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     color: #333;
 }
 

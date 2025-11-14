@@ -1,6 +1,6 @@
 .header {
     background: linear-gradient(135deg, #b00000 0%, #8a0000 100%);
-    padding: 30px;
+    padding: 20px 30px;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -8,18 +8,22 @@
     width: 100%;
 }
 
-.header a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.header a.logo-wrapper {
+    display: inline-block;
     text-decoration: none;
     margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    width: 100px;
+    max-width: 100px;
 }
 
 .header img {
+    display: block;
     width: 100px;
     height: auto;
-    display: block;
-    margin: 0 auto;
+    object-fit: contain;
+    object-position: left center;
+    margin: 0;
 }
 
