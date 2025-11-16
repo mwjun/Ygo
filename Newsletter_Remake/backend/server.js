@@ -126,10 +126,11 @@ function getEmailTemplate(type, data) {
             <p>Thank you for signing up for the <strong>${data.newsletterName}</strong> newsletter!</p>
             <p>To complete your subscription and start receiving updates, please confirm your email address by clicking the button below:</p>
             <div style="text-align: center; margin: 30px 0;">
-              <a href="${data.verificationUrl}" style="background: #b00000; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">Confirm Subscription</a>
+              <a href="${data.verificationUrl}" target="_blank" rel="noopener noreferrer" style="background: #b00000; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold; cursor: pointer;">Confirm Subscription</a>
             </div>
-            <p style="font-size: 14px; color: #666;">Or copy and paste this link into your browser:</p>
-            <p style="font-size: 12px; color: #999; word-break: break-all;">${data.verificationUrl}</p>
+            <p style="font-size: 14px; color: #666; margin-top: 20px;"><strong>If the button doesn't work, copy and paste this link into your browser:</strong></p>
+            <p style="font-size: 12px; color: #999; word-break: break-all; background: #f5f5f5; padding: 10px; border-radius: 4px;">${data.verificationUrl}</p>
+            <p style="font-size: 12px; color: #666; margin-top: 15px;"><strong>Note:</strong> If you see a warning page, click "Visit Site" to proceed.</p>
             <p style="font-size: 12px; color: #666; margin-top: 30px;">This link will expire in 24 hours.</p>
             <p style="font-size: 12px; color: #666;">If you did not sign up for this newsletter, please ignore this email.</p>
           </div>
@@ -239,9 +240,12 @@ app.post('/api/newsletter/signup', async (req, res) => {
     const subscription = SubscriptionModel.create(sanitizedEmail, newsletterType, false);
     
     const newsletterName = newsletterNames[newsletterType];
-    // Use backend API endpoint for verification (works even without frontend running)
-    const backendUrl = process.env.BACKEND_URL || `http://localhost:${PORT}`;
-    const verificationUrl = `${backendUrl}/api/newsletter/verify?email=${encodeURIComponent(sanitizedEmail)}&type=${newsletterType}&token=${subscription.verificationToken}`;
+    // Use frontend URL for verification link (frontend will call backend API)
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4200';
+    const verificationUrl = `${frontendUrl}/verify?email=${encodeURIComponent(sanitizedEmail)}&type=${newsletterType}&token=${subscription.verificationToken}`;
+    
+    console.log(`Generating verification link with frontend URL: ${frontendUrl}`);
+    console.log(`Verification URL: ${verificationUrl}`);
 
     // Send verification email (double opt-in)
     const template = getEmailTemplate('verification', {
@@ -356,12 +360,19 @@ app.get('/api/newsletter/verify', async (req, res) => {
 
     console.log(`Subscription verified: ${type} - ${sanitizedEmail.substring(0, 3)}***`);
 
-    // Redirect to success page
-    res.redirect(`${FRONTEND_URL}/subscription-confirmed?type=${type}`);
+    // Return JSON response (frontend will handle the redirect)
+    res.json({
+      success: true,
+      message: 'Subscription verified successfully',
+      newsletterType: type
+    });
 
   } catch (error) {
     console.error('Verification error:', error);
-    res.redirect(`${FRONTEND_URL}/subscription-error`);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to verify subscription'
+    });
   }
 });
 
@@ -531,6 +542,7 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Newsletter backend server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:4200'}`);
   if (!process.env.SENDGRID_FROM_EMAIL) {
     console.warn('WARNING: SENDGRID_FROM_EMAIL not set');
   }

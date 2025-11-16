@@ -1,10 +1,21 @@
 <div class="confirmation-container">
     <div class="confirmation-card">
-        <div class="success-icon">✓</div>
-        <h1>Subscription Confirmed!</h1>
-        <p *ngIf="newsletterName" class="newsletter-name">You're now subscribed to <strong>{{ newsletterName }}</strong></p>
-        <p>Thank you for confirming your email address. You'll start receiving our newsletter updates soon!</p>
-        <div class="actions">
+        <div *ngIf="isVerifying" class="verifying-message">
+            <p>Verifying your subscription...</p>
+        </div>
+        
+        <div *ngIf="!isVerifying && !verificationError">
+            <div class="success-icon">✓</div>
+            <h1>Subscription Confirmed!</h1>
+            <p>Thank you for signing up! You'll receive a confirmation email shortly. Please check your inbox and click the verification link to complete your subscription.</p>
+        </div>
+        
+        <div *ngIf="verificationError" class="error-message">
+            <h1>Verification Failed</h1>
+            <p>{{ verificationError }}</p>
+        </div>
+        
+        <div class="actions" *ngIf="!isVerifying">
             <a routerLink="/" class="btn-primary">Return to Home</a>
         </div>
     </div>

@@ -71,6 +71,11 @@
                     {{ errorMessage }}
                 </div>
                 
+                <div *ngIf="showCaptcha" class="captcha-section" #captchaContainer>
+                    <p class="captcha-label">Please verify you are human:</p>
+                    <div class="g-recaptcha"></div>
+                </div>
+                
                 <div class="submit-section">
                     <button type="submit" class="signup-btn" [disabled]="signupForm.invalid || isSubmitting">
                         <span *ngIf="!isSubmitting">Sign Up</span>
