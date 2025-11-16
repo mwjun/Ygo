@@ -77,8 +77,10 @@
                 </div>
                 
                 <div class="submit-section">
-                    <button type="submit" class="signup-btn" [disabled]="signupForm.invalid || isSubmitting">
-                        <span *ngIf="!isSubmitting">Sign Up</span>
+                    <button type="submit" class="signup-btn" [disabled]="signupForm.invalid || isSubmitting || (showCaptcha && !captchaToken)">
+                        <span *ngIf="!isSubmitting && !showCaptcha">Sign Up</span>
+                        <span *ngIf="!isSubmitting && showCaptcha && !captchaToken">Complete CAPTCHA to Continue</span>
+                        <span *ngIf="!isSubmitting && showCaptcha && captchaToken">Sign Up Now</span>
                         <span *ngIf="isSubmitting">Signing Up...</span>
                     </button>
                 </div>

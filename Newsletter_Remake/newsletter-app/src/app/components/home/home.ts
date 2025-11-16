@@ -113,8 +113,8 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   onCaptchaResolved(token: string): void {
     this.captchaToken = token;
     this.errorMessage = '';
-    // Automatically submit after CAPTCHA is resolved
-    this.submitForm();
+    // CAPTCHA is complete - user can now click "Sign Up" to submit
+    // Don't auto-submit - let user click the button
   }
 
   ngAfterViewChecked(): void {
