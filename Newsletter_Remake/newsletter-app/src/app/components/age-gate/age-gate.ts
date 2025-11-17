@@ -62,7 +62,7 @@ export class AgeGateComponent implements OnInit {
       return;
     }
     
-    // For non-root paths (like /dl-signup/age-gate), determine newsletter type and check cookie
+    // For non-root paths, determine newsletter type and check cookie
     this.newsletterType = this.newsletterConfig.getTypeFromRoute(url);
     
     // If we can't determine the newsletter type, default to 'dl' as fallback

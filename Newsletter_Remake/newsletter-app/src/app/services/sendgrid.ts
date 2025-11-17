@@ -39,17 +39,14 @@ export class SendGridService {
     }
     
     const hostname = window.location.hostname;
-    const protocol = window.location.protocol;
     
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      // Direct connection to backend when on localhost
       return 'http://localhost:3001/api/newsletter/signup';
     } else {
-      // In production, use the same hostname but different port for backend
-      // Or use a subdomain like api.yourdomain.com
-      // Update this to match your production backend URL
-      return `${protocol}//${hostname}:3001/api/newsletter/signup`;
-      // Alternative for production with subdomain:
-      // return `${protocol}//api.${hostname}/api/newsletter/signup`;
+      // When accessed through ngrok or production, use relative path
+      // Angular dev server proxy will forward /api/* to localhost:3001
+      return '/api/newsletter/signup';
     }
   }
 
