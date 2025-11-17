@@ -3,17 +3,21 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { PageContainerComponent } from '../shared/page-container/page-container';
+import { HeaderComponent } from '../shared/header/header';
+import { FooterComponent } from '../shared/footer/footer';
 
 @Component({
   selector: 'app-subscription-confirmed',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, PageContainerComponent, HeaderComponent, FooterComponent],
   templateUrl: './subscription-confirmed.html',
   styleUrl: './subscription-confirmed.css'
 })
 export class SubscriptionConfirmedComponent implements OnInit, OnDestroy {
   isVerifying: boolean = false;
   verificationError: string = '';
+  isFromVerification: boolean = false; // True if accessed via email verification link
 
   constructor(
     private route: ActivatedRoute,
@@ -22,9 +26,8 @@ export class SubscriptionConfirmedComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Scroll to top and prevent scrolling
+    // Scroll to top
     window.scrollTo(0, 0);
-    document.body.style.overflow = 'hidden';
 
     // Check if this is a verification request (has email, type, token params)
     this.route.queryParams.subscribe(params => {
@@ -32,9 +35,13 @@ export class SubscriptionConfirmedComponent implements OnInit, OnDestroy {
       const type = params['type'];
       const token = params['token'];
 
-      // If verification params exist, call backend API to verify
+      // If verification params exist, this is from email verification link
       if (email && type && token) {
+        this.isFromVerification = true;
         this.verifySubscription(email, type, token);
+      } else {
+        // No verification params - this is from signup form
+        this.isFromVerification = false;
       }
     });
   }
@@ -72,8 +79,7 @@ export class SubscriptionConfirmedComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Restore scrolling when leaving the page
-    document.body.style.overflow = '';
+    // Cleanup if needed
   }
 }
 

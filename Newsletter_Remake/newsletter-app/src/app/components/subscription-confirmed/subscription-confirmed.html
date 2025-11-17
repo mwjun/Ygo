@@ -1,23 +1,36 @@
-<div class="confirmation-container">
-    <div class="confirmation-card">
-        <div *ngIf="isVerifying" class="verifying-message">
-            <p>Verifying your subscription...</p>
-        </div>
-        
-        <div *ngIf="!isVerifying && !verificationError">
-            <div class="success-icon">✓</div>
-            <h1>Subscription Confirmed!</h1>
-            <p>Thank you for signing up! You'll receive a confirmation email shortly. Please check your inbox and click the verification link to complete your subscription.</p>
-        </div>
-        
-        <div *ngIf="verificationError" class="error-message">
-            <h1>Verification Failed</h1>
-            <p>{{ verificationError }}</p>
-        </div>
-        
-        <div class="actions" *ngIf="!isVerifying">
-            <a routerLink="/" class="btn-primary">Return to Home</a>
+<app-page-container maxWidth="narrow">
+    <app-header></app-header>
+    
+    <div class="content">
+        <div class="confirmation-card">
+            <div *ngIf="isVerifying" class="verifying-message">
+                <p>Verifying your subscription...</p>
+            </div>
+            
+            <!-- Message after signup (no verification params) -->
+            <div *ngIf="!isVerifying && !verificationError && !isFromVerification">
+                <h1>Thank You for Signing Up!</h1>
+                <p>We've sent a confirmation email to your inbox. Please check your email and click the verification link to complete your subscription.</p>
+            </div>
+            
+            <!-- Message after email verification (has verification params) -->
+            <div *ngIf="!isVerifying && !verificationError && isFromVerification">
+                <div class="success-icon">✓</div>
+                <h1>Subscription Confirmed!</h1>
+                <p>Thank you for confirming your subscription! You're all set and will start receiving our newsletter updates.</p>
+            </div>
+            
+            <div *ngIf="verificationError" class="error-message">
+                <h1>Verification Failed</h1>
+                <p>{{ verificationError }}</p>
+            </div>
+            
+            <div class="actions" *ngIf="!isVerifying">
+                <a routerLink="/" class="btn-primary">Return to Home</a>
+            </div>
         </div>
     </div>
-</div>
+    
+    <app-footer [contentRatingPath]="'assets/img/cr-digital.png'"></app-footer>
+</app-page-container>
 

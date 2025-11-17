@@ -1,10 +1,9 @@
-.unsubscribe-container {
-    min-height: 100vh;
+.content {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    padding: 20px;
+    min-height: 60vh;
+    padding: 20px 0;
 }
 
 .unsubscribe-card {
@@ -15,6 +14,7 @@
     text-align: center;
     max-width: 500px;
     width: 100%;
+    margin: 0 auto;
 }
 
 h1 {
