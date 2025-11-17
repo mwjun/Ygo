@@ -3,10 +3,13 @@
     padding: 20px 30px;
     text-align: center;
     border-top: 1px solid #ddd;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .footer img {
     max-width: 400px;
+    width: 100%;
     height: auto;
     margin-bottom: 8px;
 }
@@ -15,5 +18,34 @@
     color: #999;
     font-size: 12px;
     margin-top: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    .footer {
+        padding: 15px 20px;
+    }
+    
+    .footer img {
+        max-width: 100%;
+    }
+    
+    .version {
+        font-size: 11px;
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer {
+        padding: 15px 15px;
+    }
+    
+    .version {
+        font-size: 10px;
+        padding: 0 5px;
+    }
 }
 
