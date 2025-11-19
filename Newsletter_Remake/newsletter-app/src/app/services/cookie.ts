@@ -51,13 +51,21 @@ export class CookieService {
 
   /**
    * Set the legal cookie (age verification)
+   * SECURITY: Adds Secure and SameSite flags for production
+   * Note: HttpOnly cannot be set from JavaScript - must be set server-side
    * @param value 'yes' if age verified, 'no' if not
    */
   setLegalCookie(value: 'yes' | 'no'): void {
     const expiryDate = new Date();
     expiryDate.setTime(expiryDate.getTime() + (this.COOKIE_EXPIRY_HOURS * 60 * 60 * 1000));
     const expires = `expires=${expiryDate.toUTCString()}`;
-    document.cookie = `${this.COOKIE_NAME}=${value}; ${expires}; path=/`;
+    
+    // SECURITY: Add Secure flag if HTTPS, SameSite for CSRF protection
+    const isSecure = window.location.protocol === 'https:';
+    const secureFlag = isSecure ? '; Secure' : '';
+    const sameSiteFlag = '; SameSite=Strict'; // CSRF protection
+    
+    document.cookie = `${this.COOKIE_NAME}=${value}; ${expires}; path=/${secureFlag}${sameSiteFlag}`;
   }
 
   /**
@@ -132,6 +140,7 @@ export class CookieService {
 
   /**
    * Set selected newsletter categories in cookie
+   * SECURITY: Adds Secure and SameSite flags for production
    * @param categories Selected categories
    */
   setSelectedCategories(categories: SelectedCategories): void {
@@ -140,7 +149,13 @@ export class CookieService {
     expiryDate.setTime(expiryDate.getTime() + (this.COOKIE_EXPIRY_HOURS * 60 * 60 * 1000));
     const expires = `expires=${expiryDate.toUTCString()}`;
     const categoriesJson = JSON.stringify(categories);
-    document.cookie = `${this.CATEGORIES_COOKIE_NAME}=${encodeURIComponent(categoriesJson)}; ${expires}; path=/`;
+    
+    // SECURITY: Add Secure flag if HTTPS, SameSite for CSRF protection
+    const isSecure = window.location.protocol === 'https:';
+    const secureFlag = isSecure ? '; Secure' : '';
+    const sameSiteFlag = '; SameSite=Strict'; // CSRF protection
+    
+    document.cookie = `${this.CATEGORIES_COOKIE_NAME}=${encodeURIComponent(categoriesJson)}; ${expires}; path=/${secureFlag}${sameSiteFlag}`;
   }
 
   /**
