@@ -66,15 +66,6 @@
                 <h1>Verification Failed</h1>
                 <p>{{ verificationError }}</p>
             </div>
-            
-            <!-- 
-                Action button - "Return to Home" link
-                *ngIf="!isVerifying": Only shows when not verifying (hides during verification process)
-                routerLink="/": Links back to the age gate (root path)
-            -->
-            <div class="actions" *ngIf="!isVerifying">
-                <a routerLink="/" class="btn-primary">Return to Home</a>
-            </div>
         </div>
     </div>
     

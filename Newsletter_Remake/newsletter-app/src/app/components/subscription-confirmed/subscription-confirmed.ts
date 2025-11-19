@@ -124,11 +124,24 @@ export class SubscriptionConfirmedComponent implements OnInit, OnDestroy {
 
     try {
       // Determine backend URL based on environment
-      // Use relative path - Angular dev server proxy will forward to backend
-      // When accessed through ngrok, the proxy will handle forwarding to localhost:3001
-      const backendUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-        ? 'http://localhost:3001'  // Direct connection when on localhost
-        : ''; // Use relative path when accessed through ngrok (proxy handles it)
+      // Matches the logic in SendGridService for consistency
+      let backendUrl = '';
+      const hostname = window.location.hostname;
+      
+      if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        // Direct connection to backend when on localhost
+        backendUrl = 'http://localhost:3001';
+      } else if (hostname === 'card-app.kde-us.com') {
+        // Production environment - use absolute URL to backend API
+        backendUrl = 'https://card-app.kde-us.com';
+      } else if (hostname.includes('ngrok') || hostname.includes('ngrok-free.dev') || hostname.includes('ngrok.io')) {
+        // ngrok environment - use relative path (proxy handles it)
+        // Angular dev server proxy will forward /api/* to localhost:3001
+        backendUrl = '';
+      } else {
+        // Other environments - use relative path
+        backendUrl = '';
+      }
 
       // Call backend verification API
       // Backend will verify the token and mark subscription as verified

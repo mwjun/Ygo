@@ -1,0 +1,28 @@
+# reCAPTCHA Keys - STORE SECURELY
+# DO NOT COMMIT THIS FILE TO GIT
+# This file contains sensitive keys - keep it secure
+
+# Production reCAPTCHA Keys
+# Created: 2025-11-19
+# Type: reCAPTCHA v2 Challenge based
+
+# Site Key (Public - goes in frontend code)
+# Location: Newsletter_Remake/newsletter-app/src/app/components/home/home.ts (line ~141)
+SITE_KEY=6LfzfxEsAAAAAI_BNckzZgwF0-k0256VNXO9tOwv
+
+# Secret Key (Private - goes in backend .env file)
+# Location: Newsletter_Remake/backend/.env
+# NEVER commit this to git or share publicly
+SECRET_KEY=6LfzfxEsAAAAALEfwOTc2jaZvBv4V5pR_gsExRpw
+
+# Domains registered:
+# - localhost
+# - 54.183.163.113
+# - (add other domains as needed)
+
+# IMPORTANT SECURITY NOTES:
+# - Site Key is public and safe to expose in frontend code
+# - Secret Key must NEVER be exposed or committed to git
+# - Keep this file secure and do not share publicly
+# - Add this file to .gitignore if not already there
+

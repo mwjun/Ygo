@@ -135,10 +135,9 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   
   /**
    * Google reCAPTCHA v2 site key
-   * NOTE: This is a TEST key that only works on localhost
-   * For production, replace with your actual reCAPTCHA site key
+   * Production reCAPTCHA Site Key for newsletter signup
    */
-  readonly RECAPTCHA_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'; // Google reCAPTCHA test key (works on localhost only)
+  readonly RECAPTCHA_SITE_KEY = '6LfzfxEsAAAAAI_BNckzZgwF0-k0256VNXO9tOwv'; // Production reCAPTCHA Site Key
 
   constructor(
     private newsletterConfig: NewsletterConfigService,
@@ -330,13 +329,15 @@ export class HomeComponent implements OnInit, AfterViewChecked {
     this.isSubmitting = true;
     const submissions: Promise<any>[] = [];
 
+    // SECURITY: Include reCAPTCHA token in all signup requests
     if (this.selectedNewsletters['dl'] === 'Yes') {
       submissions.push(
         firstValueFrom(this.sendGridService.signup({
           email: this.email,
           newsletterType: 'dl',
           firstName: this.firstName,
-          categories: categories
+          categories: categories,
+          captchaToken: this.captchaToken || undefined
         }))
       );
     }
@@ -347,7 +348,8 @@ export class HomeComponent implements OnInit, AfterViewChecked {
           email: this.email,
           newsletterType: 'md',
           firstName: this.firstName,
-          categories: categories
+          categories: categories,
+          captchaToken: this.captchaToken || undefined
         }))
       );
     }
@@ -358,7 +360,8 @@ export class HomeComponent implements OnInit, AfterViewChecked {
           email: this.email,
           newsletterType: 'tcg',
           firstName: this.firstName,
-          categories: categories
+          categories: categories,
+          captchaToken: this.captchaToken || undefined
         }))
       );
     }

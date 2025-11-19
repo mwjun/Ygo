@@ -44,6 +44,7 @@ export interface NewsletterSignupRequest {
     md?: boolean;
     tcg?: boolean;
   };
+  captchaToken?: string;            // reCAPTCHA verification token (required for production)
 }
 
 /**
@@ -72,7 +73,8 @@ export class SendGridService {
    * LOGIC:
    * - Server-side rendering: defaults to localhost
    * - localhost/127.0.0.1: direct connection to backend
-   * - Other hosts (ngrok, production): use relative path (proxy handles it)
+   * - Production (card-app.kde-us.com): use absolute URL to backend API
+   * - Other hosts (ngrok): use relative path (proxy handles it)
    * 
    * @returns API endpoint URL string
    * @private
@@ -89,9 +91,16 @@ export class SendGridService {
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
       // Direct connection to backend when on localhost
       return 'http://localhost:3001/api/newsletter/signup';
-    } else {
-      // When accessed through ngrok or production, use relative path
+    } else if (hostname === 'card-app.kde-us.com') {
+      // Production environment - use absolute URL to backend API
+      // Update this URL to match your actual backend API endpoint
+      return 'https://card-app.kde-us.com/api/newsletter/signup';
+    } else if (hostname.includes('ngrok') || hostname.includes('ngrok-free.dev') || hostname.includes('ngrok.io')) {
+      // ngrok environment - use relative path (proxy handles it)
       // Angular dev server proxy will forward /api/* to localhost:3001
+      return '/api/newsletter/signup';
+    } else {
+      // Other environments (including production deployments) - use relative path
       return '/api/newsletter/signup';
     }
   }
