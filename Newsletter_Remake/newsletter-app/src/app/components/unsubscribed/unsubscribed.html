@@ -1,18 +1,46 @@
+<!-- 
+    FILE: unsubscribed.html
+    PURPOSE: Unsubscribe confirmation page template
+    This page is shown after a user successfully unsubscribes from a newsletter via email link.
+    
+    COMPONENT STRUCTURE:
+    - app-page-container: Wrapper component with narrow width (600px max) - the white box container
+    - app-header: Konami logo header (red bar at top)
+    - content: Main content area containing the unsubscribe confirmation message
+    - unsubscribe-card: White card that displays the unsubscribe confirmation
+    - app-footer: Footer with content rating image and version number
+-->
+
+<!-- Page container with narrow width (600px max) - this is the white box that contains all content -->
 <app-page-container maxWidth="narrow">
+    <!-- Konami logo header - red gradient bar at the top of the page -->
     <app-header></app-header>
     
+    <!-- Main content area - contains the unsubscribe confirmation card -->
     <div class="content">
+        <!-- Unsubscribe confirmation card - white card that displays the unsubscribe message -->
         <div class="unsubscribe-card">
+            <!-- Unsubscribe heading - "Unsubscribed" text -->
             <h1>Unsubscribed</h1>
+            <!-- 
+                Newsletter name paragraph - displays which newsletter was unsubscribed from
+                *ngIf="newsletterName": Only displays if newsletter name is available
+                {{ newsletterName }}: Displays the newsletter name (e.g., "Yu-Gi-Oh! Duel Links")
+            -->
             <p *ngIf="newsletterName" class="newsletter-name">You've been unsubscribed from <strong>{{ newsletterName }}</strong></p>
+            <!-- Confirmation message - tells user they will no longer receive emails -->
             <p>You will no longer receive emails from this newsletter.</p>
+            <!-- Note paragraph - informs user they can resubscribe if they change their mind -->
             <p class="note">If you change your mind, you can resubscribe at any time.</p>
+            <!-- Action button section - contains "Return to Home" link -->
             <div class="actions">
+                <!-- Return to Home button - links back to the age gate (root path) -->
                 <a routerLink="/" class="btn-primary">Return to Home</a>
             </div>
         </div>
     </div>
     
+    <!-- Footer component - displays content rating image and version number -->
     <app-footer [contentRatingPath]="'assets/img/cr-digital.png'"></app-footer>
 </app-page-container>
 

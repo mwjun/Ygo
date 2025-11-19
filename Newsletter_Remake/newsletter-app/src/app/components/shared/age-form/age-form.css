@@ -1,3 +1,16 @@
+/**
+ * FILE: age-form.css
+ * PURPOSE: Styles for the age verification form component
+ * This file styles the date of birth form that users fill out to verify their age.
+ */
+
+/* 
+ * Age form container - light gray background box that contains the date of birth form
+ * background: #f9f9f9 - light gray background to make form stand out
+ * padding: 25px - internal spacing inside the form box
+ * border-radius: 8px - rounded corners
+ * margin: 10px 0 - vertical spacing above and below the form
+ */
 .age-form {
     background: #f9f9f9;
     padding: 25px;
@@ -5,6 +18,23 @@
     margin: 10px 0;
 }
 
+/* 
+ * Disabled form state - when form is disabled (user has already been denied)
+ * opacity: 0.6 - makes form appear faded/grayed out
+ * pointer-events: none - prevents all interactions with form elements
+ */
+.disabled-form {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* 
+ * Instruction text paragraph - "Please enter your date of birth to enter this site."
+ * text-align: center - centers the instruction text
+ * font-size: 16px - readable text size
+ * margin-bottom: 20px - space below the instruction text
+ * color: #333 - dark gray text color
+ */
 .age-form p {
     text-align: center;
     font-size: 16px;
@@ -12,6 +42,14 @@
     color: #333;
 }
 
+/* 
+ * Form group - container for the three date dropdowns (month, day, year)
+ * display: flex - flexbox layout to arrange dropdowns horizontally
+ * justify-content: center - centers the dropdowns horizontally
+ * gap: 10px - space between the three dropdowns
+ * margin-bottom: 20px - space below the dropdowns
+ * flex-wrap: wrap - allows dropdowns to wrap to next line on very small screens
+ */
 .form-group {
     display: flex;
     justify-content: center;
@@ -20,6 +58,17 @@
     flex-wrap: wrap;
 }
 
+/* 
+ * Date dropdown selects - styling for month, day, and year dropdowns
+ * padding: 10px 15px - internal spacing inside dropdowns
+ * border: 2px solid #ddd - light gray border
+ * border-radius: 6px - rounded corners
+ * font-size: 14px - readable text size
+ * background: white - white background
+ * cursor: pointer - hand cursor on hover
+ * transition: border-color 0.3s - smooth border color change on hover/focus
+ * min-width: 120px - ensures dropdowns have minimum width for readability
+ */
 .form-group select {
     padding: 10px 15px;
     border: 2px solid #ddd;
@@ -31,16 +80,33 @@
     min-width: 120px;
 }
 
+/* 
+ * Date dropdown hover state - when user hovers over a dropdown
+ * border-color: #b00000 - changes border to Konami red on hover
+ */
 .form-group select:hover {
     border-color: #b00000;
 }
 
+/* 
+ * Date dropdown focus state - when user clicks into a dropdown
+ * outline: none - removes default browser outline
+ * border-color: #b00000 - changes border to Konami red when focused
+ * box-shadow: adds subtle red glow around dropdown for focus indication
+ */
 .form-group select:focus {
     outline: none;
     border-color: #b00000;
     box-shadow: 0 0 0 3px rgba(176, 0, 0, 0.1);
 }
 
+/* 
+ * Error message display - shows validation errors (e.g., "Please select a valid date", "You must be 16 or older")
+ * color: #b00000 - Konami red color for error text
+ * text-align: center - centers error message
+ * margin-top: 10px - space above error message
+ * font-size: 14px - readable text size
+ */
 .error-message {
     color: #b00000;
     text-align: center;
@@ -48,6 +114,20 @@
     font-size: 14px;
 }
 
+/* 
+ * Submit button - "Enter" button to submit the age verification form
+ * background: linear-gradient - red gradient background (Konami brand colors)
+ * color: white - white text
+ * padding: 12px 40px - internal spacing (vertical, horizontal)
+ * border: none - removes default button border
+ * border-radius: 6px - rounded corners
+ * font-size: 16px - readable text size
+ * font-weight: bold - makes button text stand out
+ * cursor: pointer - hand cursor on hover
+ * transition: smooth animation for hover/active states
+ * margin-top: 10px - space above button
+ * width: 100% - makes button full width of container
+ */
 .submit-btn {
     background: linear-gradient(135deg, #b00000 0%, #8a0000 100%);
     color: white;
@@ -62,11 +142,20 @@
     width: 100%;
 }
 
+/* 
+ * Submit button hover state - when user hovers over button
+ * transform: translateY(-2px) - lifts button up slightly for visual feedback
+ * box-shadow: adds red-tinted shadow to emphasize the button
+ */
 .submit-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(176, 0, 0, 0.3);
 }
 
+/* 
+ * Submit button active state - when user clicks the button
+ * transform: translateY(0) - returns button to original position (click feedback)
+ */
 .submit-btn:active {
     transform: translateY(0);
 }

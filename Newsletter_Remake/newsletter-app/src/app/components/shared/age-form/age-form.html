@@ -1,24 +1,78 @@
+<!-- 
+    FILE: age-form.html
+    PURPOSE: Age verification form template
+    This form collects the user's date of birth to verify they are 16+ years old.
+    
+    COMPONENT STRUCTURE:
+    - age-form: Form container with light gray background
+    - form: Angular form with date of birth dropdowns
+    - select: Three dropdowns for month, day, and year
+    - error-message: Displays validation errors
+    - submit-btn: "Enter" button to submit the form
+-->
+
+<!-- Age verification form container - light gray background box -->
 <div class="age-form">
+    <!-- Instruction text - tells user to enter their date of birth -->
     <p><strong>Please enter your date of birth to enter this site.</strong></p>
     
-    <form (ngSubmit)="onSubmit()" #ageForm="ngForm">
+    <!-- 
+        Age verification form - collects date of birth
+        (ngSubmit): Event handler called when form is submitted
+        #ageForm: Template reference variable used to check form validity
+    -->
+    <form (ngSubmit)="onSubmit()" #ageForm="ngForm" [class.disabled-form]="disabled">
+        <!-- Form group - container for the three date dropdowns (month, day, year) -->
         <div class="form-group">
-            <select id="month" name="month" [(ngModel)]="month" (change)="onMonthChange()" required>
+            <!-- 
+                Month dropdown - user selects their birth month
+                id/name: "month" - form field identifier
+                [(ngModel)]: Two-way binding to month variable
+                (change): Event handler called when month selection changes (updates days list)
+                required: Field is required for form submission
+            -->
+            <select id="month" name="month" [(ngModel)]="month" (change)="onMonthChange()" [disabled]="disabled" required>
                 <option [value]="0" disabled>Month</option>
+                <!-- Loops through months array to create option for each month -->
                 <option *ngFor="let m of months" [value]="m.value">{{ m.name }}</option>
             </select>
-            <select id="day" name="day" [(ngModel)]="day" (change)="onDayChange()" required>
+            <!-- 
+                Day dropdown - user selects their birth day
+                id/name: "day" - form field identifier
+                [(ngModel)]: Two-way binding to day variable
+                (change): Event handler called when day selection changes
+                required: Field is required for form submission
+                Note: Days list is dynamically updated based on selected month/year
+            -->
+            <select id="day" name="day" [(ngModel)]="day" (change)="onDayChange()" [disabled]="disabled" required>
                 <option [value]="0" disabled>Day</option>
+                <!-- Loops through days array to create option for each day (1-31, varies by month) -->
                 <option *ngFor="let d of days" [value]="d">{{ d }}</option>
             </select>
-            <select id="year" name="year" [(ngModel)]="year" (change)="onYearChange()" required>
+            <!-- 
+                Year dropdown - user selects their birth year
+                id/name: "year" - form field identifier
+                [(ngModel)]: Two-way binding to year variable
+                (change): Event handler called when year selection changes (updates days list for leap years)
+                required: Field is required for form submission
+            -->
+            <select id="year" name="year" [(ngModel)]="year" (change)="onYearChange()" [disabled]="disabled" required>
                 <option [value]="0" disabled>Year</option>
+                <!-- Loops through years array to create option for each year (current year back to 100 years ago) -->
                 <option *ngFor="let y of years" [value]="y">{{ y }}</option>
             </select>
         </div>
+        <!-- 
+            Error message display - shows validation errors (e.g., "Please select a valid date", "You must be 16 or older")
+            *ngIf: Only displays if errorMessage has a value
+        -->
         <div *ngIf="errorMessage" class="error-message">
             {{ errorMessage }}
         </div>
-        <button type="submit" class="submit-btn">Enter</button>
+        <!-- 
+            Submit button - "Enter" button to submit the age verification form
+            type="submit": Submits the form when clicked
+        -->
+        <button type="submit" class="submit-btn" [disabled]="disabled">Enter</button>
     </form>
 </div>

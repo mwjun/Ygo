@@ -1,50 +1,105 @@
+/**
+ * FILE: unsubscribed.css
+ * PURPOSE: Styles for the unsubscribe confirmation page component
+ * This file styles the confirmation message that appears after a user unsubscribes from a newsletter.
+ */
+
+/* 
+ * Content container - contains the unsubscribe card
+ * padding: 0 40px 30px 40px - no top padding to match home page reference position
+ * Horizontal and bottom padding only - ensures consistent top starting position
+ */
 .content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    padding: 20px 0;
+    padding: 0 40px 30px 40px;
 }
 
+/* 
+ * Unsubscribe card - white card that displays the unsubscribe confirmation message
+ * background: white - white background (already white since inside white box)
+ * padding: 40px 30px - internal spacing (vertical, horizontal)
+ * border-radius: 0 - no rounded corners (card is inside white box)
+ * box-shadow: none - no shadow needed (already inside white box)
+ * text-align: center - centers all text content
+ * width: 100% - takes full width of container
+ * margin: 0 - no margin needed
+ */
 .unsubscribe-card {
     background: white;
-    padding: 60px 40px;
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 40px 30px;
+    border-radius: 0;
+    box-shadow: none;
     text-align: center;
-    max-width: 500px;
     width: 100%;
-    margin: 0 auto;
+    margin: 0;
 }
 
+/* 
+ * Unsubscribe heading - "Unsubscribed" text
+ * color: #b00000 - Konami red color (brand color)
+ * font-size: 32px - large, prominent heading
+ * margin-bottom: 20px - space below heading
+ */
 h1 {
     color: #b00000;
     font-size: 32px;
     margin-bottom: 20px;
 }
 
+/* 
+ * Newsletter name paragraph - displays which newsletter was unsubscribed from
+ * font-size: 18px - slightly larger than regular paragraph text
+ * color: #333 - dark gray text color
+ * margin: 20px 0 - vertical spacing above and below
+ */
 .newsletter-name {
     font-size: 18px;
     color: #333;
     margin: 20px 0;
 }
 
+/* 
+ * Regular paragraph text - descriptive text about unsubscribe status
+ * color: #666 - medium gray text color
+ * line-height: 1.6 - spacing between lines for readability
+ * margin: 15px 0 - vertical spacing above and below paragraphs
+ */
 p {
     color: #666;
     line-height: 1.6;
     margin: 15px 0;
 }
 
+/* 
+ * Note paragraph - the italicized note about resubscribing
+ * font-size: 14px - slightly smaller text
+ * color: #999 - light gray text (subtle, not prominent)
+ * font-style: italic - italicized for visual distinction
+ */
 .note {
     font-size: 14px;
     color: #999;
     font-style: italic;
 }
 
+/* 
+ * Actions section - container for the "Return to Home" button
+ * margin-top: 30px - space above the button
+ */
 .actions {
     margin-top: 30px;
 }
 
+/* 
+ * Primary button - "Return to Home" link button
+ * display: inline-block - allows width/height control
+ * background: linear-gradient - red gradient background (Konami brand colors)
+ * color: white - white text
+ * padding: 12px 30px - internal spacing (vertical, horizontal)
+ * text-decoration: none - removes underline from link
+ * border-radius: 6px - rounded corners
+ * font-weight: bold - makes button text stand out
+ * transition: all 0.3s - smooth animation for hover state
+ */
 .btn-primary {
     display: inline-block;
     background: linear-gradient(135deg, #b00000 0%, #8a0000 100%);
@@ -56,6 +111,12 @@ p {
     transition: all 0.3s;
 }
 
+/* 
+ * Primary button hover state - when user hovers over "Return to Home" button
+ * background: linear-gradient - darker red gradient on hover
+ * transform: translateY(-2px) - lifts button up slightly for visual feedback
+ * box-shadow: adds red-tinted shadow to emphasize the button
+ */
 .btn-primary:hover {
     background: linear-gradient(135deg, #8a0000 0%, #6a0000 100%);
     transform: translateY(-2px);

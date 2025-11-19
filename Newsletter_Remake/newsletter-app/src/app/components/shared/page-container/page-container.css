@@ -1,11 +1,41 @@
+/**
+ * FILE: page-container.css
+ * PURPOSE: Styles for the page container component
+ * This component provides the white box container that holds all page content.
+ * It supports two widths: regular (900px) and narrow (600px).
+ */
+
+/* 
+ * Component host element - the root element of the page-container component
+ * display: flex - flexbox layout for positioning content
+ * justify-content: center - centers content horizontally
+ * align-items: flex-start - aligns content to top (consistent starting position across all pages)
+ * padding-top: 20px - consistent top spacing (matches home page reference)
+ * padding-bottom: 20px - bottom spacing
+ * min-height: auto - no minimum height (content determines height)
+ * width: 100% - takes full width
+ */
 :host {
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 40px);
-    padding: 20px 0;
+    align-items: flex-start;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    min-height: auto;
+    width: 100%;
 }
 
+/* 
+ * Regular container - white box for pages that need wider content (e.g., home page with newsletter cards)
+ * max-width: 900px - limits width on large screens for better readability
+ * margin: 0 auto - centers the container horizontally
+ * background: white - white background for the content box
+ * border-radius: 12px - rounded corners
+ * box-shadow: adds shadow to make the box stand out from the background
+ * overflow: hidden - prevents content from spilling outside rounded corners
+ * width: 100% - takes full width up to max-width
+ * box-sizing: border-box - includes padding and border in width calculation (prevents width changes)
+ */
 .container {
     max-width: 900px;
     margin: 0 auto;
@@ -14,9 +44,17 @@
     box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     overflow: hidden;
     width: 100%;
+    box-sizing: border-box;
 }
 
+/* 
+ * Narrow container - white box for pages that need narrower content (e.g., age gate, confirmation pages)
+ * max-width: 600px - narrower width for focused content
+ * box-sizing: border-box - includes padding and border in width calculation (prevents width changes)
+ * This is used when maxWidth="narrow" attribute is set on the component
+ */
 .container-narrow {
     max-width: 600px;
+    box-sizing: border-box;
 }
 

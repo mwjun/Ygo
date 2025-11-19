@@ -1,4 +1,28 @@
+<!-- 
+    FILE: footer.html
+    PURPOSE: Footer component template
+    This component displays the content rating image and version number at the bottom of every page.
+    
+    COMPONENT STRUCTURE:
+    - footer: Footer container (light gray background)
+    - img: Content rating image (ESRB rating for digital games or TCG rating)
+    - version: Version number text (e.g., "v 3.0.1")
+-->
+
+<!-- 
+    Footer container - light gray bar at the bottom of the page
+    This footer appears on all pages and contains the content rating and version number
+-->
 <div class="footer">
+    <!-- 
+        Content rating image - ESRB rating image for digital games or TCG rating
+        [src]: Dynamically bound to contentRatingPath (path to rating image)
+        alt="Content Rating": Accessibility text for screen readers
+    -->
     <img [src]="contentRatingPath" alt="Content Rating" />
+    <!-- 
+        Version number - displays the application version (e.g., "v 3.0.1")
+        {{ version }}: Displays the version string from the component
+    -->
     <div class="version">{{ version }}</div>
 </div>

@@ -1,13 +1,33 @@
+<!-- 
+    FILE: error.html
+    PURPOSE: Error page template
+    This page is shown when users fail age verification (age < 16) or are denied access.
+    
+    COMPONENT STRUCTURE:
+    - app-page-container: Wrapper component with narrow width (600px max) - the white box container
+    - app-header: Konami logo header (red bar at top)
+    - content: Main content area containing the error message
+    - error-card: White card that displays the "Access Denied" message
+    - app-footer: Footer with content rating image and version number
+-->
+
+<!-- Page container with narrow width (600px max) - this is the white box that contains all content -->
 <app-page-container maxWidth="narrow">
+    <!-- Konami logo header - red gradient bar at the top of the page -->
     <app-header></app-header>
     
+    <!-- Main content area - contains the error message card -->
     <div class="content">
+        <!-- Error card - white card that displays the "Access Denied" message -->
         <div class="error-card">
+            <!-- Error heading - "Access Denied" text -->
             <h2>Access Denied</h2>
+            <!-- Error message paragraphs - explains why access was denied -->
             <p>Your request has been denied due to a policy configured by the website administrator.</p>
             <p>We are unable to process your request at this time.</p>
         </div>
     </div>
     
+    <!-- Footer component - displays content rating image and version number -->
     <app-footer [contentRatingPath]="'assets/img/cr-digital.png'"></app-footer>
 </app-page-container>

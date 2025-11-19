@@ -1,3 +1,75 @@
+/**
+ * FILE: age-gate.css
+ * PURPOSE: Styles for the age gate page component
+ * This file contains minimal styling for the age gate page content area.
+ */
+
+/* 
+ * Content area - main content container for the age gate page
+ * padding: 25px 40px - internal spacing (vertical, horizontal)
+ * padding-top: 0 - no top padding to ensure consistent starting position with home page
+ * This wraps the age verification form component
+ */
 .content {
-    padding: 25px 40px;
+    padding: 0 40px 25px 40px;
+}
+
+/* 
+ * Denial message container - informational message shown when user has already been denied
+ * background: #fff5f5 - light red/pink background to indicate warning/denial
+ * border: 2px solid #b00000 - red border (Konami brand color)
+ * border-radius: 8px - rounded corners
+ * padding: 20px - internal spacing
+ * margin-top: 20px - space above message (prevents border from touching Konami logo header)
+ * margin-bottom: 20px - space below message (before age form)
+ */
+.denial-message {
+    background: #fff5f5;
+    border: 2px solid #b00000;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* 
+ * Denial message heading - "Access Previously Denied" text
+ * color: #b00000 - Konami red color
+ * font-size: 20px - prominent but not overwhelming
+ * font-weight: bold - makes heading stand out
+ * margin-bottom: 15px - space below heading
+ */
+.denial-message h3 {
+    color: #b00000;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    margin-top: 0;
+}
+
+/* 
+ * Denial message paragraphs - explanatory text
+ * color: #333 - dark gray text color
+ * font-size: 14px - readable text size
+ * line-height: 1.6 - spacing between lines for readability
+ * margin: 10px 0 - vertical spacing above and below paragraphs
+ */
+.denial-message p {
+    color: #333;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+/* 
+ * Denial message note - italicized note text
+ * font-style: italic - italicized for visual distinction
+ * color: #666 - medium gray text (less prominent)
+ * font-size: 13px - slightly smaller text
+ */
+.denial-message .note {
+    font-style: italic;
+    color: #666;
+    font-size: 13px;
 }
