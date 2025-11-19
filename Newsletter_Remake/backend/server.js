@@ -1,3 +1,52 @@
+/**
+ * FILE: server.js
+ * 
+ * PURPOSE:
+ * Express.js backend server for the newsletter signup application.
+ * Handles API requests from the Angular frontend and integrates with SendGrid for email delivery.
+ * 
+ * FEATURES:
+ * - Newsletter signup with double opt-in email verification
+ * - SendGrid email integration (verification and welcome emails)
+ * - Input sanitization and validation
+ * - Rate limiting to prevent abuse
+ * - CORS configuration for cross-origin requests
+ * - Security headers (XSS protection, frame options, etc.)
+ * - Subscription management (verify, unsubscribe, preferences)
+ * 
+ * API ENDPOINTS:
+ * - POST /api/newsletter/signup - Create new subscription (sends verification email)
+ * - GET /api/newsletter/verify - Verify subscription via email link
+ * - GET /api/newsletter/unsubscribe - Unsubscribe from newsletter
+ * - GET /api/newsletter/preferences - Get subscription preferences
+ * - POST /api/newsletter/preferences - Update subscription preferences
+ * - GET /api/health - Health check endpoint
+ * 
+ * SECURITY MEASURES:
+ * - Rate limiting: 5 requests per 15 minutes per IP
+ * - Input sanitization: Removes HTML tags, special characters
+ * - Email validation: RFC-compliant regex validation
+ * - CORS: Whitelist-based origin checking
+ * - Security headers: XSS protection, frame options, content type options
+ * - Environment variables: Sensitive data stored in .env file
+ * 
+ * ENVIRONMENT VARIABLES REQUIRED:
+ * - SENDGRID_API_KEY: SendGrid API key for email delivery
+ * - SENDGRID_FROM_EMAIL: Verified sender email address
+ * - FRONTEND_URL: Frontend application URL (for email links)
+ * - ALLOWED_ORIGINS: Comma-separated list of allowed CORS origins
+ * - PORT: Server port (default: 3001)
+ * - NODE_ENV: Environment (development/production)
+ * 
+ * EMAIL FLOW (Double Opt-In):
+ * 1. User submits signup form
+ * 2. Backend creates unverified subscription
+ * 3. Backend sends verification email via SendGrid
+ * 4. User clicks verification link in email
+ * 5. Frontend calls /api/newsletter/verify
+ * 6. Backend verifies subscription and sends welcome email
+ */
+
 const express = require('express');
 const cors = require('cors');
 const sgMail = require('@sendgrid/mail');
@@ -5,7 +54,10 @@ const rateLimit = require('express-rate-limit');
 const SubscriptionModel = require('./models/subscription');
 require('dotenv').config();
 
+// Express application instance
 const app = express();
+
+// Server configuration
 const PORT = process.env.PORT || 3001;
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:4200';
 
@@ -67,28 +119,58 @@ if (!process.env.SENDGRID_API_KEY) {
 }
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-// Input sanitization helpers
+/**
+ * SECURITY: Input Sanitization and Validation Functions
+ * These functions prevent XSS attacks and ensure data integrity
+ */
+
+/**
+ * Sanitizes user input by removing HTML tags and dangerous characters
+ * Limits input to 100 characters to prevent buffer overflow
+ * 
+ * @param {string} input - Raw user input
+ * @returns {string} Sanitized input (empty string if invalid)
+ */
 function sanitizeInput(input) {
   if (typeof input !== 'string') return '';
   return input
-    .replace(/<[^>]*>/g, '')
-    .replace(/[<>'"&]/g, '')
-    .trim()
-    .substring(0, 100);
+    .replace(/<[^>]*>/g, '')  // Remove HTML tags
+    .replace(/[<>'"&]/g, '')   // Remove dangerous characters
+    .trim()                    // Remove leading/trailing whitespace
+    .substring(0, 100);        // Limit length to 100 characters
 }
 
+/**
+ * Sanitizes email address by removing HTML tags and normalizing case
+ * 
+ * @param {string} email - Raw email input
+ * @returns {string} Sanitized email (lowercase, trimmed)
+ */
 function sanitizeEmail(email) {
   if (typeof email !== 'string') return '';
   return email.replace(/<[^>]*>/g, '').trim().toLowerCase();
 }
 
+/**
+ * Validates email address format using RFC-compliant regex
+ * Also checks length constraints (max 254 characters)
+ * 
+ * @param {string} email - Email address to validate
+ * @returns {boolean} True if email is valid, false otherwise
+ */
 function validateEmail(email) {
   if (!email || typeof email !== 'string') return false;
-  if (email.length > 254) return false;
+  if (email.length > 254) return false;  // RFC 5321 limit
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
   return emailRegex.test(email);
 }
 
+/**
+ * Validates newsletter type against allowed values
+ * 
+ * @param {string} type - Newsletter type to validate
+ * @returns {boolean} True if type is valid ('dl', 'md', or 'tcg')
+ */
 function validateNewsletterType(type) {
   const validTypes = ['dl', 'md', 'tcg'];
   return validTypes.includes(type);
@@ -101,7 +183,14 @@ const newsletterNames = {
   'tcg': 'Yu-Gi-Oh! Trading Card Game'
 };
 
-// Professional email template helper
+/**
+ * EMAIL TEMPLATE GENERATOR
+ * Creates HTML email templates for verification and welcome emails
+ * 
+ * @param {string} type - Template type: 'verification' or 'welcome'
+ * @param {object} data - Template data (email, newsletterName, greeting, etc.)
+ * @returns {object} Email template with subject and HTML body
+ */
 function getEmailTemplate(type, data) {
   const baseUrl = FRONTEND_URL;
   const unsubscribeUrl = `${baseUrl}/unsubscribe?email=${encodeURIComponent(data.email)}&type=${data.newsletterType}&token=${data.unsubscribeToken}`;
@@ -182,7 +271,24 @@ function getEmailTemplate(type, data) {
   return templates[type];
 }
 
-// Newsletter signup endpoint (Double Opt-In)
+/**
+ * API ENDPOINT: Newsletter Signup (Double Opt-In)
+ * 
+ * Creates a new subscription and sends verification email
+ * Subscription remains unverified until user clicks email link
+ * 
+ * REQUEST BODY:
+ * - email: string (required)
+ * - newsletterType: 'dl' | 'md' | 'tcg' (required)
+ * - firstName: string (optional)
+ * - lastName: string (optional)
+ * - categories: { dl?: boolean, md?: boolean, tcg?: boolean } (optional)
+ * 
+ * RESPONSE:
+ * - 200: Success - verification email sent
+ * - 400: Bad request - validation failed
+ * - 500: Server error - SendGrid or other error
+ */
 app.post('/api/newsletter/signup', async (req, res) => {
   try {
     const { email, newsletterType, firstName, lastName, categories } = req.body;
@@ -304,7 +410,22 @@ app.post('/api/newsletter/signup', async (req, res) => {
   }
 });
 
-// Verify subscription endpoint (Double Opt-In confirmation)
+/**
+ * API ENDPOINT: Verify Subscription (Double Opt-In Confirmation)
+ * 
+ * Verifies subscription via email link and sends welcome email
+ * Called by frontend when user clicks verification link
+ * 
+ * QUERY PARAMETERS:
+ * - email: string (required)
+ * - type: 'dl' | 'md' | 'tcg' (required)
+ * - token: string (required) - verification token from email
+ * 
+ * RESPONSE:
+ * - 200: Success - subscription verified, welcome email sent
+ * - 400: Bad request - invalid or expired token
+ * - 500: Server error
+ */
 app.get('/api/newsletter/verify', async (req, res) => {
   try {
     const { email, type, token } = req.query;

@@ -1,29 +1,70 @@
+<!-- 
+    FILE: terms-acceptance.html
+    PURPOSE: Terms and conditions acceptance component template
+    NOTE: This component is currently commented out in the age-gate flow but kept for future use.
+    Users now go directly from age verification to newsletter signup (terms acceptance is bypassed).
+    
+    COMPONENT STRUCTURE:
+    - terms-acceptance: Main container with light gray background
+    - h3: "Terms and Conditions" heading
+    - ul: List of links to Privacy Policy and Terms of Use
+    - note-section: Multilingual regional availability notices
+    - checkbox-container: Checkbox for accepting terms
+    - button-container: Accept and Decline buttons
+-->
+
+<!-- Terms acceptance container - light gray background box -->
 <div class="terms-acceptance">
+    <!-- Terms heading - "Terms and Conditions" text -->
     <h3>Terms and Conditions</h3>
+    <!-- Instruction text - tells user they agree to terms by proceeding -->
     <p>By proceeding, you agree to our:</p>
+    <!-- Links list - contains links to Privacy Policy and Terms of Use -->
     <ul>
+        <!-- Privacy Policy link - opens Konami privacy policy in new tab -->
         <li><a [href]="privacyPolicyUrl" target="_blank" rel="noopener">Privacy Policy</a></li>
+        <!-- Terms of Use link - opens Konami terms of use in new tab -->
         <li><a [href]="termsOfUseUrl" target="_blank" rel="noopener">Terms of Use</a></li>
     </ul>
+    <!-- Multilingual note section - displays regional availability notice in 4 languages -->
     <div class="note-section">
+        <!-- English note - regional availability notice -->
         <p class="note">NOTE: Newsletter Signups are only for North and Latin American players at this time. Sorry for any inconvenience!</p>
         
+        <!-- Spanish note - privacy policy and regional availability notice in Spanish -->
         <p class="note">Al registrarte, aceptas nuestra <a href="https://legal.konami.com/kdeus/privacy/en-us/" target="_blank">Política de Privacidad</a> y <a href="https://legal.konami.com/kdeus/btob/terms/tou/en/" target="_blank">TÉRMINOS DE USO</a>. NOTA: Las suscripciones al boletín son solo para jugadores de Norteamérica y Latinoamérica en este momento. ¡Perdón por cualquier inconveniente!</p>
         
+        <!-- Portuguese note - privacy policy and regional availability notice in Portuguese -->
         <p class="note">Ao registrar-se, você concorda com nossa <a href="https://legal.konami.com/kdeus/privacy/en-us/" target="_blank">Política de Privacidade</a> e <a href="https://legal.konami.com/kdeus/btob/terms/tou/en/" target="_blank">TERMOS DE USO</a>. NOTA: As inscrições para newsletter são válidas apenas para os jogadores da América do Norte e América Latina no momento. Desculpe por qualquer inconveniente!</p>
         
+        <!-- French note - privacy policy and regional availability notice in French -->
         <p class="note">En vous inscrivant, vous acceptez notre <a href="https://legal.konami.com/kdeus/privacy/en-us/" target="_blank">politique de confidentialité</a> et nos <a href="https://legal.konami.com/kdeus/btob/terms/tou/en/" target="_blank">conditions d'utilisation</a>. REMARQUE : Seuls les joueurs d'Amérique du Nord et d'Amérique latine peuvent s'inscrire au bulletin d'information pour le moment. Nous sommes désolés de cet inconvénient !</p>
     </div>
     
+    <!-- Terms acceptance checkbox container - contains checkbox for accepting terms -->
     <div class="checkbox-container">
         <label>
+            <!-- 
+                Terms acceptance checkbox - user must check this to proceed
+                [(ngModel)]: Two-way binding to accepted variable
+            -->
             <input type="checkbox" [(ngModel)]="accepted" />
             <span>I accept the terms and conditions</span>
         </label>
     </div>
     
+    <!-- Button container - contains Accept and Decline buttons -->
     <div class="button-container">
+        <!-- 
+            Accept button - proceeds to next step if terms are accepted
+            [disabled]: Button is disabled if accepted is false (checkbox not checked)
+            (click): Event handler called when button is clicked
+        -->
         <button type="button" class="accept-btn" [disabled]="!accepted" (click)="onAccept()">Accept and Continue</button>
+        <!-- 
+            Decline button - redirects to error page if user declines terms
+            (click): Event handler called when button is clicked
+        -->
         <button type="button" class="decline-btn" (click)="onDecline()">Decline</button>
     </div>
 </div>

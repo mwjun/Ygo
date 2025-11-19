@@ -1,3 +1,18 @@
+/**
+ * FILE: footer.css
+ * PURPOSE: Styles for the footer component
+ * This file styles the footer bar at the bottom of every page that contains the content rating and version number.
+ */
+
+/* 
+ * Footer container - light gray bar at the bottom of the page
+ * background: #f8f8f8 - light gray background color
+ * padding: 20px 30px - internal spacing (vertical, horizontal)
+ * text-align: center - centers content horizontally
+ * border-top: 1px solid #ddd - light gray top border to separate from content
+ * box-sizing: border-box - includes padding and border in width calculation
+ * width: 100% - takes full width of container
+ */
 .footer {
     background: #f8f8f8;
     padding: 20px 30px;
@@ -7,6 +22,13 @@
     width: 100%;
 }
 
+/* 
+ * Content rating image - ESRB rating image (digital games) or TCG rating image
+ * max-width: 400px - limits image width on large screens
+ * width: 100% - makes image responsive (scales down on smaller screens)
+ * height: auto - maintains aspect ratio
+ * margin-bottom: 8px - small space below image (reduced from original to minimize gap)
+ */
 .footer img {
     max-width: 400px;
     width: 100%;
@@ -14,6 +36,14 @@
     margin-bottom: 8px;
 }
 
+/* 
+ * Version number text - displays version string (e.g., "v 3.0.1")
+ * color: #999 - light gray text color (subtle, not prominent)
+ * font-size: 12px - small text size
+ * margin-top: 0 - no top margin (reduced gap between image and version)
+ * word-wrap: break-word - allows long version strings to wrap
+ * overflow-wrap: break-word - additional word wrapping support
+ */
 .version {
     color: #999;
     font-size: 12px;
@@ -22,7 +52,14 @@
     overflow-wrap: break-word;
 }
 
-/* Mobile responsive styles */
+/* 
+ * MOBILE RESPONSIVE: Footer styles for tablets
+ * When screen width is 768px or less:
+ * - padding: 15px 20px - reduced padding for smaller screens
+ * - footer img max-width: 100% - image takes full width on mobile
+ * - version font-size: 11px - slightly smaller text
+ * - version padding: 0 10px - horizontal padding for text wrapping
+ */
 @media (max-width: 768px) {
     .footer {
         padding: 15px 20px;
@@ -38,6 +75,13 @@
     }
 }
 
+/* 
+ * MOBILE RESPONSIVE: Footer styles for phones
+ * When screen width is 480px or less:
+ * - padding: 15px 15px - further reduced padding for very small screens
+ * - version font-size: 10px - even smaller text for phones
+ * - version padding: 0 5px - minimal horizontal padding
+ */
 @media (max-width: 480px) {
     .footer {
         padding: 15px 15px;

@@ -1,3 +1,19 @@
+/**
+ * FILE: header.css
+ * PURPOSE: Styles for the Konami logo header component
+ * This file styles the red gradient bar at the top of every page that contains the Konami logo.
+ */
+
+/* 
+ * Header container - red gradient bar at the top of the page
+ * background: linear-gradient - creates red gradient (Konami brand colors: #b00000 to #8a0000)
+ * padding: 20px 30px - internal spacing (vertical, horizontal)
+ * text-align: center - centers content horizontally
+ * display: flex - flexbox layout for centering logo
+ * justify-content: center - centers logo horizontally
+ * align-items: center - centers logo vertically
+ * width: 100% - takes full width of container
+ */
 .header {
     background: linear-gradient(135deg, #b00000 0%, #8a0000 100%);
     padding: 20px 30px;
@@ -8,6 +24,16 @@
     width: 100%;
 }
 
+/* 
+ * Konami logo wrapper link - container for the logo image
+ * display: inline-block - allows width/height control
+ * text-decoration: none - removes underline from link
+ * margin: 0 auto - centers the logo wrapper
+ * overflow: hidden - hides any parts of logo that extend beyond wrapper (for cropping)
+ * position: relative - for positioning context
+ * width: 100px - sets logo width to 100 pixels (final size after user feedback iterations)
+ * max-width: 100px - prevents logo from exceeding 100px width
+ */
 .header a.logo-wrapper {
     display: inline-block;
     text-decoration: none;
@@ -18,6 +44,15 @@
     max-width: 100px;
 }
 
+/* 
+ * Konami logo image - the actual Konami logo image
+ * display: block - removes inline spacing
+ * width: 100px - logo width (matches wrapper width)
+ * height: auto - maintains aspect ratio
+ * object-fit: contain - ensures entire logo is visible without cropping
+ * object-position: left center - positions logo to the left within its container (for cropping effect)
+ * margin: 0 - removes default image margins
+ */
 .header img {
     display: block;
     width: 100px;

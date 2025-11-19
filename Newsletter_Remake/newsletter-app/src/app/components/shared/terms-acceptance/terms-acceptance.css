@@ -1,3 +1,18 @@
+/**
+ * FILE: terms-acceptance.css
+ * PURPOSE: Styles for the terms acceptance component
+ * NOTE: This component is currently commented out in the age-gate flow but kept for future use.
+ * This file styles the terms and conditions acceptance form.
+ */
+
+/* 
+ * Terms acceptance container - light gray background box that contains the terms acceptance form
+ * background: #f9f9f9 - light gray background to make form stand out
+ * padding: 25px - internal spacing inside the form box
+ * border-radius: 8px - rounded corners
+ * margin: 10px 0 - vertical spacing above and below the form
+ * text-align: center - centers all text content
+ */
 .terms-acceptance {
     background: #f9f9f9;
     padding: 25px;
@@ -6,6 +21,13 @@
     text-align: center;
 }
 
+/* 
+ * Terms heading - "Terms and Conditions" text
+ * color: #b00000 - Konami red color (brand color)
+ * font-size: 24px - large, prominent heading
+ * margin-bottom: 20px - space below heading
+ * font-weight: 700 - bold weight
+ */
 .terms-acceptance h3 {
     color: #b00000;
     font-size: 24px;
@@ -13,6 +35,13 @@
     font-weight: 700;
 }
 
+/* 
+ * Terms paragraph text - instruction text
+ * color: #333 - dark gray text color
+ * font-size: 16px - readable text size
+ * line-height: 1.6 - spacing between lines for readability
+ * margin: 15px 0 - vertical spacing above and below paragraphs
+ */
 .terms-acceptance p {
     color: #333;
     font-size: 16px;
@@ -20,17 +49,35 @@
     margin: 15px 0;
 }
 
+/* 
+ * Terms links list - unordered list containing Privacy Policy and Terms of Use links
+ * list-style: none - removes default bullet points
+ * padding: 0 - removes default padding
+ * margin: 20px 0 - vertical spacing above and below list
+ */
 .terms-acceptance ul {
     list-style: none;
     padding: 0;
     margin: 20px 0;
 }
 
+/* 
+ * Terms list items - individual list items (Privacy Policy, Terms of Use)
+ * margin: 10px 0 - vertical spacing between list items
+ * padding: 0 - no internal padding
+ */
 .terms-acceptance li {
     margin: 10px 0;
     padding: 0;
 }
 
+/* 
+ * Terms list item bullet - custom red bullet point (replaces default bullet)
+ * content: "• " - adds bullet character
+ * color: #b00000 - Konami red color
+ * font-weight: bold - makes bullet stand out
+ * margin-right: 5px - space between bullet and link text
+ */
 .terms-acceptance li:before {
     content: "• ";
     color: #b00000;
@@ -38,22 +85,46 @@
     margin-right: 5px;
 }
 
+/* 
+ * Terms links - links to Privacy Policy and Terms of Use
+ * color: #b00000 - Konami red color
+ * text-decoration: none - removes underline (adds on hover)
+ * font-weight: bold - makes links stand out
+ */
 .terms-acceptance a {
     color: #b00000;
     text-decoration: none;
     font-weight: bold;
 }
 
+/* 
+ * Terms links hover state - when user hovers over Privacy Policy or Terms of Use links
+ * text-decoration: underline - adds underline on hover to indicate it's clickable
+ */
 .terms-acceptance a:hover {
     text-decoration: underline;
 }
 
+/* 
+ * Multilingual note section - container for regional availability notices in 4 languages
+ * margin: 20px 0 - vertical spacing above and below
+ * padding-top: 15px - internal spacing at top
+ * border-top: 1px solid #ddd - light gray top border to separate from terms text
+ */
 .note-section {
     margin: 20px 0;
     padding-top: 15px;
     border-top: 1px solid #ddd;
 }
 
+/* 
+ * Note paragraph - individual note text (English, Spanish, Portuguese, French)
+ * font-style: italic - italicized for visual distinction
+ * color: #666 - medium gray text (less prominent than main content)
+ * font-size: 14px - slightly smaller text
+ * margin: 10px 0 - vertical spacing above and below
+ * text-align: center - centers text
+ */
 .note {
     font-style: italic;
     color: #666;
@@ -62,24 +133,49 @@
     text-align: center;
 }
 
+/* 
+ * First note paragraph - removes top margin from the first note
+ * Prevents extra space at top of note section
+ */
 .note:first-child {
     margin-top: 0;
 }
 
+/* 
+ * Last note paragraph - removes bottom margin from the last note
+ * Prevents extra space at bottom of note section
+ */
 .note:last-child {
     margin-bottom: 0;
 }
 
+/* 
+ * Note links - links within note text (Privacy Policy, Terms of Use)
+ * color: #b00000 - Konami red color
+ * text-decoration: underline - indicates it's a clickable link
+ * margin: 0 4px - small horizontal spacing around links (prevents text from being too close)
+ */
 .note a {
     color: #b00000;
     text-decoration: underline;
     margin: 0 4px;
 }
 
+/* 
+ * Note links hover state - when user hovers over links in notes
+ * text-decoration: none - removes underline on hover
+ */
 .note a:hover {
     text-decoration: none;
 }
 
+/* 
+ * Terms acceptance checkbox container - centers the checkbox and label
+ * margin: 30px 0 - vertical spacing above and below
+ * text-align: left - aligns checkbox to left (within centered container)
+ * display: flex - flexbox layout
+ * justify-content: center - centers checkbox container horizontally
+ */
 .checkbox-container {
     margin: 30px 0;
     text-align: left;
@@ -87,6 +183,14 @@
     justify-content: center;
 }
 
+/* 
+ * Terms acceptance checkbox label - contains checkbox and "I accept" text
+ * display: flex - allows checkbox and text to sit side by side
+ * align-items: center - centers items vertically
+ * cursor: pointer - shows hand cursor when hovering
+ * font-size: 16px - readable text size
+ * color: #333 - dark gray text color
+ */
 .checkbox-container label {
     display: flex;
     align-items: center;
@@ -95,6 +199,12 @@
     color: #333;
 }
 
+/* 
+ * Terms acceptance checkbox - the actual checkbox input
+ * width/height: 20px - checkbox size
+ * margin-right: 10px - space between checkbox and text
+ * cursor: pointer - hand cursor on hover
+ */
 .checkbox-container input[type="checkbox"] {
     width: 20px;
     height: 20px;
@@ -102,6 +212,13 @@
     cursor: pointer;
 }
 
+/* 
+ * Button container - contains Accept and Decline buttons
+ * display: flex - flexbox layout to arrange buttons side by side
+ * gap: 15px - space between Accept and Decline buttons
+ * justify-content: center - centers buttons horizontally
+ * margin-top: 25px - space above buttons
+ */
 .button-container {
     display: flex;
     gap: 15px;
@@ -109,6 +226,16 @@
     margin-top: 25px;
 }
 
+/* 
+ * Accept and Decline buttons - base styles for both buttons
+ * padding: 12px 30px - internal spacing (vertical, horizontal)
+ * border: none - removes default button border
+ * border-radius: 6px - rounded corners
+ * font-size: 16px - readable text size
+ * font-weight: bold - makes button text stand out
+ * cursor: pointer - hand cursor on hover
+ * transition: all 0.3s - smooth animation for hover states
+ */
 .accept-btn, .decline-btn {
     padding: 12px 30px;
     border: none;
@@ -119,28 +246,55 @@
     transition: all 0.3s;
 }
 
+/* 
+ * Accept button - "Accept and Continue" button (primary action)
+ * background: linear-gradient - red gradient background (Konami brand colors)
+ * color: white - white text
+ */
 .accept-btn {
     background: linear-gradient(135deg, #b00000 0%, #8a0000 100%);
     color: white;
 }
 
+/* 
+ * Accept button hover state - when user hovers over Accept button (only if not disabled)
+ * background: linear-gradient - darker red gradient on hover
+ * transform: translateY(-2px) - lifts button up slightly for visual feedback
+ * box-shadow: adds red-tinted shadow to emphasize the button
+ */
 .accept-btn:hover:not(:disabled) {
     background: linear-gradient(135deg, #8a0000 0%, #6a0000 100%);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(176, 0, 0, 0.3);
 }
 
+/* 
+ * Accept button disabled state - when checkbox is not checked
+ * background: #ccc - gray background (indicates button is disabled)
+ * cursor: not-allowed - shows "not allowed" cursor
+ * opacity: 0.6 - makes button appear faded/grayed out
+ */
 .accept-btn:disabled {
     background: #ccc;
     cursor: not-allowed;
     opacity: 0.6;
 }
 
+/* 
+ * Decline button - "Decline" button (secondary action)
+ * background: #e0e0e0 - light gray background
+ * color: #333 - dark gray text
+ */
 .decline-btn {
     background: #e0e0e0;
     color: #333;
 }
 
+/* 
+ * Decline button hover state - when user hovers over Decline button
+ * background: #d0d0d0 - slightly darker gray on hover
+ * transform: translateY(-2px) - lifts button up slightly for visual feedback
+ */
 .decline-btn:hover {
     background: #d0d0d0;
     transform: translateY(-2px);

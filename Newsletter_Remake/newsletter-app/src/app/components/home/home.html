@@ -1,13 +1,37 @@
+<!-- 
+    FILE: home.html
+    PURPOSE: Newsletter signup page template
+    This is the main page where users select newsletters and enter their information after passing age verification.
+    
+    COMPONENT STRUCTURE:
+    - app-page-container: Wrapper component that provides consistent page layout (white box container)
+    - app-header: Konami logo header (red bar at top)
+    - content: Main content area containing the signup form
+    - app-footer: Footer with content rating image and version number
+-->
+
+<!-- Page container with narrow width (600px max) - this is the white box that contains all content -->
+<!-- Uses "narrow" to match all other pages for consistency -->
 <app-page-container maxWidth="narrow">
+    <!-- Konami logo header - red gradient bar at the top of the page -->
     <app-header></app-header>
     
+    <!-- Main content area - contains the signup form and newsletter selection -->
     <div class="content">
+        <!-- White container box - holds all the form content -->
         <div class="container">
+            <!-- Page title section - displays "Yu-Gi-Oh! Newsletter Signup" heading -->
             <div class="logo-section">
                 <h1>Yu-Gi-Oh! Newsletter Signup</h1>
             </div>
             
+            <!-- 
+                Signup form - collects user information and newsletter selections
+                #signupForm: Template reference variable used to check form validity
+                (ngSubmit): Event handler called when form is submitted
+            -->
             <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="signup-form">
+                <!-- First Name input field - required field for user's first name -->
                 <div class="form-group">
                     <label for="firstName">First Name (required):</label>
                     <input 
@@ -18,6 +42,7 @@
                         required />
                 </div>
                 
+                <!-- Email input field - required field for user's email address -->
                 <div class="form-group">
                     <label for="email">Email Address (required):</label>
                     <input 
@@ -28,31 +53,44 @@
                         required />
                 </div>
                 
+                <!-- Newsletter selection section - allows users to select which newsletters they want -->
                 <div class="newsletter-selection">
+                    <!-- Instruction text telling users to select at least one newsletter -->
                     <p class="selection-label">I would like to receive emails for (please select at least one):</p>
+                    <!-- Grid container for newsletter cards - displays 3 cards horizontally on desktop, stacks on mobile -->
                     <div class="newsletter-grid">
+                        <!-- 
+                            Newsletter card - displays newsletter logo and Yes/No dropdown
+                            [class.selected]: Dynamically adds 'selected' class when newsletter is set to 'Yes' (turns red)
+                            *ngFor: Loops through newsletters array to create a card for each newsletter
+                        -->
                         <div 
                             class="newsletter-card"
-                            [class.selected]="selectedNewsletters[newsletter.type]"
-                            *ngFor="let newsletter of newsletters"
-                            (click)="toggleNewsletter(newsletter.type)">
+                            [class.selected]="selectedNewsletters[newsletter.type] === 'Yes'"
+                            *ngFor="let newsletter of newsletters">
+                            <!-- Newsletter logo image - displays the logo for each newsletter (Duel Links, Master Duel, TCG) -->
                             <div class="newsletter-logo">
                                 <img [src]="newsletter.logoPath" [alt]="newsletter.title" />
                             </div>
+                            <!-- Newsletter title text - displays the newsletter name without "Yu-Gi-Oh! " prefix -->
                             <div class="newsletter-content">
                                 <span>{{ newsletter.title.replace('Yu-Gi-Oh! ', '') }}</span>
                             </div>
-                            <div class="newsletter-checkbox">
-                                <input 
-                                    type="checkbox" 
-                                    [checked]="selectedNewsletters[newsletter.type]"
-                                    (click)="$event.stopPropagation(); toggleNewsletter(newsletter.type)"
-                                    readonly />
+                            <!-- Yes/No dropdown - positioned centered below newsletter text -->
+                            <!-- User selects "Yes" or "No" for each newsletter -->
+                            <div class="newsletter-select">
+                                <select 
+                                    [value]="selectedNewsletters[newsletter.type]"
+                                    (change)="onNewsletterChange(newsletter.type, $event)">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
                 
+                <!-- Privacy policy consent checkbox - required field, user must agree to terms -->
                 <div class="form-group checkbox-group">
                     <label>
                         <input 
@@ -60,23 +98,38 @@
                             name="consent" 
                             [(ngModel)]="privacyConsent"
                             required />
-                        By signing up, you agree with our 
-                        <a href="https://legal.konami.com/kdeus/privacy/en-us/" target="_blank">Privacy Policy</a> 
-                        and 
-                        <a href="https://legal.konami.com/kdeus/btob/terms/tou/en/" target="_blank">TERMS OF USE</a>.
+                        <span class="consent-text">
+                            By signing up, you agree with our 
+                            <a href="https://legal.konami.com/kdeus/privacy/en-us/" target="_blank" rel="noopener noreferrer">Privacy Policy</a> 
+                            and 
+                            <a href="https://legal.konami.com/kdeus/btob/terms/tou/en/" target="_blank" rel="noopener noreferrer">TERMS OF USE</a>.
+                        </span>
                     </label>
                 </div>
                 
+                <!-- Error message display - shows validation or API errors to the user -->
                 <div *ngIf="errorMessage" class="error-message">
                     {{ errorMessage }}
                 </div>
                 
+                <!-- CAPTCHA section - appears after user fills form and clicks "Sign Up" -->
+                <!-- #captchaContainer: Template reference used to render Google reCAPTCHA widget -->
                 <div *ngIf="showCaptcha" class="captcha-section" #captchaContainer>
                     <p class="captcha-label">Please verify you are human:</p>
+                    <!-- Google reCAPTCHA widget container - widget is rendered here by JavaScript -->
                     <div class="g-recaptcha"></div>
                 </div>
                 
+                <!-- Submit button section - centered button to submit the form -->
                 <div class="submit-section">
+                    <!-- 
+                        Submit button - disabled when form is invalid, submitting, or CAPTCHA not completed
+                        Button text changes based on state:
+                        - "Sign Up" - initial state
+                        - "Complete CAPTCHA to Continue" - CAPTCHA shown but not completed
+                        - "Sign Up Now" - CAPTCHA completed, ready to submit
+                        - "Signing Up..." - form is being submitted
+                    -->
                     <button type="submit" class="signup-btn" [disabled]="signupForm.invalid || isSubmitting || (showCaptcha && !captchaToken)">
                         <span *ngIf="!isSubmitting && !showCaptcha">Sign Up</span>
                         <span *ngIf="!isSubmitting && showCaptcha && !captchaToken">Complete CAPTCHA to Continue</span>
@@ -86,17 +139,23 @@
                 </div>
             </form>
             
+            <!-- Multilingual note section - displays regional availability notice in 4 languages -->
             <div class="note-section">
+                <!-- English note - regional availability notice -->
                 <p class="note">NOTE: Newsletter Signups are only for North and Latin American players at this time. Sorry for any inconvenience!</p>
                 
+                <!-- Spanish note - privacy policy and regional availability notice in Spanish -->
                 <p class="note">Al registrarte, aceptas nuestra <a href="https://legal.konami.com/kdeus/privacy/en-us/" target="_blank">Política de Privacidad</a> y <a href="https://legal.konami.com/kdeus/btob/terms/tou/en/" target="_blank">TÉRMINOS DE USO</a>. NOTA: Las suscripciones al boletín son solo para jugadores de Norteamérica y Latinoamérica en este momento. ¡Perdón por cualquier inconveniente!</p>
                 
+                <!-- Portuguese note - privacy policy and regional availability notice in Portuguese -->
                 <p class="note">Ao registrar-se, você concorda com nossa <a href="https://legal.konami.com/kdeus/privacy/en-us/" target="_blank">Política de Privacidade</a> e <a href="https://legal.konami.com/kdeus/btob/terms/tou/en/" target="_blank">TERMOS DE USO</a>. NOTA: As inscrições para newsletter são válidas apenas para os jogadores da América do Norte e América Latina no momento. Desculpe por qualquer inconveniente!</p>
                 
+                <!-- French note - privacy policy and regional availability notice in French -->
                 <p class="note">En vous inscrivant, vous acceptez notre <a href="https://legal.konami.com/kdeus/privacy/en-us/" target="_blank">politique de confidentialité</a> et nos <a href="https://legal.konami.com/kdeus/btob/terms/tou/en/" target="_blank">conditions d'utilisation</a>. REMARQUE : Seuls les joueurs d'Amérique du Nord et d'Amérique latine peuvent s'inscrire au bulletin d'information pour le moment. Nous sommes désolés de cet inconvénient !</p>
             </div>
         </div>
     </div>
     
+    <!-- Footer component - displays content rating image and version number -->
     <app-footer [contentRatingPath]="'assets/img/cr-digital.png'"></app-footer>
 </app-page-container>

@@ -1,5 +1,32 @@
+<!-- 
+    FILE: header.html
+    PURPOSE: Konami logo header component template
+    This component displays the Konami logo in a red gradient bar at the top of every page.
+    
+    COMPONENT STRUCTURE:
+    - header: Red gradient bar container
+    - logo-wrapper: Link wrapper for the Konami logo (links to Konami website)
+    - img: The actual Konami logo image
+-->
+
+<!-- 
+    Header container - red gradient bar at the top of the page
+    This is the Konami brand header that appears on all pages
+-->
 <div class="header">
+    <!-- 
+        Konami logo link - clickable link to Konami website
+        [href]: Dynamically bound to konamiUrl (opens Konami website in new tab)
+        target="_blank": Opens link in new tab
+        rel="noopener": Security attribute for external links
+        class="logo-wrapper": CSS class for styling and cropping the logo
+    -->
     <a [href]="konamiUrl" target="_blank" rel="noopener" class="logo-wrapper">
+        <!-- 
+            Konami logo image - the actual Konami logo
+            [src]: Dynamically bound to konamiLogoPath (path to logo image file)
+            alt="KONAMI": Accessibility text for screen readers
+        -->
         <img [src]="konamiLogoPath" alt="KONAMI" />
     </a>
 </div>

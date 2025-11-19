@@ -1,36 +1,84 @@
+<!-- 
+    FILE: subscription-confirmed.html
+    PURPOSE: Subscription confirmation page template
+    This page is shown in two scenarios:
+    1. After user submits signup form (before email verification) - "Thank You for Signing Up!"
+    2. After user clicks email verification link - "Subscription Confirmed!" with checkmark
+    
+    COMPONENT STRUCTURE:
+    - app-page-container: Wrapper component with narrow width (600px max) - the white box container
+    - app-header: Konami logo header (red bar at top)
+    - content: Main content area containing the confirmation message
+    - confirmation-card: White card that displays the confirmation message
+    - app-footer: Footer with content rating image and version number
+-->
+
+<!-- Page container with narrow width (600px max) - this is the white box that contains all content -->
 <app-page-container maxWidth="narrow">
+    <!-- Konami logo header - red gradient bar at the top of the page -->
     <app-header></app-header>
     
+    <!-- Main content area - contains the confirmation message card -->
     <div class="content">
+        <!-- Confirmation card - white card that displays the confirmation message -->
         <div class="confirmation-card">
+            <!-- 
+                Loading state - shown while verifying subscription via email link
+                *ngIf="isVerifying": Only displays when verification is in progress
+            -->
             <div *ngIf="isVerifying" class="verifying-message">
                 <p>Verifying your subscription...</p>
             </div>
             
-            <!-- Message after signup (no verification params) -->
+            <!-- 
+                Message after signup form submission (before email verification)
+                Shown when user first submits the signup form
+                *ngIf conditions:
+                - !isVerifying: Not currently verifying
+                - !verificationError: No verification error
+                - !isFromVerification: Not accessed via email verification link (no query params)
+            -->
             <div *ngIf="!isVerifying && !verificationError && !isFromVerification">
                 <h1>Thank You for Signing Up!</h1>
                 <p>We've sent a confirmation email to your inbox. Please check your email and click the verification link to complete your subscription.</p>
             </div>
             
-            <!-- Message after email verification (has verification params) -->
+            <!-- 
+                Message after email verification (after clicking email link)
+                Shown when user clicks the verification link in their email
+                *ngIf conditions:
+                - !isVerifying: Not currently verifying
+                - !verificationError: No verification error
+                - isFromVerification: Accessed via email verification link (has query params: email, type, token)
+            -->
             <div *ngIf="!isVerifying && !verificationError && isFromVerification">
+                <!-- Success checkmark icon - green circle with checkmark -->
                 <div class="success-icon">✓</div>
                 <h1>Subscription Confirmed!</h1>
                 <p>Thank you for confirming your subscription! You're all set and will start receiving our newsletter updates.</p>
             </div>
             
+            <!-- 
+                Error message - shown if email verification fails
+                *ngIf="verificationError": Only displays if there's a verification error
+            -->
             <div *ngIf="verificationError" class="error-message">
                 <h1>Verification Failed</h1>
                 <p>{{ verificationError }}</p>
             </div>
             
+            <!-- 
+                Action button - "Return to Home" link
+                *ngIf="!isVerifying": Only shows when not verifying (hides during verification process)
+                routerLink="/": Links back to the age gate (root path)
+            -->
             <div class="actions" *ngIf="!isVerifying">
                 <a routerLink="/" class="btn-primary">Return to Home</a>
             </div>
         </div>
     </div>
     
+    <!-- Footer component - displays content rating image and version number -->
     <app-footer [contentRatingPath]="'assets/img/cr-digital.png'"></app-footer>
 </app-page-container>
 

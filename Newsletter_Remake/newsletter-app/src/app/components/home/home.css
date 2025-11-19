@@ -1,33 +1,89 @@
+/**
+ * FILE: home.css
+ * PURPOSE: Styles for the newsletter signup page (home component)
+ * This file contains all styling for the signup form, newsletter selection cards, and related UI elements.
+ */
+
+/* 
+ * White container box - this is the main content container that holds all form elements
+ * NOTE: This inner container is redundant since page-container already provides the white box
+ * Keeping it for now to maintain existing structure, but it should match page-container width
+ * max-width: 100% - takes full width of parent (page-container is already 900px max)
+ * margin: 0 - no margin needed (page-container already centers)
+ * background-color: transparent - no background needed (page-container already has white background)
+ * padding: 40px - internal spacing inside the white box
+ * box-shadow: none - no shadow needed (page-container already has shadow)
+ * box-sizing: border-box - includes padding in width calculation (prevents width changes)
+ */
 .container {
-    max-width: 960px;
-    margin: 0 auto;
-    background-color: white;
+    max-width: 100%;
+    margin: 0;
+    background-color: transparent;
     padding: 40px;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    box-shadow: none;
+    box-sizing: border-box;
 }
 
+/* 
+ * Component host element - the root element of this component
+ * display: block - makes it a block-level element
+ */
 :host {
     display: block;
 }
 
+/* 
+ * Content area - main content container for the home page
+ * padding: 0 40px 30px 40px - no top padding to match other pages, horizontal and bottom padding only
+ * Ensures consistent top starting position with other pages
+ */
+.content {
+    padding: 0 40px 30px 40px;
+}
+
+/* 
+ * Page title section - contains the "Yu-Gi-Oh! Newsletter Signup" heading
+ * text-align: center - centers the heading text
+ * margin-bottom: 30px - adds space below the heading
+ */
 .logo-section {
     text-align: center;
     margin-bottom: 30px;
 }
 
+/* 
+ * Page title heading - the main "Yu-Gi-Oh! Newsletter Signup" text
+ * color: #b00000 - Konami red color (brand color)
+ * margin-bottom: 20px - spacing below the heading
+ */
 .logo-section h1 {
     color: #b00000;
     margin-bottom: 20px;
 }
 
+/* 
+ * Signup form container - wraps all form fields
+ * margin-top: 30px - adds space above the form
+ */
 .signup-form {
     margin-top: 30px;
 }
 
+/* 
+ * Form group - container for each form field (label + input)
+ * margin-bottom: 20px - spacing between form fields
+ */
 .form-group {
     margin-bottom: 20px;
 }
 
+/* 
+ * Form labels - text labels for input fields (e.g., "First Name", "Email Address")
+ * display: block - makes label appear on its own line above the input
+ * margin-bottom: 8px - space between label and input
+ * font-weight: bold - makes labels stand out
+ * color: #333 - dark gray text color
+ */
 .form-group label {
     display: block;
     margin-bottom: 8px;
@@ -35,6 +91,15 @@
     color: #333;
 }
 
+/* 
+ * Text and email input fields - styling for firstName and email inputs
+ * width: 100% - makes inputs fill their container width
+ * padding: 12px - internal spacing inside input fields
+ * border: 2px solid #ddd - light gray border
+ * border-radius: 4px - slightly rounded corners
+ * font-size: 16px - readable text size
+ * box-sizing: border-box - includes padding and border in width calculation
+ */
 .form-group input[type="text"],
 .form-group input[type="email"] {
     width: 100%;
@@ -45,63 +110,198 @@
     box-sizing: border-box;
 }
 
+/* 
+ * Input focus state - when user clicks into an input field
+ * outline: none - removes default browser outline
+ * border-color: #b00000 - changes border to Konami red when focused
+ */
 .form-group input[type="text"]:focus,
 .form-group input[type="email"]:focus {
     outline: none;
     border-color: #b00000;
 }
 
+/* 
+ * Privacy consent checkbox group - container for the "I agree to terms" checkbox
+ * margin-top: 30px - space above the checkbox
+ * margin-bottom: 30px - space below the checkbox
+ */
 .checkbox-group {
     margin-top: 30px;
     margin-bottom: 30px;
 }
 
+/* 
+ * Privacy consent label - the label containing checkbox and text
+ * display: flex - allows checkbox and text to sit side by side
+ * align-items: flex-start - aligns items to top (for multi-line text wrapping)
+ * font-weight: normal - regular text weight (not bold)
+ * cursor: pointer - shows hand cursor when hovering over entire label
+ * line-height: 1.7 - comfortable spacing between lines for readability
+ * font-size: 14px - readable text size
+ * color: #333 - dark gray text color for good contrast
+ */
 .checkbox-group label {
     display: flex;
     align-items: flex-start;
     font-weight: normal;
     cursor: pointer;
-    line-height: 1.6;
+    line-height: 1.7;
+    font-size: 14px;
+    color: #333;
+    gap: 12px;
 }
 
+/* 
+ * Privacy consent checkbox - the actual checkbox input
+ * margin-top: 2px - slight vertical alignment to align with first line of text
+ * width/height: 18px - checkbox size (matches text line height for visual balance)
+ * cursor: pointer - hand cursor on hover
+ * accent-color: #b00000 - makes checkbox red when checked (Konami brand color)
+ * flex-shrink: 0 - prevents checkbox from shrinking when text wraps
+ * flex-grow: 0 - prevents checkbox from growing
+ */
 .checkbox-group input[type="checkbox"] {
-    margin-right: 10px;
-    margin-top: 3px;
+    margin-top: 2px;
     width: 18px;
     height: 18px;
+    min-width: 18px;
     cursor: pointer;
     accent-color: #b00000;
     flex-shrink: 0;
+    flex-grow: 0;
 }
 
+/* 
+ * Consent text span - wraps the text portion of the label for proper inline flow
+ * flex: 1 - takes up remaining space after checkbox
+ * display: inline - allows text and links to flow naturally as one sentence
+ */
+.checkbox-group .consent-text {
+    flex: 1;
+    display: inline;
+}
+
+/* 
+ * Privacy policy links - links to Privacy Policy and Terms of Use
+ * color: #b00000 - Konami red color for brand consistency
+ * text-decoration: underline - shows underline to indicate it's a clickable link
+ * transition: all 0.2s ease - smooth color transition on hover
+ * font-weight: 500 - slightly bolder than regular text to make links stand out
+ * white-space: nowrap - prevents links from breaking in the middle on mobile
+ */
 .checkbox-group a {
     color: #b00000;
     text-decoration: underline;
-    margin: 0 4px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    white-space: nowrap;
 }
 
+/* 
+ * Privacy policy links hover state - when user hovers over links
+ * color: #8b0000 - darker red on hover for visual feedback
+ * text-decoration: underline - keeps underline on hover
+ */
 .checkbox-group a:hover {
-    text-decoration: none;
+    color: #8b0000;
+    text-decoration: underline;
 }
 
+/* 
+ * Privacy policy links active state - when user clicks on links
+ * color: #6b0000 - even darker red when clicked
+ */
+.checkbox-group a:active {
+    color: #6b0000;
+}
+
+/* 
+ * MOBILE RESPONSIVE: Privacy consent on mobile devices
+ * When screen width is 480px or less, adjust spacing and text size for better mobile UX
+ */
+@media (max-width: 480px) {
+    /* 
+     * Mobile checkbox group - reduced margins for mobile screens
+     * margin-top: 25px - less top margin on mobile
+     * margin-bottom: 25px - less bottom margin on mobile
+     */
+    .checkbox-group {
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+
+    /* 
+     * Mobile label - slightly smaller text and tighter line height for mobile
+     * font-size: 13px - slightly smaller text for mobile screens
+     * line-height: 1.6 - tighter line spacing for mobile
+     * gap: 10px - smaller gap between checkbox and text on mobile
+     */
+    .checkbox-group label {
+        font-size: 13px;
+        line-height: 1.6;
+        gap: 10px;
+    }
+
+    /* 
+     * Mobile checkbox - slightly smaller checkbox for mobile
+     * width/height: 16px - smaller checkbox size for mobile
+     * margin-top: 1px - adjusted alignment for smaller checkbox
+     */
+    .checkbox-group input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        min-width: 16px;
+        margin-top: 1px;
+    }
+}
+
+/* 
+ * Newsletter cards grid container - displays 3 newsletter cards side by side
+ * display: grid - CSS Grid layout for newsletter cards
+ * grid-template-columns: repeat(3, 1fr) - creates 3 equal-width columns (one for each newsletter)
+ * gap: 15px - space between newsletter cards (reduced to fit in 600px width)
+ * margin-top: 40px - space above the grid
+ */
 .newsletter-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 15px;
     margin-top: 40px;
 }
 
+/* 
+ * MOBILE RESPONSIVE: Newsletter grid on tablets and phones
+ * When screen width is 768px or less, cards stack vertically instead of horizontally
+ * grid-template-columns: 1fr - single column layout (cards stack on top of each other)
+ */
 @media (max-width: 768px) {
     .newsletter-grid {
         grid-template-columns: 1fr;
     }
 }
 
+/* 
+ * Newsletter card - individual card for each newsletter type (Duel Links, Master Duel, TCG)
+ * position: relative - allows absolute positioning of dropdown inside
+ * border: 3px solid #ddd - light gray border (changes to red when selected)
+ * border-radius: 8px - rounded corners
+ * padding: 12px - internal spacing inside card (reduced to fit in 600px width)
+ * text-align: center - centers content horizontally
+ * transition: all 0.3s ease - smooth animation when card state changes
+ * background-color: #fff - white background
+ * cursor: pointer - shows hand cursor to indicate card is clickable
+ * display: flex - flexbox layout for card content
+ * flex-direction: column - stacks logo, text, and dropdown vertically
+ * align-items: center - centers items horizontally
+ * justify-content: space-between - spaces items vertically
+ * min-height: 160px - ensures all cards have same minimum height (reduced to fit in 600px width)
+ */
 .newsletter-card {
     position: relative;
     border: 3px solid #ddd;
     border-radius: 8px;
-    padding: 15px;
+    padding: 12px;
     text-align: center;
     transition: all 0.3s ease;
     background-color: #fff;
@@ -110,21 +310,44 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    min-height: 180px;
+    min-height: 160px;
 }
 
+/* 
+ * Newsletter card hover state - when user hovers over a card (not selected)
+ * transform: translateY(-5px) - lifts card up slightly (5px) for visual feedback
+ * box-shadow: adds shadow to make card appear elevated
+ * border-color: #b00000 - changes border to Konami red on hover
+ */
 .newsletter-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     border-color: #b00000;
 }
 
+/* 
+ * Newsletter card selected state - when user has selected this newsletter
+ * border-color: #b00000 - red border to indicate selection
+ * background-color: #fff5f5 - light red/pink background tint
+ * box-shadow: red-tinted shadow to emphasize selection
+ */
 .newsletter-card.selected {
     border-color: #b00000;
     background-color: #fff5f5;
     box-shadow: 0 5px 15px rgba(176, 0, 0, 0.3);
 }
 
+/* 
+ * Newsletter logo container - holds the newsletter logo image (Duel Links, Master Duel, or TCG logo)
+ * width: 100% - takes full width of card
+ * display: flex - centers the logo image
+ * justify-content: center - centers horizontally
+ * align-items: center - centers vertically
+ * margin-bottom: 10px - space below logo
+ * flex: 1 - takes up available vertical space (pushes checkbox to top)
+ * position: relative - for z-index layering
+ * z-index: 2 - ensures logo appears above text content
+ */
 .newsletter-logo {
     width: 100%;
     display: flex;
@@ -136,60 +359,145 @@
     z-index: 2;
 }
 
+/* 
+ * Newsletter logo image - the actual logo image (Duel Links logo, Master Duel logo, or TCG logo)
+ * max-width: 100% - prevents image from exceeding card width
+ * max-height: 70px - limits logo height for consistent card sizing (reduced to fit in 600px width)
+ * height: auto - maintains aspect ratio
+ * object-fit: contain - ensures entire logo is visible without cropping
+ */
 .newsletter-logo img {
     max-width: 100%;
-    max-height: 80px;
+    max-height: 70px;
     height: auto;
     object-fit: contain;
 }
 
+/* 
+ * Newsletter content text - displays the newsletter name (e.g., "Duel Links", "Master Duel", "TCG")
+ * position: relative - for z-index layering
+ * z-index: 1 - appears below logo (z-index: 2) but above background
+ * flex-grow: 0 - doesn't grow to fill space (logo takes the space)
+ */
 .newsletter-content {
     position: relative;
     z-index: 1;
     flex-grow: 0;
 }
 
+/* 
+ * Newsletter selection section - container for the newsletter selection area
+ * margin: 30px 0 - vertical spacing above and below the section
+ */
 .newsletter-selection {
     margin: 30px 0;
 }
 
+/* 
+ * Selection label - the instruction text "I would like to receive emails for (please select at least one):"
+ * font-weight: bold - makes instruction text stand out
+ * margin-bottom: 20px - space below the instruction text
+ * color: #333 - dark gray text color
+ */
 .selection-label {
     font-weight: bold;
     margin-bottom: 20px;
     color: #333;
 }
 
-.newsletter-content {
-    position: relative;
-    z-index: 1;
-    flex-grow: 0;
-}
-
+/* 
+ * Newsletter content text span - the actual newsletter name text
+ * color: #b00000 - Konami red color for the newsletter name
+ * font-weight: bold - makes newsletter name stand out
+ * font-size: 14px - readable but not too large
+ */
 .newsletter-content span {
     color: #b00000;
     font-weight: bold;
     font-size: 14px;
 }
 
-.newsletter-checkbox {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    z-index: 3;
+/* 
+ * Newsletter select dropdown container - positions dropdown centered below newsletter text
+ * margin-top: 15px - space above dropdown (below newsletter name text)
+ * text-align: center - centers the dropdown horizontally
+ * width: 100% - takes full width of card for centering
+ */
+.newsletter-select {
+    margin-top: 15px;
+    text-align: center;
+    width: 100%;
 }
 
-.newsletter-checkbox input[type="checkbox"] {
-    width: 24px;
-    height: 24px;
+/* 
+ * Newsletter select dropdown - Yes/No dropdown centered below newsletter text
+ * padding: 8px 15px - internal spacing inside dropdown
+ * border: 2px solid #ddd - light gray border
+ * border-radius: 8px - rounded corners (more rounded than before)
+ * font-size: 14px - readable text size
+ * background: white - white background
+ * cursor: pointer - hand cursor on hover
+ * transition: border-color 0.3s - smooth border color change on hover/focus
+ * min-width: 80px - ensures dropdown has minimum width for "Yes"/"No" text
+ * font-weight: bold - makes selected value stand out
+ * display: inline-block - allows centering with text-align: center on parent
+ */
+.newsletter-select select {
+    padding: 8px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
     cursor: pointer;
-    accent-color: #b00000;
+    transition: border-color 0.3s;
+    min-width: 80px;
+    font-weight: bold;
+    display: inline-block;
 }
 
+/* 
+ * Newsletter select dropdown hover state - when user hovers over dropdown
+ * border-color: #b00000 - changes border to Konami red on hover
+ */
+.newsletter-select select:hover {
+    border-color: #b00000;
+}
+
+/* 
+ * Newsletter select dropdown focus state - when user clicks into dropdown
+ * outline: none - removes default browser outline
+ * border-color: #b00000 - changes border to Konami red when focused
+ * box-shadow: adds subtle red glow around dropdown for focus indication
+ */
+.newsletter-select select:focus {
+    outline: none;
+    border-color: #b00000;
+    box-shadow: 0 0 0 3px rgba(176, 0, 0, 0.1);
+}
+
+/* 
+ * Submit button section - container for the "Sign Up" button
+ * text-align: center - centers the button horizontally
+ * margin-top: 30px - space above the button
+ */
 .submit-section {
     text-align: center;
     margin-top: 30px;
 }
 
+/* 
+ * Sign up button - the main submit button for the form
+ * background: linear-gradient - red gradient background (Konami brand colors)
+ * color: white - white text
+ * padding: 15px 50px - internal spacing (vertical, horizontal)
+ * border: none - removes default button border
+ * border-radius: 6px - rounded corners
+ * font-size: 18px - large, readable text
+ * font-weight: bold - makes button text stand out
+ * cursor: pointer - hand cursor on hover
+ * transition: smooth animation for hover/active states
+ * min-width: 150px - ensures button has minimum width
+ */
 .signup-btn {
     background: linear-gradient(135deg, #b00000 0%, #8a0000 100%);
     color: white;
@@ -203,20 +511,43 @@
     min-width: 150px;
 }
 
+/* 
+ * Sign up button hover state - when user hovers over button (only if not disabled)
+ * transform: translateY(-2px) - lifts button up slightly for visual feedback
+ * box-shadow: adds red-tinted shadow to emphasize the button
+ */
 .signup-btn:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(176, 0, 0, 0.3);
 }
 
+/* 
+ * Sign up button active state - when user clicks the button (only if not disabled)
+ * transform: translateY(0) - returns button to original position (click feedback)
+ */
 .signup-btn:active:not(:disabled) {
     transform: translateY(0);
 }
 
+/* 
+ * Sign up button disabled state - when button is disabled (form invalid, submitting, or CAPTCHA not done)
+ * opacity: 0.6 - makes button appear faded/grayed out
+ * cursor: not-allowed - shows "not allowed" cursor to indicate button is disabled
+ */
 .signup-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
 
+/* 
+ * Error message display - shows validation or API errors to the user
+ * color: #d32f2f - red text color for error messages
+ * background-color: #ffebee - light red/pink background to make error stand out
+ * padding: 12px - internal spacing
+ * border-radius: 4px - slightly rounded corners
+ * margin-bottom: 20px - space below error message
+ * border-left: 4px solid #d32f2f - red left border accent for emphasis
+ */
 .error-message {
     color: #d32f2f;
     background-color: #ffebee;
@@ -226,12 +557,26 @@
     border-left: 4px solid #d32f2f;
 }
 
+/* 
+ * Multilingual note section - container for regional availability notices in 4 languages
+ * margin-top: 40px - space above the note section
+ * padding-top: 20px - internal spacing at top
+ * border-top: 1px solid #ddd - light gray top border to separate from form
+ */
 .note-section {
     margin-top: 40px;
     padding-top: 20px;
     border-top: 1px solid #ddd;
 }
 
+/* 
+ * Note paragraph - individual note text (English, Spanish, Portuguese, French)
+ * color: #666 - medium gray text (less prominent than main content)
+ * font-size: 14px - slightly smaller text
+ * font-style: italic - italicized for visual distinction
+ * text-align: center - centers text
+ * margin-bottom: 15px - space between multiple notes
+ */
 .note {
     color: #666;
     font-size: 14px;
@@ -240,19 +585,40 @@
     margin-bottom: 15px;
 }
 
+/* 
+ * Last note paragraph - removes bottom margin from the last note
+ * Prevents extra space at bottom of note section
+ */
 .note:last-child {
     margin-bottom: 0;
 }
 
+/* 
+ * Note links - links within note text (Privacy Policy, Terms of Use)
+ * color: #b00000 - Konami red color
+ * text-decoration: underline - indicates it's a clickable link
+ */
 .note a {
     color: #b00000;
     text-decoration: underline;
 }
 
+/* 
+ * Note links hover state - when user hovers over links in notes
+ * text-decoration: none - removes underline on hover
+ */
 .note a:hover {
     text-decoration: none;
 }
 
+/* 
+ * CAPTCHA section - container for Google reCAPTCHA widget
+ * margin: 30px 0 - vertical spacing above and below
+ * text-align: center - centers CAPTCHA widget
+ * padding: 20px - internal spacing
+ * background-color: #f9f9f9 - light gray background to make CAPTCHA section stand out
+ * border-radius: 8px - rounded corners
+ */
 .captcha-section {
     margin: 30px 0;
     text-align: center;
@@ -261,12 +627,23 @@
     border-radius: 8px;
 }
 
+/* 
+ * CAPTCHA label - the text "Please verify you are human:"
+ * margin-bottom: 15px - space below label
+ * font-weight: bold - makes label stand out
+ * color: #333 - dark gray text
+ */
 .captcha-label {
     margin-bottom: 15px;
     font-weight: bold;
     color: #333;
 }
 
+/* 
+ * Google reCAPTCHA widget container - where the CAPTCHA widget is rendered
+ * display: inline-block - allows centering with text-align: center
+ * margin: 0 auto - additional centering (though parent has text-align: center)
+ */
 .g-recaptcha {
     display: inline-block;
     margin: 0 auto;

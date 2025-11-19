@@ -1,23 +1,51 @@
+/**
+ * FILE: subscription-confirmed.css
+ * PURPOSE: Styles for the subscription confirmation page component
+ * This file styles the confirmation message card that appears after signup or email verification.
+ */
+
+/* 
+ * Content container - contains the confirmation card
+ * padding: 0 40px 30px 40px - no top padding to match home page reference position
+ * Horizontal and bottom padding only - ensures consistent top starting position
+ */
 .content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    padding: 20px 0;
+    padding: 0 40px 30px 40px;
 }
 
+/* 
+ * Confirmation card - white card that displays the confirmation message
+ * background: white - white background (already white since inside white box)
+ * padding: 40px 30px - internal spacing (vertical, horizontal)
+ * border-radius: 0 - no rounded corners (card is inside white box)
+ * box-shadow: none - no shadow needed (already inside white box)
+ * text-align: center - centers all text content
+ * width: 100% - takes full width of container
+ * margin: 0 - no margin needed
+ */
 .confirmation-card {
     background: white;
     padding: 40px 30px;
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border-radius: 0;
+    box-shadow: none;
     text-align: center;
-    max-width: 500px;
     width: 100%;
-    box-sizing: border-box;
-    margin: 0 auto;
+    margin: 0;
 }
 
+/* 
+ * Success checkmark icon - green circle with checkmark (shown after email verification)
+ * width/height: 80px - circular icon size
+ * background: #28a745 - green background color (success color)
+ * border-radius: 50% - makes it a perfect circle
+ * display: flex - centers the checkmark character inside
+ * align-items: center - centers vertically
+ * justify-content: center - centers horizontally
+ * margin: 0 auto 30px - centers icon and adds space below
+ * font-size: 48px - large checkmark character size
+ * color: white - white checkmark character
+ * font-weight: bold - makes checkmark stand out
+ */
 .success-icon {
     width: 80px;
     height: 80px;
@@ -32,47 +60,97 @@
     font-weight: bold;
 }
 
+/* 
+ * Confirmation heading - "Thank You for Signing Up!" or "Subscription Confirmed!"
+ * color: #b00000 - Konami red color (brand color)
+ * font-size: 32px - large, prominent heading
+ * margin-bottom: 20px - space below heading
+ */
 h1 {
     color: #b00000;
     font-size: 32px;
     margin-bottom: 20px;
 }
 
-
+/* 
+ * Confirmation paragraph text - descriptive text below heading
+ * color: #666 - medium gray text color
+ * line-height: 1.6 - spacing between lines for readability
+ * margin: 15px 0 - vertical spacing above and below paragraphs
+ */
 p {
     color: #666;
     line-height: 1.6;
     margin: 15px 0;
 }
 
+/* 
+ * Verifying message - shown while verifying subscription via email link
+ * text-align: center - centers the "Verifying your subscription..." text
+ * padding: 20px - internal spacing
+ */
 .verifying-message {
     text-align: center;
     padding: 20px;
 }
 
+/* 
+ * Verifying message paragraph - the "Verifying your subscription..." text
+ * color: #333 - dark gray text
+ * font-size: 18px - readable text size
+ */
 .verifying-message p {
     color: #333;
     font-size: 18px;
 }
 
+/* 
+ * Error message container - shown if email verification fails
+ * text-align: center - centers error message
+ */
 .error-message {
     text-align: center;
 }
 
+/* 
+ * Error message heading - "Verification Failed"
+ * color: #d32f2f - red color for error text
+ * margin-bottom: 15px - space below heading
+ */
 .error-message h1 {
     color: #d32f2f;
     margin-bottom: 15px;
 }
 
+/* 
+ * Error message paragraph - the actual error text
+ * color: #d32f2f - red color for error text
+ * font-size: 16px - readable text size
+ */
 .error-message p {
     color: #d32f2f;
     font-size: 16px;
 }
 
+/* 
+ * Actions section - container for the "Return to Home" button
+ * margin-top: 30px - space above the button
+ */
 .actions {
     margin-top: 30px;
 }
 
+/* 
+ * Primary button - "Return to Home" link button
+ * display: inline-block - allows width/height control
+ * background: linear-gradient - red gradient background (Konami brand colors)
+ * color: white - white text
+ * padding: 12px 30px - internal spacing (vertical, horizontal)
+ * text-decoration: none - removes underline from link
+ * border-radius: 6px - rounded corners
+ * font-weight: bold - makes button text stand out
+ * transition: all 0.3s - smooth animation for hover state
+ */
 .btn-primary {
     display: inline-block;
     background: linear-gradient(135deg, #b00000 0%, #8a0000 100%);
@@ -84,6 +162,12 @@ p {
     transition: all 0.3s;
 }
 
+/* 
+ * Primary button hover state - when user hovers over "Return to Home" button
+ * background: linear-gradient - darker red gradient on hover
+ * transform: translateY(-2px) - lifts button up slightly for visual feedback
+ * box-shadow: adds red-tinted shadow to emphasize the button
+ */
 .btn-primary:hover {
     background: linear-gradient(135deg, #8a0000 0%, #6a0000 100%);
     transform: translateY(-2px);

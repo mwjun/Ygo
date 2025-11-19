@@ -1,9 +1,33 @@
+/**
+ * FILE: styles.css
+ * PURPOSE: Global styles for the entire Angular application
+ * This file contains base styles that apply to all pages, including CSS reset, body styles, and error page overrides.
+ */
+
+/* 
+ * CSS Reset - removes default browser margins and padding from all elements
+ * margin: 0 - removes default margins
+ * padding: 0 - removes default padding
+ * box-sizing: border-box - includes padding and border in element width/height calculations
+ * This ensures consistent sizing across all browsers
+ */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* 
+ * Body element - main page background and typography
+ * font-family: 'trebuchet ms', Arial, sans-serif - application font stack
+ * background: linear-gradient - blue gradient background (dark blue tones)
+ * background-attachment: fixed - keeps gradient fixed when scrolling (prevents repeating)
+ * background-repeat: no-repeat - prevents gradient from repeating
+ * background-size: 100% 100% - stretches gradient to fill entire viewport
+ * min-height: 100vh - ensures body takes up full viewport height
+ * padding: 20px - page padding (removed in some components for full-width layout)
+ * color: #333 - default text color (dark gray)
+ */
 body {
     font-family: 'trebuchet ms', Arial, sans-serif;
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
@@ -15,19 +39,55 @@ body {
     color: #333;
 }
 
+/* 
+ * HTML and body height - ensures full viewport height
+ * height: 100% - makes html and body take up full viewport height
+ * This is important for vertical centering and full-page layouts
+ */
 html, body {
     height: 100%;
 }
 
-/* Home page uses different background - handled in component */
+/* 
+ * NOTE: Home page uses different background - handled in component
+ * The home component may override the body background if needed
+ */
 
-/* Error page styles - ensure white box appears */
+/* 
+ * ERROR PAGE STYLES - Force white box to appear on error page
+ * These styles use !important to override component styles and ensure the error page
+ * displays correctly with a white background box, even if component styles conflict.
+ * 
+ * These styles were added to fix an issue where the error page text was hard to read
+ * (gray text on blue background). The !important flags ensure these styles take precedence.
+ */
+
+/* 
+ * Error component root element - ensures error component takes full viewport
+ * display: block - makes it a block-level element
+ * width: 100% - full width
+ * height: 100% - full height
+ */
 app-error {
     display: block;
     width: 100%;
     height: 100%;
 }
 
+/* 
+ * Error component wrapper div - full viewport container with gradient background
+ * position: fixed - positions container relative to viewport (not scrollable)
+ * top/left: 0 - positions at top-left corner
+ * width/height: 100% - full viewport dimensions
+ * display: flex - flexbox layout for centering
+ * min-height: 100vh - ensures full viewport height
+ * background: linear-gradient - same blue gradient as body
+ * padding: 40px 20px - internal spacing
+ * align-items/justify-content: center - centers content
+ * box-sizing: border-box - includes padding in dimensions
+ * z-index: 9999 - ensures error page appears above other content
+ * !important flags: Force these styles to override component styles
+ */
 app-error > div {
     position: fixed !important;
     top: 0 !important;
@@ -44,6 +104,25 @@ app-error > div {
     z-index: 9999 !important;
 }
 
+/* 
+ * Error card (white box) - the white container that holds the error message
+ * font-family: 'trebuchet ms', Arial, sans-serif - application font
+ * padding: 80px 60px - large internal spacing for emphasis
+ * max-width: 700px - limits width for readability
+ * width: 100% - responsive width
+ * margin: 0 auto - centers horizontally
+ * text-align: center - centers text content
+ * background-color: #ffffff - white background (critical for readability)
+ * color: #000000 - black text (high contrast for readability)
+ * border-radius: 16px - rounded corners
+ * box-shadow: adds shadow to make box stand out
+ * display: flex - flexbox layout
+ * flex-direction: column - stacks content vertically
+ * justify-content/align-items: center - centers content
+ * position: relative - for positioning context
+ * border: 2px solid #e0e0e0 - light gray border
+ * !important flags: Force these styles to override component styles
+ */
 app-error > div > div {
     font-family: 'trebuchet ms', Arial, sans-serif !important;
     padding: 80px 60px !important;
@@ -63,6 +142,17 @@ app-error > div > div {
     border: 2px solid #e0e0e0 !important;
 }
 
+/* 
+ * Error page paragraphs - error message text
+ * margin: 12px 0 - vertical spacing
+ * padding: 0 - no internal padding
+ * color: #000000 - black text (high contrast)
+ * font-size: 18px - readable text size
+ * line-height: 1.7 - spacing between lines
+ * font-weight: 500 - medium weight for readability
+ * max-width: 600px - limits text width for readability
+ * !important flags: Force these styles to override component styles
+ */
 app-error p {
     margin: 12px 0 !important;
     padding: 0 !important;
@@ -73,6 +163,15 @@ app-error p {
     max-width: 600px !important;
 }
 
+/* 
+ * Error page heading - "Access Denied" text
+ * font-size: 32px - large, prominent heading
+ * font-weight: 700 - bold weight
+ * color: #b00000 - Konami red color (brand color)
+ * margin: 0 0 24px 0 - removes top margin, adds space below
+ * padding: 0 - no internal padding
+ * !important flags: Force these styles to override component styles
+ */
 app-error h2 {
     font-size: 32px !important;
     font-weight: 700 !important;

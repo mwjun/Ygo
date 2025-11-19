@@ -1,22 +1,55 @@
-.content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    padding: 20px 0;
+/**
+ * FILE: error.css
+ * PURPOSE: Styles for the error page component
+ * This file styles the "Access Denied" error page that appears when age verification fails.
+ */
+
+/* 
+ * Override page-container styles for error page - ensure consistent top position
+ * Using app-error selector since ViewEncapsulation.None is used
+ */
+app-error app-page-container {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    align-items: flex-start !important;
 }
 
+/* 
+ * Content container - contains the error card
+ * padding: 0 40px 30px 40px - no top padding to match home page reference position
+ * Horizontal and bottom padding only - ensures consistent top starting position
+ */
+.content {
+    padding: 0 40px 30px 40px;
+}
+
+/* 
+ * Error card - white card that displays the "Access Denied" message
+ * background: white - white background (already white since it's inside white box)
+ * padding: 40px 30px - internal spacing (vertical, horizontal) - reduced padding to prevent scrolling
+ * width: 100% - takes full width of container
+ * border-radius: 0 - no rounded corners (card is inside white box, no need for extra styling)
+ * box-shadow: none - no shadow needed (already inside white box)
+ * text-align: center - centers all text content
+ * margin: 0 - no margin needed
+ */
 .error-card {
     background: white;
-    padding: 60px 40px;
-    max-width: 600px;
+    padding: 40px 30px;
     width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    border-radius: 0;
+    box-shadow: none;
     text-align: center;
-    margin: 0 auto;
+    margin: 0;
 }
 
+/* 
+ * Error heading - "Access Denied" text
+ * color: #b00000 - Konami red color (brand color)
+ * font-size: 28px - large, prominent heading
+ * font-weight: bold - makes heading stand out
+ * margin: 0 0 20px 0 - removes top margin, adds space below heading
+ */
 .error-card h2 {
     color: #b00000;
     font-size: 28px;
@@ -24,6 +57,13 @@
     margin: 0 0 20px 0;
 }
 
+/* 
+ * Error message paragraphs - the descriptive error text
+ * color: #000000 - black text color (high contrast for readability)
+ * font-size: 16px - readable text size
+ * line-height: 1.6 - spacing between lines for readability
+ * margin: 15px 0 - vertical spacing above and below paragraphs
+ */
 .error-card p {
     color: #000000;
     font-size: 16px;

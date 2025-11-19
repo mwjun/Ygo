@@ -1,24 +1,59 @@
+/**
+ * FILE: sendgrid.ts
+ * 
+ * PURPOSE:
+ * Angular service for communicating with the backend SendGrid API.
+ * Handles newsletter signup requests and manages API URL configuration based on environment.
+ * 
+ * FEATURES:
+ * - Dynamic API URL resolution (localhost vs production/ngrok)
+ * - HTTP POST requests to backend signup endpoint
+ * - Type-safe request/response interfaces
+ * - Automatic proxy handling for ngrok/localhost scenarios
+ * 
+ * API ENDPOINT:
+ * - POST /api/newsletter/signup
+ * 
+ * ENVIRONMENT HANDLING:
+ * - localhost/127.0.0.1: Direct connection to http://localhost:3001
+ * - ngrok/production: Uses relative path (/api/newsletter/signup)
+ *   Angular dev server proxy forwards /api/* to localhost:3001
+ * 
+ * USAGE:
+ * - Inject SendGridService into components
+ * - Call signup() method with NewsletterSignupRequest
+ * - Handle Observable response
+ */
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NewsletterType } from '../models/newsletter-type';
 
+/**
+ * Request interface for newsletter signup
+ * Contains all data needed to create a subscription
+ */
 export interface NewsletterSignupRequest {
-  email: string;
-  newsletterType: NewsletterType;
-  firstName?: string;
-  lastName?: string;
-  categories?: {
+  email: string;                    // User's email address (required)
+  newsletterType: NewsletterType;  // Newsletter type: 'dl', 'md', or 'tcg'
+  firstName?: string;               // User's first name (optional)
+  lastName?: string;                // User's last name (optional)
+  categories?: {                    // Selected newsletter categories (optional)
     dl?: boolean;
     md?: boolean;
     tcg?: boolean;
   };
 }
 
+/**
+ * Response interface from newsletter signup API
+ * Indicates success/failure and provides messages
+ */
 export interface NewsletterSignupResponse {
-  success: boolean;
-  message?: string;
-  error?: string;
+  success: boolean;    // Whether the request was successful
+  message?: string;   // Success message (if successful)
+  error?: string;     // Error message (if failed)
 }
 
 @Injectable({
@@ -31,6 +66,17 @@ export class SendGridService {
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Determines the correct API URL based on the current environment
+   * 
+   * LOGIC:
+   * - Server-side rendering: defaults to localhost
+   * - localhost/127.0.0.1: direct connection to backend
+   * - Other hosts (ngrok, production): use relative path (proxy handles it)
+   * 
+   * @returns API endpoint URL string
+   * @private
+   */
   private getApiUrl(): string {
     // Check if we're in production (you can set this via environment)
     // For now, detect based on hostname
@@ -50,6 +96,18 @@ export class SendGridService {
     }
   }
 
+  /**
+   * Submit newsletter signup request to backend
+   * 
+   * The backend will:
+   * 1. Validate and sanitize input
+   * 2. Create subscription record (unverified)
+   * 3. Send verification email via SendGrid
+   * 4. Return success/error response
+   * 
+   * @param request - Newsletter signup request data
+   * @returns Observable that emits the API response
+   */
   signup(request: NewsletterSignupRequest): Observable<NewsletterSignupResponse> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

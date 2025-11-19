@@ -1,3 +1,21 @@
+<!-- 
+    FILE: page-container.html
+    PURPOSE: Page container component template
+    This component provides a consistent white box wrapper for all pages.
+    
+    COMPONENT STRUCTURE:
+    - div: Container div with dynamic CSS class based on maxWidth input
+    - ng-content: Content projection slot - parent components can insert their content here
+-->
+
+<!-- 
+    Container div - white box that wraps all page content
+    [ngClass]: Dynamically binds CSS class based on maxWidth input ('container' or 'container container-narrow')
+-->
 <div [ngClass]="containerClass">
+    <!-- 
+        Content projection slot - parent components insert their content here
+        Example: <app-page-container><app-header></app-header>...</app-page-container>
+    -->
     <ng-content></ng-content>
 </div>

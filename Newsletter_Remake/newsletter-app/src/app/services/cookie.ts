@@ -1,9 +1,43 @@
+/**
+ * FILE: cookie.ts
+ * 
+ * PURPOSE:
+ * Service for managing browser cookies used for age verification and newsletter category selection.
+ * This service provides a centralized way to set, get, and validate cookies throughout the application.
+ * 
+ * FEATURES:
+ * - Age verification cookie management ('legal' cookie)
+ * - Newsletter category selection cookie management
+ * - Age calculation from birth date (matches PHP logic)
+ * - Date validation
+ * - Cookie expiration handling (2-hour expiry)
+ * 
+ * COOKIES USED:
+ * 1. 'legal' - Stores age verification status ('yes' or 'no')
+ *    - Expires: 2 hours
+ *    - Path: / (site-wide)
+ * 
+ * 2. 'newsletter_categories' - Stores selected newsletter categories as JSON
+ *    - Format: { dl: boolean, md: boolean, tcg: boolean }
+ *    - Expires: 2 hours
+ *    - Path: / (site-wide)
+ * 
+ * SECURITY:
+ * - Cookies are HTTP-only compatible (though not set as such here)
+ * - Cookie values are validated before use
+ * - Expiration prevents stale data
+ */
+
 import { Injectable } from '@angular/core';
 
+/**
+ * Interface defining the structure of selected newsletter categories
+ * Used for type safety when storing/retrieving category selections
+ */
 export interface SelectedCategories {
-  dl: boolean;
-  md: boolean;
-  tcg: boolean;
+  dl: boolean;  // Duel Links newsletter
+  md: boolean;  // Master Duel newsletter
+  tcg: boolean; // Trading Card Game newsletter
 }
 
 @Injectable({
